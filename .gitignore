@@ -43,3 +43,9 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Generated Archives
+*.zip
+*.7z
+*.tar.gz
+*.tar.xz
