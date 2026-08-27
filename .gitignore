@@ -1,0 +1,45 @@
+# SouthVale RP FiveM Server .gitignore
+
+# Secrets & Local Credentials (NEVER COMMIT)
+secrets.cfg
+server-data/secrets.cfg
+*.env
+.env.*
+*.key
+*.pem
+*.pfx
+
+# Runtime & FXServer Caches
+server-data/cache/
+server-data/txData/
+server-data/db/
+server-data/crashes/
+server-data/logs/
+server-data/backups/
+cache/
+txData/
+crashes/
+logs/
+backups/
+
+# Runtime Log Files & History
+*.log
+*.pid
+*.tmp
+*.bak
+.replxx_history
+*.crash
+
+# OS & Editor Metadata
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+*.swp
+*~
+
+# Node dependencies (if built locally)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
