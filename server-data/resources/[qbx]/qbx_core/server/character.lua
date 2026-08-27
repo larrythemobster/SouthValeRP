@@ -2,6 +2,13 @@ local config = require 'config.server'
 local logger = require 'modules.logger'
 local storage = require 'server.storage.main'
 local starterItems = require 'config.shared'.starterItems
+local clientConfig = require 'config.client'
+local nationalityList = require 'data.nationalities'
+
+local allowedNationalities = {}
+for i = 1, #nationalityList do
+    allowedNationalities[nationalityList[i]] = true
+end
 
 ---@param license2 string
 ---@param license? string
@@ -68,8 +75,25 @@ local function sanitizeNewCharInfo(data)
     local function text(value, maxLength)
         if type(value) ~= 'string' then return nil end
         value = value:gsub('^%s+', ''):gsub('%s+$', '')
-        if value == '' or #value > maxLength then return nil end
+        if value == '' or #value > maxLength or value:find('%c') then return nil end
         return value
+    end
+
+    local function validBirthdate(value)
+        local year, month, day = value:match('^(%d%d%d%d)%-(%d%d)%-(%d%d)$')
+        year, month, day = tonumber(year), tonumber(month), tonumber(day)
+        if not year or not month or not day or month < 1 or month > 12 then return false end
+
+        local daysInMonth = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }
+        if (year % 4 == 0 and year % 100 ~= 0) or year % 400 == 0 then
+            daysInMonth[2] = 29
+        end
+        if day < 1 or day > daysInMonth[month] then return false end
+
+        local characters = clientConfig.characters
+        if type(characters.dateMin) == 'string' and value < characters.dateMin then return false end
+        if type(characters.dateMax) == 'string' and value > characters.dateMax then return false end
+        return true
     end
 
     local firstname = text(data.firstname, MAX_TEXT)
@@ -78,16 +102,21 @@ local function sanitizeNewCharInfo(data)
     local birthdate = text(data.birthdate, MAX_TEXT)
     local gender = tonumber(data.gender)
 
-    if not firstname or not lastname or not nationality or not birthdate or not gender then
+    if not firstname or not lastname or not nationality or not birthdate or gender == nil then
         return nil
     end
+
+    gender = math.floor(gender)
+    if gender ~= 0 and gender ~= 1 then return nil end
+    if not validBirthdate(birthdate) then return nil end
+    if clientConfig.characters.limitNationalities and not allowedNationalities[nationality] then return nil end
 
     return {
         firstname = firstname,
         lastname = lastname,
         nationality = nationality,
         birthdate = birthdate,
-        gender = math.floor(gender),
+        gender = gender,
         backstory = text(data.backstory, MAX_BACKSTORY) or 'placeholder backstory',
     }
 end

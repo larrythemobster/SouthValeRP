@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SouthVale Character Access</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main id="app" class="app is-hidden" aria-live="polite">
+        <section class="topbar">
+            <div class="brand" aria-label="SouthVale Roleplay">
+                <span id="brand-name" class="brand-name">SOUTHVALE</span>
+                <span id="brand-suffix" class="brand-suffix">ROLEPLAY</span>
+            </div>
+            <div id="eyebrow" class="eyebrow">CHARACTER ACCESS</div>
+        </section>
+
+        <section id="character-view" class="view character-view is-hidden">
+            <aside class="panel character-panel">
+                <div class="panel-heading">
+                    <p class="kicker">WHO ARE YOU TODAY?</p>
+                    <h1>Select a character</h1>
+                    <p class="muted">Choose an existing life or start a new one in SouthVale.</p>
+                </div>
+                <div id="character-list" class="character-list" role="list"></div>
+            </aside>
+
+            <section class="detail-wrap">
+                <div id="character-detail" class="detail-card"></div>
+            </section>
+        </section>
+
+        <section id="identity-view" class="view identity-view is-hidden">
+            <div class="panel identity-panel">
+                <div class="panel-heading">
+                    <button id="identity-back" class="text-button" type="button">← Back to characters</button>
+                    <p class="kicker">NEW IDENTITY</p>
+                    <h1>Create your character</h1>
+                    <p class="muted">Your identity is permanent character data. Enter it carefully.</p>
+                </div>
+
+                <form id="identity-form" autocomplete="off" novalidate>
+                    <div class="field-grid">
+                        <label class="field">
+                            <span>First name</span>
+                            <input id="firstname" name="firstname" type="text" maxlength="50" required autocomplete="off">
+                        </label>
+                        <label class="field">
+                            <span>Last name</span>
+                            <input id="lastname" name="lastname" type="text" maxlength="50" required autocomplete="off">
+                        </label>
+                        <label class="field">
+                            <span>Date of birth</span>
+                            <input id="birthdate" name="birthdate" type="date" required>
+                        </label>
+                        <label class="field">
+                            <span>Gender</span>
+                            <select id="gender" name="gender" required>
+                                <option value="" selected disabled>Select gender</option>
+                                <option value="0">Male</option>
+                                <option value="1">Female</option>
+                            </select>
+                        </label>
+                        <label class="field field-wide">
+                            <span>Nationality</span>
+                            <select id="nationality-select" name="nationality-select" class="is-hidden"></select>
+                            <input id="nationality-input" name="nationality-input" type="text" maxlength="50" autocomplete="off">
+                        </label>
+                    </div>
+                    <div id="form-error" class="inline-error" role="alert"></div>
+                    <div class="form-actions">
+                        <span id="slot-label" class="slot-note">Character slot</span>
+                        <button id="create-submit" class="primary-button" type="submit">Create character</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section id="spawn-view" class="view spawn-view is-hidden">
+            <aside class="panel spawn-panel">
+                <div class="panel-heading">
+                    <p class="kicker">ARRIVAL</p>
+                    <h1>Choose where to enter</h1>
+                    <p class="muted">Select your arrival point. Your character data is already loaded.</p>
+                </div>
+                <div id="spawn-list" class="spawn-list"></div>
+            </aside>
+        </section>
+
+        <div id="toast" class="toast is-hidden" role="status"></div>
+
+        <div id="delete-modal" class="modal is-hidden" role="dialog" aria-modal="true" aria-labelledby="delete-title">
+            <div class="modal-card">
+                <p class="kicker danger">PERMANENT ACTION</p>
+                <h2 id="delete-title">Delete this character?</h2>
+                <p id="delete-copy" class="muted">This cannot be undone.</p>
+                <div class="modal-actions">
+                    <button id="delete-cancel" class="secondary-button" type="button">Cancel</button>
+                    <button id="delete-confirm" class="danger-button" type="button">Delete permanently</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

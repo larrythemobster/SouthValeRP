@@ -87,6 +87,13 @@ RegisterNetEvent("QBCore:Client:OnPlayerLoaded", function()
 end)
 
 RegisterNetEvent("qb-clothes:client:CreateFirstCharacter", function()
+    -- SouthVale's external character flow can complete first-character
+    -- appearance before qbx_properties finishes the starter-apartment handoff.
+    -- If a valid appearance already exists, do not reopen customization a
+    -- second time when the compatibility event is emitted again.
+    local existingAppearance = lib.callback.await("illenium-appearance:server:getAppearance", false)
+    if existingAppearance then return end
+
     QBCore.Functions.GetPlayerData(function(pd)
         PlayerData = pd
         setClientParams()
