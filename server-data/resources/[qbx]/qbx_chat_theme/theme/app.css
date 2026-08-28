@@ -8,17 +8,29 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: var(--text-color);
-    font-size: 0.9rem;
+    font-size: 0.82rem;
 }
 
+/* Keep the Qbox chat compact and explicitly anchored to the top-left. */
 .chat-window {
-    height: 25% !important;
-    background: inherit !important;
+    position: absolute !important;
+    top: 2.25vh !important;
+    left: 1.25vw !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: min(29vw, 500px) !important;
+    min-width: 320px;
+    height: 21vh !important;
+    max-height: 250px;
+    background: transparent !important;
+    overflow: hidden;
 }
 
 .chat-messages {
+    width: 100%;
     height: 100%;
     margin: 0;
+    overflow: hidden;
 
     font-size: inherit;
     color: var(--faint-color);
@@ -33,9 +45,11 @@
     flex-direction: column;
     gap: 0.25rem;
 
-    padding: 0.75rem 1rem;
+    padding: 0.5rem 0.7rem;
     overflow-wrap: anywhere;
     width: fit-content;
+    max-width: 100%;
+    box-sizing: border-box;
 
     background-color: var(--main-color);
     border: 1px solid var(--border-color);
@@ -106,11 +120,16 @@
 }
 
 .chat-input {
-    background-color: var(--main-color);
+    position: absolute !important;
+    top: 24.25vh !important;
+    left: 1.25vw !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: min(29vw, 500px) !important;
+    min-width: 320px;
+    height: auto !important;
+    background: transparent !important;
     border-radius: 0.5rem;
-
-    top: 28% !important;
-
     font-size: inherit;
 }
 
@@ -127,12 +146,13 @@
 
 textarea {
     display: block;
+    width: 100%;
     min-height: 100% !important;
     padding: 0;
     padding-left: 0.75rem;
 
     resize: none;
-    box-sizing: content-box;
+    box-sizing: border-box;
 
     line-height: 1.5rem;
     font-size: inherit;
@@ -194,4 +214,22 @@ textarea {
 
 .chat-hide-state {
     position: absolute;
+}
+
+
+/* Do not let stock/ultrawide chat rules move this theme toward the screen center. */
+@media screen and (min-aspect-ratio: 21/9) {
+    .chat-window,
+    .chat-input {
+        left: 1.25vw !important;
+        right: auto !important;
+    }
+}
+
+@media screen and (max-width: 1100px) {
+    .chat-window,
+    .chat-input {
+        width: min(38vw, 440px) !important;
+        min-width: 280px;
+    }
 }
