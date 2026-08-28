@@ -14,6 +14,9 @@ local selectedSlot
 local spawnOptions = {}
 local previewLocation
 
+local RESOURCE_VERSION = '1.2.0'
+print(('[sv_identity] client v%s loaded - SouthVale owns character selection'):format(RESOURCE_VERSION))
+
 local function debugLog(message, ...)
     if not SVIdentity.debug then return end
     print(('[sv_identity] ' .. message):format(...))
@@ -699,10 +702,9 @@ local function deleteCharacter(slot)
 end
 
 local function startCharacterSelection()
-    -- If qbx_core was already running when this resource was updated/restarted,
-    -- its stock ox_lib context may still be on screen. Close that presentation
-    -- before SouthVale takes NUI focus. On a clean restart qbx_core never opens
-    -- it because the guard in qbx_core/client/character.lua exits early.
+    -- Kill any stale ox_lib context left behind by a prior qbx_core client before
+    -- taking NUI focus. In v1.2 the qbx_core manifest no longer loads its stock
+    -- character.lua at all, so a clean resource/server restart cannot reopen it.
     pcall(lib.hideContext, false)
 
     if LocalPlayer.state.isLoggedIn or QBX.IsLoggedIn then
