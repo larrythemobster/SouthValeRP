@@ -2,8 +2,8 @@
     --accent: #d8c85a;
     --accent-hover: #e5d76d;
     --accent-glow: rgba(216, 200, 90, 0.28);
-    --bg-glass: rgba(12, 15, 18, 0.72);
-    --bg-glass-card: rgba(20, 24, 28, 0.65);
+    --bg-glass: rgba(12, 15, 18, 0.86);
+    --bg-glass-card: rgba(20, 24, 28, 0.76);
     --bg-glass-card-hover: rgba(255, 255, 255, 0.08);
     --bg-glass-card-selected: rgba(216, 200, 90, 0.12);
     --surface-stat: rgba(255, 255, 255, 0.035);
@@ -59,7 +59,7 @@ select:focus-visible {
     display: none !important;
 }
 
-/* Root app container is completely transparent with a subtle vignette edge */
+/* Root app container is completely transparent with a subtle vignette edge. Avoid backdrop-filter anywhere in this NUI. */
 .app {
     position: relative;
     width: 100vw;
@@ -127,8 +127,6 @@ select:focus-visible {
     border: 1px solid var(--line);
     padding: 6px 14px;
     border-radius: 20px;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
 }
 
 /* View wrappers are strictly transparent layout scaffolds */
@@ -148,13 +146,11 @@ select:focus-visible {
     background: transparent !important;
 }
 
-/* Shared panel styling: true dark glass morphism with rounded corners */
+/* Shared panel styling. Do not use backdrop-filter here: FiveM CEF renders it as expanded black compositor rectangles over the game. */
 .panel {
     background: var(--bg-glass);
     border: 1px solid var(--line);
     box-shadow: var(--shadow);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-radius: var(--radius-lg);
 }
 
@@ -319,8 +315,6 @@ select:focus-visible {
     border-radius: var(--radius-lg);
     border: 1px solid var(--line);
     background: var(--bg-glass);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
     box-shadow: var(--shadow);
     pointer-events: auto;
     animation: fade-in 180ms ease-out;
@@ -476,8 +470,6 @@ select:focus-visible {
     width: min(640px, 85vw);
     padding: 34px;
     background: var(--bg-glass);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
 }
 
 .field-grid {
@@ -557,8 +549,6 @@ select:focus-visible {
     align-items: center;
     justify-content: center;
     background: rgba(0, 0, 0, 0.65);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
     z-index: 10;
 }
 
@@ -568,8 +558,6 @@ select:focus-visible {
     border-radius: var(--radius-lg);
     border: 1px solid var(--line);
     background: var(--bg-glass);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
     box-shadow: var(--shadow);
 }
 
@@ -599,8 +587,6 @@ select:focus-visible {
     border: 1px solid var(--line);
     border-radius: 30px;
     background: rgba(14, 17, 20, 0.92);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
     box-shadow: var(--shadow);
     text-align: center;
     font-size: 13px;
