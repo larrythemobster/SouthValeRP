@@ -699,6 +699,12 @@ local function deleteCharacter(slot)
 end
 
 local function startCharacterSelection()
+    -- If qbx_core was already running when this resource was updated/restarted,
+    -- its stock ox_lib context may still be on screen. Close that presentation
+    -- before SouthVale takes NUI focus. On a clean restart qbx_core never opens
+    -- it because the guard in qbx_core/client/character.lua exits early.
+    pcall(lib.hideContext, false)
+
     if LocalPlayer.state.isLoggedIn or QBX.IsLoggedIn then
         debugLog('Ignoring selector start because player is already logged in')
         return
