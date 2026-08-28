@@ -1,4 +1,4 @@
-local RESOURCE_VERSION = '1.2.0'
+local RESOURCE_VERSION = '1.3.0'
 local RESOURCE_NAME = GetCurrentResourceName()
 
 local function selectorScriptStillLoaded()
