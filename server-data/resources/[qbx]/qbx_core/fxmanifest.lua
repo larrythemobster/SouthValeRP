@@ -21,9 +21,7 @@ client_scripts {
     'client/functions.lua',
     'client/loops.lua',
     'client/events.lua',
-    -- SouthVale RP uses sv_identity for character selection/creation presentation.
-    -- qbx_core remains authoritative for character callbacks and persistence, but
-    -- its built-in ox_lib multicharacter client must not be loaded concurrently.
+    'client/character.lua',
     'client/discord.lua',
     'client/vehicle-persistence.lua',
     'bridge/qb/client/main.lua',
