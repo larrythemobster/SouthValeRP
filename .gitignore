@@ -43,3 +43,10 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Archives & Bundles
+*.zip
+*.tar.gz
+*.tgz
+*.rar
+*.7z

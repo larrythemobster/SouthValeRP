@@ -135,3 +135,4 @@ Run via txAdmin web console or client command: `restart <resource_name>`.
 - **Client/Server Trust:** Never trust client-sent values for money, items, weapons, or permission checks. Validate inventory state and player job permissions server-side.
 - **Custom Content Isolation:** When adding custom features, create dedicated standalone resources under `server-data/resources/[custom]/` rather than hacking upstream Qbox core files. This keeps upstream upgrades clean.
 - **Resource Verification:** After modifying or adding resources, check `fxmanifest.lua`, confirm dependency load order in `server.cfg`, and inspect server console logs for Lua runtime or syntax errors.
+- **Production Target Rule:** The remote production server target is strictly `ssh ovh` (`vps-fb3604b7`). All remote operations, health checks, log streams, and production synchronization must use `ssh ovh`.
