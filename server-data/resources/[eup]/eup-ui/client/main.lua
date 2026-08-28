@@ -4,31 +4,6 @@ local CategorizedOutfits = {
     ['Female'] = {}
 }
 
-local function splitString(inputStr, sep)
-    if sep == nil then sep = "%s" end
-    local t = {}
-    for str in string.gmatch(inputStr, "([^" .. sep .. "]+)") do
-        table.insert(t, str)
-    end
-    return t
-end
-
-local function convertComponent(input)
-    if not input or type(input) ~= 'string' then return -1, 0 end
-    local parts = splitString(input, ":")
-    local d = tonumber(parts[1]) or 0
-    local t = tonumber(parts[2]) or 1
-
-    -- In EUP 8.1 configs, 0:0, -1:1, or non-positive indices represent no component/default
-    if d <= 0 then
-        return -1, 0
-    end
-
-    local finalD = d - 1
-    local finalT = t > 0 and (t - 1) or 0
-    return finalD, finalT
-end
-
 local function loadOutfitData()
     local fileContent = LoadResourceFile(GetCurrentResourceName(), "data/outfits.json")
     if not fileContent then
@@ -49,8 +24,8 @@ local function loadOutfitData()
     }
 
     for _, outfit in ipairs(Outfits) do
-        local gender = outfit.Gender or 'Male'
-        local dept = outfit.Department or outfit.Category2 or 'General'
+        local gender = outfit.Gender or (string.find(string.lower(outfit.Ped or outfit.Name or ''), 'female') and 'Female' or 'Male')
+        local dept = outfit.Department or outfit.Category or 'General'
 
         if not CategorizedOutfits[gender] then
             CategorizedOutfits[gender] = {}
@@ -95,108 +70,39 @@ local function applyPedOutfit(outfit)
         return false
     end
 
-    local maskD, maskT = convertComponent(outfit.Mask)
-    local upperD, upperT = convertComponent(outfit.UpperSkin)
-    local pantsD, pantsT = convertComponent(outfit.Pants)
-    local bagD, bagT = convertComponent(outfit.Parachute)
-    local shoesD, shoesT = convertComponent(outfit.Shoes)
-    local accD, accT = convertComponent(outfit.Accessories)
-    local underD, underT = convertComponent(outfit.UnderCoat)
-    local armorD, armorT = convertComponent(outfit.Armor)
-    local decalD, decalT = convertComponent(outfit.Decal)
-    local topD, topT = convertComponent(outfit.Top)
-
-    -- 1. Mask (Component 1)
-    if maskD >= 0 then
-        SetPedComponentVariation(ped, 1, maskD, maskT, 0)
-    else
-        SetPedComponentVariation(ped, 1, 0, 0, 0)
+    -- Clear default props first
+    for i = 0, 7 do
+        ClearPedProp(ped, i)
     end
 
-    -- 2. Torso / Upper Skin (Component 3)
-    if upperD >= 0 then
-        SetPedComponentVariation(ped, 3, upperD, upperT, 0)
-    else
-        SetPedComponentVariation(ped, 3, isMale and 0 or 4, 0, 0)
+    -- Apply components
+    if outfit.Components then
+        for _, comp in ipairs(outfit.Components) do
+            local componentId = comp[1]
+            local drawable = comp[2] - 1
+            local texture = comp[3] - 1
+            if texture < 0 then texture = 0 end
+            if drawable >= 0 then
+                SetPedComponentVariation(ped, componentId, drawable, texture, 0)
+            else
+                SetPedComponentVariation(ped, componentId, 0, 0, 0)
+            end
+        end
     end
 
-    -- 3. Pants / Legs (Component 4)
-    if pantsD >= 0 then
-        SetPedComponentVariation(ped, 4, pantsD, pantsT, 0)
-    end
-
-    -- 4. Parachute / Bags (Component 5)
-    if bagD >= 0 then
-        SetPedComponentVariation(ped, 5, bagD, bagT, 0)
-    else
-        SetPedComponentVariation(ped, 5, 0, 0, 0)
-    end
-
-    -- 5. Shoes / Feet (Component 6)
-    if shoesD >= 0 then
-        SetPedComponentVariation(ped, 6, shoesD, shoesT, 0)
-    end
-
-    -- 6. Accessories / Neck (Component 7)
-    if accD >= 0 then
-        SetPedComponentVariation(ped, 7, accD, accT, 0)
-    else
-        SetPedComponentVariation(ped, 7, 0, 0, 0)
-    end
-
-    -- 7. Undershirt / Undercoat (Component 8)
-    if underD >= 0 then
-        SetPedComponentVariation(ped, 8, underD, underT, 0)
-    else
-        SetPedComponentVariation(ped, 8, isMale and 15 or 14, 0, 0)
-    end
-
-    -- 8. Body Armor / Kevlar / Vests (Component 9)
-    if armorD >= 0 then
-        SetPedComponentVariation(ped, 9, armorD, armorT, 0)
-    else
-        SetPedComponentVariation(ped, 9, 0, 0, 0)
-    end
-
-    -- 9. Decal / Badges / Insignia (Component 10)
-    if decalD >= 0 then
-        SetPedComponentVariation(ped, 10, decalD, decalT, 0)
-    else
-        SetPedComponentVariation(ped, 10, 0, 0, 0)
-    end
-
-    -- 10. Top / Jacket / Shirt (Component 11)
-    if topD >= 0 then
-        SetPedComponentVariation(ped, 11, topD, topT, 0)
-    end
-
-    -- Props
-    local hatD, hatT = convertComponent(outfit.Hat)
-    if hatD >= 0 then
-        SetPedPropIndex(ped, 0, hatD, hatT, true)
-    else
-        ClearPedProp(ped, 0)
-    end
-
-    local glassesD, glassesT = convertComponent(outfit.Glasses)
-    if glassesD >= 0 then
-        SetPedPropIndex(ped, 1, glassesD, glassesT, true)
-    else
-        ClearPedProp(ped, 1)
-    end
-
-    local earD, earT = convertComponent(outfit.Ear)
-    if earD >= 0 then
-        SetPedPropIndex(ped, 2, earD, earT, true)
-    else
-        ClearPedProp(ped, 2)
-    end
-
-    local watchD, watchT = convertComponent(outfit.Watch)
-    if watchD >= 0 then
-        SetPedPropIndex(ped, 6, watchD, watchT, true)
-    else
-        ClearPedProp(ped, 6)
+    -- Apply props
+    if outfit.Props then
+        for _, prop in ipairs(outfit.Props) do
+            local propId = prop[1]
+            local drawable = prop[2]
+            local texture = prop[3] - 1
+            if texture < 0 then texture = 0 end
+            if drawable > 0 then
+                SetPedPropIndex(ped, propId, drawable - 1, texture, true)
+            else
+                ClearPedProp(ped, propId)
+            end
+        end
     end
 
     -- Illenium-appearance synchronization & persistence
@@ -214,7 +120,7 @@ local function applyPedOutfit(outfit)
 
     lib.notify({
         title = 'EUP Wardrobe',
-        description = string.format('Equipped %s (%s)', outfit.Name, outfit.Department or 'Uniform'),
+        description = string.format('Equipped %s (%s)', outfit.Name, outfit.Department or outfit.Category or 'Uniform'),
         type = 'success',
         icon = 'shirt'
     })
@@ -330,9 +236,10 @@ local function searchOutfitsDialog(gender)
 
     local results = {}
     for _, outfit in ipairs(Outfits) do
-        if outfit.Gender == gender then
+        local outfitGender = outfit.Gender or 'Male'
+        if outfitGender == gender then
             local name = string.lower(outfit.Name or '')
-            local dept = string.lower(outfit.Department or outfit.Category2 or '')
+            local dept = string.lower(outfit.Department or outfit.Category or '')
             if string.find(name, query, 1, true) or string.find(dept, query, 1, true) then
                 table.insert(results, outfit)
             end
@@ -357,8 +264,8 @@ local function searchOutfitsDialog(gender)
     for _, outfit in ipairs(results) do
         table.insert(options, {
             title = outfit.Name,
-            description = string.format('%s • %s', outfit.Department or 'EUP', gender),
-            icon = Config.DepartmentIcons[outfit.Department] or 'shirt',
+            description = string.format('%s • %s', outfit.Department or outfit.Category or 'EUP', gender),
+            icon = Config.DepartmentIcons[outfit.Department or outfit.Category] or 'shirt',
             onSelect = function()
                 applyPedOutfit(outfit)
             end

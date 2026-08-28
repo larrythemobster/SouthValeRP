@@ -50,3 +50,10 @@ yarn-error.log*
 *.tgz
 *.rar
 *.7z
+
+# Streamed Binary Asset Meshes & Textures
+*.ydd
+*.ytd
+*.yft
+*.ymt
+*.rpf
