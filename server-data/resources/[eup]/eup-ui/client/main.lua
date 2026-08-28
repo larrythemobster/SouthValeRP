@@ -99,6 +99,7 @@ local function applyPedOutfit(outfit)
     local decalD, decalT = convertComponent(outfit.Decal)
     local topD, topT = convertComponent(outfit.Top)
 
+    -- Direct native application
     if maskD >= 0 then SetPedComponentVariation(ped, 1, maskD, maskT, 0) else SetPedComponentVariation(ped, 1, 0, 0, 0) end
     if upperD >= 0 then SetPedComponentVariation(ped, 3, upperD, upperT, 0) end
     if pantsD >= 0 then SetPedComponentVariation(ped, 4, pantsD, pantsT, 0) end
@@ -139,15 +140,43 @@ local function applyPedOutfit(outfit)
         ClearPedProp(ped, 6)
     end
 
-    -- Save to illenium-appearance if enabled
-    if Config.SaveToAppearance and GetResourceState('illenium-appearance') == 'started' then
+    -- Illenium-appearance synchronization & persistence
+    if GetResourceState('illenium-appearance') == 'started' then
         pcall(function()
-            local appearance = exports['illenium-appearance']:getPedAppearance(ped)
-            if appearance then
-                TriggerServerEvent('illenium-appearance:server:saveAppearance', appearance)
+            local illenium = exports['illenium-appearance']
+            local componentsList = {
+                { component_id = 1, drawable = maskD >= 0 and maskD or 0, texture = maskT },
+                { component_id = 3, drawable = upperD >= 0 and upperD or 15, texture = upperT },
+                { component_id = 4, drawable = pantsD >= 0 and pantsD or 0, texture = pantsT },
+                { component_id = 5, drawable = bagD >= 0 and bagD or 0, texture = bagT },
+                { component_id = 6, drawable = shoesD >= 0 and shoesD or 0, texture = shoesT },
+                { component_id = 7, drawable = accD >= 0 and accD or 0, texture = accT },
+                { component_id = 8, drawable = underD >= 0 and underD or 15, texture = underT },
+                { component_id = 9, drawable = armorD >= 0 and armorD or 0, texture = armorT },
+                { component_id = 10, drawable = decalD >= 0 and decalD or 0, texture = decalT },
+                { component_id = 11, drawable = topD >= 0 and topD or 0, texture = topT },
+            }
+
+            local propsList = {
+                { prop_id = 0, drawable = hatD, texture = hatT },
+                { prop_id = 1, drawable = glassesD, texture = glassesT },
+                { prop_id = 2, drawable = earD, texture = earT },
+                { prop_id = 6, drawable = watchD, texture = watchT }
+            }
+
+            illenium:setPedComponents(ped, componentsList)
+            illenium:setPedProps(ped, propsList)
+
+            if Config.SaveToAppearance then
+                local appearance = illenium:getPedAppearance(ped)
+                if appearance then
+                    TriggerServerEvent('illenium-appearance:server:saveAppearance', appearance)
+                end
             end
         end)
     end
+
+    PlaySoundFrontend(-1, "NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET", 1)
 
     lib.notify({
         title = 'EUP Wardrobe',
@@ -178,7 +207,7 @@ local function openDepartmentMenu(gender, deptName)
         })
     end
 
-    local menuId = 'eup_dept_menu_' .. string.gsub(deptName, "%s+", "_")
+    local menuId = 'eup_dept_menu_' .. string.gsub(deptName, "[%s%p]+", "_")
     lib.registerContext({
         id = menuId,
         title = string.format('%s (%s)', deptName, gender),
@@ -257,6 +286,61 @@ local function openQuickActionsMenu()
     lib.showContext('eup_quick_actions')
 end
 
+local function searchOutfitsDialog(gender)
+    local input = lib.inputDialog('Search EUP Outfits', {
+        { type = 'input', label = 'Outfit Name or Department', placeholder = 'e.g. Traffic, SWAT, LSPD, Medic', required = true }
+    })
+
+    if not input or not input[1] or input[1] == '' then return end
+    local query = string.lower(input[1])
+
+    local results = {}
+    for _, outfit in ipairs(Outfits) do
+        if outfit.Gender == gender then
+            local name = string.lower(outfit.Name or '')
+            local dept = string.lower(outfit.Department or outfit.Category2 or '')
+            if string.find(name, query, 1, true) or string.find(dept, query, 1, true) then
+                table.insert(results, outfit)
+            end
+        end
+    end
+
+    if #results == 0 then
+        lib.notify({
+            title = 'EUP Search',
+            description = 'No outfits found matching "' .. input[1] .. '"',
+            type = 'error',
+            icon = 'magnifying-glass'
+        })
+        return
+    end
+
+    table.sort(results, function(a, b)
+        return (a.Name or '') < (b.Name or '')
+    end)
+
+    local options = {}
+    for _, outfit in ipairs(results) do
+        table.insert(options, {
+            title = outfit.Name,
+            description = string.format('%s • %s', outfit.Department or 'EUP', gender),
+            icon = Config.DepartmentIcons[outfit.Department] or 'shirt',
+            onSelect = function()
+                applyPedOutfit(outfit)
+            end
+        })
+    end
+
+    lib.registerContext({
+        id = 'eup_search_results',
+        title = string.format('Search: "%s" (%d results)', input[1], #results),
+        menu = 'eup_main_menu',
+        options = options
+    })
+
+    lib.showContext('eup_search_results')
+end
+
 local function openEUPMenu()
     local ped = PlayerPedId()
     local model = GetEntityModel(ped)
@@ -297,6 +381,16 @@ local function openEUPMenu()
     table.sort(deptNames)
 
     local mainOptions = {}
+
+    -- Search Outfits
+    table.insert(mainOptions, {
+        title = 'Search Outfits',
+        description = 'Search presets by keyword or department',
+        icon = 'magnifying-glass',
+        onSelect = function()
+            searchOutfitsDialog(gender)
+        end
+    })
 
     if Config.EnableQuickActions then
         table.insert(mainOptions, {
