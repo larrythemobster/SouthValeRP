@@ -1,5 +1,4 @@
 import './main.js';
-import './southvale.js';
 
 import './dev/index.js';
 
