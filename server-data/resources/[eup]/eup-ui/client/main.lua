@@ -16,10 +16,17 @@ end
 local function convertComponent(input)
     if not input or type(input) ~= 'string' then return -1, 0 end
     local parts = splitString(input, ":")
-    local d = (tonumber(parts[1]) or 0) - 1
-    local t = (tonumber(parts[2]) or 1) - 1
-    if t < 0 then t = 0 end
-    return d, t
+    local d = tonumber(parts[1]) or 0
+    local t = tonumber(parts[2]) or 1
+
+    -- In EUP 8.1 configs, 0:0, -1:1, or non-positive indices represent no component/default
+    if d <= 0 then
+        return -1, 0
+    end
+
+    local finalD = d - 1
+    local finalT = t > 0 and (t - 1) or 0
+    return finalD, finalT
 end
 
 local function loadOutfitData()
@@ -99,17 +106,69 @@ local function applyPedOutfit(outfit)
     local decalD, decalT = convertComponent(outfit.Decal)
     local topD, topT = convertComponent(outfit.Top)
 
-    -- Direct native application
-    if maskD >= 0 then SetPedComponentVariation(ped, 1, maskD, maskT, 0) else SetPedComponentVariation(ped, 1, 0, 0, 0) end
-    if upperD >= 0 then SetPedComponentVariation(ped, 3, upperD, upperT, 0) end
-    if pantsD >= 0 then SetPedComponentVariation(ped, 4, pantsD, pantsT, 0) end
-    if bagD >= 0 then SetPedComponentVariation(ped, 5, bagD, bagT, 0) else SetPedComponentVariation(ped, 5, 0, 0, 0) end
-    if shoesD >= 0 then SetPedComponentVariation(ped, 6, shoesD, shoesT, 0) end
-    if accD >= 0 then SetPedComponentVariation(ped, 7, accD, accT, 0) else SetPedComponentVariation(ped, 7, 0, 0, 0) end
-    if underD >= 0 then SetPedComponentVariation(ped, 8, underD, underT, 0) end
-    if armorD >= 0 then SetPedComponentVariation(ped, 9, armorD, armorT, 0) else SetPedComponentVariation(ped, 9, 0, 0, 0) end
-    if decalD >= 0 then SetPedComponentVariation(ped, 10, decalD, decalT, 0) else SetPedComponentVariation(ped, 10, 0, 0, 0) end
-    if topD >= 0 then SetPedComponentVariation(ped, 11, topD, topT, 0) end
+    -- 1. Mask (Component 1)
+    if maskD >= 0 then
+        SetPedComponentVariation(ped, 1, maskD, maskT, 0)
+    else
+        SetPedComponentVariation(ped, 1, 0, 0, 0)
+    end
+
+    -- 2. Torso / Upper Skin (Component 3)
+    if upperD >= 0 then
+        SetPedComponentVariation(ped, 3, upperD, upperT, 0)
+    else
+        SetPedComponentVariation(ped, 3, isMale and 0 or 4, 0, 0)
+    end
+
+    -- 3. Pants / Legs (Component 4)
+    if pantsD >= 0 then
+        SetPedComponentVariation(ped, 4, pantsD, pantsT, 0)
+    end
+
+    -- 4. Parachute / Bags (Component 5)
+    if bagD >= 0 then
+        SetPedComponentVariation(ped, 5, bagD, bagT, 0)
+    else
+        SetPedComponentVariation(ped, 5, 0, 0, 0)
+    end
+
+    -- 5. Shoes / Feet (Component 6)
+    if shoesD >= 0 then
+        SetPedComponentVariation(ped, 6, shoesD, shoesT, 0)
+    end
+
+    -- 6. Accessories / Neck (Component 7)
+    if accD >= 0 then
+        SetPedComponentVariation(ped, 7, accD, accT, 0)
+    else
+        SetPedComponentVariation(ped, 7, 0, 0, 0)
+    end
+
+    -- 7. Undershirt / Undercoat (Component 8)
+    if underD >= 0 then
+        SetPedComponentVariation(ped, 8, underD, underT, 0)
+    else
+        SetPedComponentVariation(ped, 8, isMale and 15 or 14, 0, 0)
+    end
+
+    -- 8. Body Armor / Kevlar / Vests (Component 9)
+    if armorD >= 0 then
+        SetPedComponentVariation(ped, 9, armorD, armorT, 0)
+    else
+        SetPedComponentVariation(ped, 9, 0, 0, 0)
+    end
+
+    -- 9. Decal / Badges / Insignia (Component 10)
+    if decalD >= 0 then
+        SetPedComponentVariation(ped, 10, decalD, decalT, 0)
+    else
+        SetPedComponentVariation(ped, 10, 0, 0, 0)
+    end
+
+    -- 10. Top / Jacket / Shirt (Component 11)
+    if topD >= 0 then
+        SetPedComponentVariation(ped, 11, topD, topT, 0)
+    end
 
     -- Props
     local hatD, hatT = convertComponent(outfit.Hat)
@@ -144,34 +203,9 @@ local function applyPedOutfit(outfit)
     if GetResourceState('illenium-appearance') == 'started' then
         pcall(function()
             local illenium = exports['illenium-appearance']
-            local componentsList = {
-                { component_id = 1, drawable = maskD >= 0 and maskD or 0, texture = maskT },
-                { component_id = 3, drawable = upperD >= 0 and upperD or 15, texture = upperT },
-                { component_id = 4, drawable = pantsD >= 0 and pantsD or 0, texture = pantsT },
-                { component_id = 5, drawable = bagD >= 0 and bagD or 0, texture = bagT },
-                { component_id = 6, drawable = shoesD >= 0 and shoesD or 0, texture = shoesT },
-                { component_id = 7, drawable = accD >= 0 and accD or 0, texture = accT },
-                { component_id = 8, drawable = underD >= 0 and underD or 15, texture = underT },
-                { component_id = 9, drawable = armorD >= 0 and armorD or 0, texture = armorT },
-                { component_id = 10, drawable = decalD >= 0 and decalD or 0, texture = decalT },
-                { component_id = 11, drawable = topD >= 0 and topD or 0, texture = topT },
-            }
-
-            local propsList = {
-                { prop_id = 0, drawable = hatD, texture = hatT },
-                { prop_id = 1, drawable = glassesD, texture = glassesT },
-                { prop_id = 2, drawable = earD, texture = earT },
-                { prop_id = 6, drawable = watchD, texture = watchT }
-            }
-
-            illenium:setPedComponents(ped, componentsList)
-            illenium:setPedProps(ped, propsList)
-
-            if Config.SaveToAppearance then
-                local appearance = illenium:getPedAppearance(ped)
-                if appearance then
-                    TriggerServerEvent('illenium-appearance:server:saveAppearance', appearance)
-                end
+            local appearance = illenium:getPedAppearance(ped)
+            if appearance and Config.SaveToAppearance then
+                TriggerServerEvent('illenium-appearance:server:saveAppearance', appearance)
             end
         end)
     end
