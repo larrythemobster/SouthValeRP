@@ -1,7 +1,11 @@
 local config = require 'config.client'
 local defaultSpawn = require 'config.shared'.defaultSpawn
 
-if config.characters.useExternalCharacters then return end
+-- SouthVale can explicitly claim character-selection presentation through a
+-- replicated convar. Keep Qbox's selector as a fallback when no external
+-- character manager is configured.
+local southValeOwnsCharacterSelection = GetConvar('sv_identity:replaceQboxCharacterSelector', 'false') == 'true'
+if config.characters.useExternalCharacters or southValeOwnsCharacterSelection then return end
 
 local previewCam
 local randomLocation = config.characters.locations[math.random(1, #config.characters.locations)]

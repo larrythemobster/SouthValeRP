@@ -4,7 +4,7 @@ game 'gta5'
 name 'sv_identity'
 description 'SouthVale RP character selection, identity registration, and spawn presentation'
 author 'SouthVale RP'
-version '1.0.0'
+version '1.3.0'
 
 lua54 'yes'
 
@@ -16,6 +16,7 @@ shared_scripts {
 }
 
 client_script 'client/main.lua'
+server_script 'server/main.lua'
 
 files {
     'web/index.html',
