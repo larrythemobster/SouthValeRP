@@ -3,10 +3,10 @@
 Config = {}
 
 ---Trigger a notification on the client when the door state is successfully updated.
-Config.Notify = false
+Config.Notify = true
 
 ---Create a persistent notification while in-range of a door, prompting to lock/unlock.
-Config.DrawTextUI = false
+Config.DrawTextUI = true
 
 ---Set the properties used by [DrawSprite](https://docs.fivem.net/natives/?_0xE7FFAE5EBF23D890).
 Config.DrawSprite = {
@@ -21,7 +21,7 @@ Config.DrawSprite = {
 Config.CommandPrincipal = 'group.admin'
 
 ---Allow players with the 'command.doorlock' principal to use any door.
-Config.PlayerAceAuthorised = false
+Config.PlayerAceAuthorised = true
 
 ---The default skill check difficulty when lockpicking a door.
 Config.LockDifficulty = { 'easy', 'easy', 'medium' }

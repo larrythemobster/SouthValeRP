@@ -42,7 +42,7 @@ return {
             coquette4 = 'luxury',
             drafter = 'luxury',
             deveste = 'luxury',
-            elegy = 'luxury',
+            elegy = 'pdm', -- custom tuned handling (sv_civ_vehicles), sold on the PDM floor
             elegy2 = 'luxury',
             feltzer2 = 'luxury',
             flashgt = 'luxury',
@@ -56,7 +56,7 @@ return {
             jester2 = 'luxury',
             jester3 = 'luxury',
             khamelion = 'luxury',
-            kuruma = 'luxury',
+            kuruma = 'pdm', -- custom tuned handling (sv_civ_vehicles), sold on the PDM floor
             kuruma2 = 'luxury',
             locust = 'luxury',
             lynx = 'luxury',
@@ -76,7 +76,7 @@ return {
             raptor = 'luxury',
             revolter = 'luxury',
             ruston = 'luxury',
-            schafter3 = 'luxury',
+            schafter3 = 'pdm', -- custom tuned handling (sv_civ_vehicles), sold on the PDM floor
             schafter4 = 'luxury',
             schlagen = 'luxury',
             schwarzer = 'luxury',
@@ -140,7 +140,7 @@ return {
             sentinel4 = 'luxury',
             sheava = 'luxury',
             sm722 = 'luxury',
-            sultanrs = 'luxury',
+            sultanrs = 'pdm', -- custom tuned handling (sv_civ_vehicles), sold on the PDM floor
             t20 = 'luxury',
             taipan = 'luxury',
             tempesta = 'luxury',
@@ -249,6 +249,8 @@ return {
             },
             categories = {
                 sportsclassics = 'Sports Classics',
+                sports = 'Sports',
+                super = 'Super',
                 sedans = 'Sedans',
                 coupes = 'Coupes',
                 suvs = 'SUVs',
@@ -273,14 +275,14 @@ return {
                 vec4(-41.75, -1111.49, 25.87, 71.5),
             },
             showroomVehicles = {
-                { coords = vec4(-45.65, -1093.66, 25.44, 69.5), vehicle = 'asbo' },
-                { coords = vec4(-48.27, -1101.86, 25.44, 294.5), vehicle = 'schafter2' },
-                { coords = vec4(-39.6, -1096.01, 25.44, 66.5), vehicle = 'greenwood' },
-                { coords = vec4(-51.21, -1096.77, 25.44, 254.5), vehicle = 'vigero' },
-                { coords = vec4(-40.18, -1104.13, 25.44, 338.5), vehicle = 'impaler' },
-                { coords = vec4(-43.31, -1099.02, 25.44, 52.5), vehicle = 'bati' },
-                { coords = vec4(-50.66, -1093.05, 25.44, 222.5), vehicle = 'bati' },
-                { coords = vec4(-44.28, -1102.47, 25.44, 298.5), vehicle = 'bati' },
+                { coords = vec4(-45.65, -1093.66, 25.44, 69.5), vehicle = 'ar8lb' },
+                { coords = vec4(-48.27, -1101.86, 25.44, 294.5), vehicle = 'gtr' },
+                { coords = vec4(-39.6, -1096.01, 25.44, 66.5), vehicle = 'skyline' },
+                { coords = vec4(-51.21, -1096.77, 25.44, 254.5), vehicle = 'jza80' },
+                { coords = vec4(-40.18, -1104.13, 25.44, 338.5), vehicle = 'rx7veilside' },
+                { coords = vec4(-43.31, -1099.02, 25.44, 52.5), vehicle = 'filthynsx' },
+                { coords = vec4(-50.66, -1093.05, 25.44, 222.5), vehicle = 'subwrx' },
+                { coords = vec4(-44.28, -1102.47, 25.44, 298.5), vehicle = 'ek9' },
             },
         },
 

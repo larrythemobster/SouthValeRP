@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>SouthVale MDT</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div id="app" class="hidden">
+        <div id="mdt">
+            <header>
+                <h1>SouthVale <span>MDT</span></h1>
+                <nav>
+                    <button data-tab="citizens" class="active">Citizens</button>
+                    <button data-tab="vehicles">Vehicles</button>
+                    <button data-tab="incidents">Incidents</button>
+                </nav>
+                <button id="closeBtn" title="Close (ESC)">&times;</button>
+            </header>
+
+            <main>
+                <section id="tab-citizens" class="tab active">
+                    <div class="search-row">
+                        <input id="citizenQuery" type="text" placeholder="Search name or citizen ID..." />
+                        <button id="citizenSearchBtn">Search</button>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr><th>Name</th><th>Citizen ID</th><th>Phone</th><th>Record</th></tr>
+                        </thead>
+                        <tbody id="citizenResults"></tbody>
+                    </table>
+                </section>
+
+                <section id="tab-vehicles" class="tab">
+                    <div class="search-row">
+                        <input id="vehicleQuery" type="text" placeholder="Search plate..." />
+                        <button id="vehicleSearchBtn">Search</button>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr><th>Plate</th><th>Model</th><th>Owner</th><th>Status</th></tr>
+                        </thead>
+                        <tbody id="vehicleResults"></tbody>
+                    </table>
+                </section>
+
+                <section id="tab-incidents" class="tab">
+                    <div class="incident-form">
+                        <input id="incidentTitle" type="text" placeholder="Incident title" maxlength="150" />
+                        <textarea id="incidentDetails" placeholder="Details..." maxlength="5000"></textarea>
+                        <input id="incidentCitizens" type="text" placeholder="Involved citizen ID(s), comma separated" />
+                        <button id="incidentCreateBtn">Log Incident</button>
+                    </div>
+                    <div id="incidentList"></div>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

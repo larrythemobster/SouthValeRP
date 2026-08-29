@@ -49,6 +49,7 @@
     "info": {
         "mr": "Mr.",
         "mrs": "Mrs.",
+        "mx": "Mx.",
         "impound_price": "Price the player pays to get vehicle out of impound (can be 0)",
         "plate_number": "License Plate Number",
         "flag_reason": "Reason for flagging vehicle",

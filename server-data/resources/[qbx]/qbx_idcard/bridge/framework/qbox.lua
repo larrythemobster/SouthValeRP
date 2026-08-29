@@ -2,11 +2,14 @@ if GetResourceState('qbx_core') ~= 'started' then return end
 
 local sharedConfig = require 'config.shared'
 
---- Convert sex number to string M or F
----@param sex number
+--- Convert legacy numeric gender (0/1) to Male/Female; passes modern string
+--- gender values (from the full gender list) through unchanged.
+---@param gender number|string
 ---@return string
-local function GetStringSex(sex)
-    return sex == 1 and 'F' or 'M'
+local function GetStringSex(gender)
+    if gender == 0 then return 'Male' end
+    if gender == 1 then return 'Female' end
+    return gender
 end
 
 --- Get badge for license

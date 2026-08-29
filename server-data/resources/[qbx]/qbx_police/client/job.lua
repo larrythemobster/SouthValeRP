@@ -255,6 +255,7 @@ local function uiPrompt(promptType, id)
                     if not inGarage then return end
                     if cache.vehicle then
                         DeleteVehicle(cache.vehicle)
+                        exports.qbx_core:Notify('Police vehicle returned to station.', 'success')
                         lib.hideTextUI()
                         break
                     else
@@ -429,15 +430,91 @@ function ToggleDuty()
     TriggerServerEvent('police:server:UpdateCurrentCops')
 end
 
+CreateThread(function()
+    -- Police Station Map Blips
+    for _, station in ipairs(sharedConfig.locations.stations) do
+        local blip = AddBlipForCoord(station.coords.x, station.coords.y, station.coords.z)
+        SetBlipSprite(blip, 60)
+        SetBlipDisplay(blip, 4)
+        SetBlipScale(blip, 0.75)
+        SetBlipAsShortRange(blip, true)
+        SetBlipColour(blip, 29)
+        BeginTextCommandSetBlipName('STRING')
+        AddTextComponentSubstringPlayerName(station.label)
+        EndTextCommandSetBlipName(blip)
+    end
+end)
+
+-- Visual Ground Markers for Duty, Vehicle Stations, Helipads, and Impound
+CreateThread(function()
+    -- Duty Markers
+    for i = 1, #sharedConfig.locations.duty do
+        local coords = sharedConfig.locations.duty[i]
+        lib.points.new({
+            coords = coords,
+            distance = 25.0,
+            nearby = function()
+                if QBX.PlayerData.job.type == 'leo' then
+                    DrawMarker(2, coords.x, coords.y, coords.z + 0.15, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 0.35, 0.35, 0.35, 38, 137, 255, 220, false, true, 2, false, nil, nil, false)
+                end
+            end
+        })
+    end
+
+    -- Vehicle Station Markers
+    for i = 1, #sharedConfig.locations.vehicle do
+        local coords = sharedConfig.locations.vehicle[i]
+        lib.points.new({
+            coords = vec3(coords.x, coords.y, coords.z),
+            distance = 35.0,
+            nearby = function()
+                if QBX.PlayerData.job.type == 'leo' and QBX.PlayerData.job.onduty then
+                    DrawMarker(36, coords.x, coords.y, coords.z + 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, coords.w or 0.0, 1.4, 1.4, 1.4, 38, 137, 255, 200, false, false, 2, true, nil, nil, false)
+                    DrawMarker(1, coords.x, coords.y, coords.z - 0.95, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 3.5, 3.5, 0.5, 38, 137, 255, 100, false, false, 2, false, nil, nil, false)
+                end
+            end
+        })
+    end
+
+    -- Helipad Markers
+    for i = 1, #sharedConfig.locations.helicopter do
+        local coords = sharedConfig.locations.helicopter[i]
+        lib.points.new({
+            coords = vec3(coords.x, coords.y, coords.z),
+            distance = 40.0,
+            nearby = function()
+                if QBX.PlayerData.job.type == 'leo' and QBX.PlayerData.job.onduty then
+                    DrawMarker(34, coords.x, coords.y, coords.z + 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, coords.w or 0.0, 2.5, 2.5, 1.5, 38, 137, 255, 200, false, false, 2, true, nil, nil, false)
+                    DrawMarker(1, coords.x, coords.y, coords.z - 0.95, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 6.0, 6.0, 0.5, 38, 137, 255, 100, false, false, 2, false, nil, nil, false)
+                end
+            end
+        })
+    end
+
+    -- Impound Markers
+    for i = 1, #sharedConfig.locations.impound do
+        local coords = sharedConfig.locations.impound[i]
+        lib.points.new({
+            coords = coords,
+            distance = 25.0,
+            nearby = function()
+                if QBX.PlayerData.job.type == 'leo' and QBX.PlayerData.job.onduty then
+                    DrawMarker(36, coords.x, coords.y, coords.z + 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.2, 1.2, 1.2, 255, 180, 0, 200, false, false, 2, true, nil, nil, false)
+                end
+            end
+        })
+    end
+end)
+
 if config.useTarget then
     CreateThread(function()
         for i = 1, #sharedConfig.locations.duty do
             exports.ox_target:addBoxZone({
                 coords = sharedConfig.locations.duty[i],
-                size = vec3(1,1,3),
+                size = vec3(1.5, 1.5, 3.0),
                 debug = config.polyDebug,
                 options = {{
-                    distance = 1.5,
+                    distance = 2.0,
                     label = locale('info.onoff_duty'),
                     icon = 'fa-solid fa-sign-in-alt',
                     onSelect = ToggleDuty,
@@ -450,7 +527,7 @@ else
     for i = 1, #sharedConfig.locations.duty do
         lib.zones.box({
             coords = sharedConfig.locations.duty[i],
-            size = vec3(2, 2, 2),
+            size = vec3(2.5, 2.5, 2.5),
             rotation = 0.0,
             debug = config.polyDebug,
             onEnter = function()
@@ -515,8 +592,8 @@ CreateThread(function()
     -- Helicopter
     for i = 1, #sharedConfig.locations.helicopter do
         lib.zones.box({
-            coords = sharedConfig.locations.helicopter[i],
-            size = vec3(4, 4, 4),
+            coords = vec3(sharedConfig.locations.helicopter[i].x, sharedConfig.locations.helicopter[i].y, sharedConfig.locations.helicopter[i].z),
+            size = vec3(6.0, 6.0, 4.0),
             rotation = 0.0,
             debug = config.polyDebug,
             onEnter = function()
@@ -538,7 +615,7 @@ CreateThread(function()
     for i = 1, #sharedConfig.locations.impound do
         lib.zones.box({
             coords = sharedConfig.locations.impound[i],
-            size = vec3(2, 2, 2),
+            size = vec3(3.0, 3.0, 3.0),
             rotation = 0.0,
             debug = config.polyDebug,
             onEnter = function()
@@ -558,12 +635,13 @@ CreateThread(function()
         })
     end
 
-    -- Police Garage
+    -- Police Garage / Vehicle Station
     for i = 1, #sharedConfig.locations.vehicle do
+        local coords = sharedConfig.locations.vehicle[i]
         lib.zones.box({
-            coords = sharedConfig.locations.vehicle[i],
-            size = vec3(2, 2, 2),
-            rotation = 0.0,
+            coords = vec3(coords.x, coords.y, coords.z),
+            size = vec3(4.5, 4.5, 3.5),
+            rotation = coords.w or 0.0,
             debug = config.polyDebug,
             onEnter = function()
                 if QBX.PlayerData.job.type ~= 'leo' or not QBX.PlayerData.job.onduty then return end
@@ -581,3 +659,4 @@ CreateThread(function()
         })
     end
 end)
+

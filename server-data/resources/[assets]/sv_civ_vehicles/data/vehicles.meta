@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CVehicleModelInfo__InitDataList>
+  <residentTxd>vehshare</residentTxd>
+  <residentAnims />
+  <InitDatas>
+    <Item>
+      <modelName>sultanrs</modelName>
+      <txdName>sultanrs</txdName>
+      <handlingId>SULTANRS</handlingId>
+      <gameName>SULTANRS</gameName>
+      <vehicleMakeName>KARIN</vehicleMakeName>
+      <frequency value="25" />
+      <type>VEHICLE_TYPE_AUTOMOBILE</type>
+      <plateType>VPT_FRONT_AND_BACK_PLATES</plateType>
+      <vehicleClass>VC_SUPER</vehicleClass>
+      <wheelType>VWT_SPORT</wheelType>
+      <audioNameHash>sultanrs</audioNameHash>
+      <layout>LAYOUT_STD_TWO_DOOR</layout>
+    </Item>
+    <Item>
+      <modelName>elegy</modelName>
+      <txdName>elegy</txdName>
+      <handlingId>ELEGY</handlingId>
+      <gameName>ELEGY</gameName>
+      <vehicleMakeName>ANNIS</vehicleMakeName>
+      <frequency value="25" />
+      <type>VEHICLE_TYPE_AUTOMOBILE</type>
+      <plateType>VPT_FRONT_AND_BACK_PLATES</plateType>
+      <vehicleClass>VC_SPORTS</vehicleClass>
+      <wheelType>VWT_TUNER</wheelType>
+      <audioNameHash>elegy</audioNameHash>
+      <layout>LAYOUT_STD_TWO_DOOR</layout>
+    </Item>
+    <Item>
+      <modelName>dominator3</modelName>
+      <txdName>dominator3</txdName>
+      <handlingId>DOMINATOR3</handlingId>
+      <gameName>DOMINATOR3</gameName>
+      <vehicleMakeName>VAPID</vehicleMakeName>
+      <frequency value="25" />
+      <type>VEHICLE_TYPE_AUTOMOBILE</type>
+      <plateType>VPT_FRONT_AND_BACK_PLATES</plateType>
+      <vehicleClass>VC_MUSCLE</vehicleClass>
+      <wheelType>VWT_MUSCLE</wheelType>
+      <audioNameHash>dominator3</audioNameHash>
+      <layout>LAYOUT_STD_TWO_DOOR</layout>
+    </Item>
+    <Item>
+      <modelName>kuruma</modelName>
+      <txdName>kuruma</txdName>
+      <handlingId>KURUMA</handlingId>
+      <gameName>KURUMA</gameName>
+      <vehicleMakeName>KARIN</vehicleMakeName>
+      <frequency value="25" />
+      <type>VEHICLE_TYPE_AUTOMOBILE</type>
+      <plateType>VPT_FRONT_AND_BACK_PLATES</plateType>
+      <vehicleClass>VC_SPORTS</vehicleClass>
+      <wheelType>VWT_SPORT</wheelType>
+      <audioNameHash>kuruma</audioNameHash>
+      <layout>LAYOUT_STD_FOUR_DOOR</layout>
+    </Item>
+    <Item>
+      <modelName>schafter3</modelName>
+      <txdName>schafter3</txdName>
+      <handlingId>SCHAFTER3</handlingId>
+      <gameName>SCHAFTER3</gameName>
+      <vehicleMakeName>BENEFACTOR</vehicleMakeName>
+      <frequency value="25" />
+      <type>VEHICLE_TYPE_AUTOMOBILE</type>
+      <plateType>VPT_FRONT_AND_BACK_PLATES</plateType>
+      <vehicleClass>VC_SEDAN</vehicleClass>
+      <wheelType>VWT_SPORT</wheelType>
+      <audioNameHash>schafter3</audioNameHash>
+      <layout>LAYOUT_STD_FOUR_DOOR</layout>
+    </Item>
+  </InitDatas>
+</CVehicleModelInfo__InitDataList>

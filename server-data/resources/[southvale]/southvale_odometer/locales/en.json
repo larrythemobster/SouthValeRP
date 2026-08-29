@@ -1,0 +1,9 @@
+{
+    "error": {
+        "no_vehicle": "You're not in a vehicle",
+        "not_owned": "This vehicle has no recorded odometer"
+    },
+    "success": {
+        "mileage": "Odometer reading: %s mi"
+    }
+}

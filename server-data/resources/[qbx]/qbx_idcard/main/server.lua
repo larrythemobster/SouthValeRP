@@ -29,7 +29,7 @@ RegisterNetEvent('um-idcard:server:sendData', function(src, item, metadata)
             end
 
             local data = exports.qbx_core:GetPlayer(source).PlayerData.charinfo
-            data.sex = data.gender == 0 and 'Male' or 'Female' -- Resolve gender being int
+            data.sex = data.gender == 0 and 'Male' or data.gender == 1 and 'Female' or data.gender -- Resolve legacy int gender, pass through modern gender strings
             data.cardtype = item or "id_card" -- Define card type default if not found
             data.mugShot = metadata.mugShot -- Append mugshot to data obj
 

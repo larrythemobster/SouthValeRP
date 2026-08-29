@@ -120,6 +120,15 @@ if config.characters.limitNationalities then
     end)
 end
 
+local genders = {}
+local genderList = lib.load('data.genders')
+
+CreateThread(function()
+    for i = 1, #genderList do
+        genders[#genders + 1] = { value = genderList[i] }
+    end
+end)
+
 local function setupPreviewCam()
     DoScreenFadeIn(1000)
     SetTimecycleModifier('hud_def_blur')
@@ -215,14 +224,8 @@ local function characterDialog()
             icon = 'circle-user',
             label = locale('info.gender'),
             placeholder = locale('info.select_gender'),
-            options = {
-                {
-                    value = locale('info.char_male')
-                },
-                {
-                    value = locale('info.char_female')
-                }
-            }
+            searchable = true,
+            options = genders
         },
         {
             type = 'date',
@@ -262,6 +265,17 @@ local function capString(str)
     return str:gsub("(%w)([%w']*)", function(first, rest)
         return first:upper() .. rest:lower()
     end)
+end
+
+-- Legacy characters stored gender as an integer (0 = Male, 1 = Female)
+-- before the full gender list was introduced; new characters store the
+-- selected label string directly.
+---@param gender integer|string
+---@return string
+local function genderLabel(gender)
+    if gender == 0 then return locale('info.char_male') end
+    if gender == 1 then return locale('info.char_female') end
+    return gender
 end
 
 ---@param coords vector4
@@ -324,7 +338,7 @@ local function createCharacter(cid)
         firstname = capString(dialog[1]),
         lastname = capString(dialog[2]),
         nationality = capString(dialog[3]),
-        gender = dialog[4] == locale('info.char_male') and 0 or 1,
+        gender = dialog[4],
         birthdate = dialog[5],
         cid = cid
     })
@@ -383,7 +397,7 @@ local function chooseCharacter()
             title = character and ('%s %s - %s'):format(character.charinfo.firstname, character.charinfo.lastname, character.citizenid) or locale('info.multichar_new_character', i),
             metadata = character and {
                 Name = name,
-                Gender = character.charinfo.gender == 0 and locale('info.char_male') or locale('info.char_female'),
+                Gender = genderLabel(character.charinfo.gender),
                 Birthdate = character.charinfo.birthdate,
                 Nationality = character.charinfo.nationality,
                 ['Account Number'] = character.charinfo.account,

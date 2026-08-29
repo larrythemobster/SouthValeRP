@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CVehicleModelInfo__InitDataList>
+  <residentTxd>vehshare</residentTxd>
+  <residentAnims />
+  <InitDatas>
+    <Item>
+      <modelName>police</modelName>
+      <txdName>police</txdName>
+      <handlingId>POLICE</handlingId>
+      <gameName>POLICE</gameName>
+      <vehicleMakeName>VAPID</vehicleMakeName>
+      <expressionDictName>null</expressionDictName>
+      <frequency value="30" />
+      <poorUncommon value="0" />
+      <maxNumOfSameColor value="10" />
+      <defaultBodyColour>134</defaultBodyColour>
+      <defaultSpecularColour>156</defaultSpecularColour>
+      <visualFlags>0</visualFlags>
+      <type>VEHICLE_TYPE_AUTOMOBILE</type>
+      <plateType>VPT_FRONT_AND_BACK_PLATES</plateType>
+      <dashboardType>VDT_DEFAULT</dashboardType>
+      <vehicleClass>VC_EMERGENCY</vehicleClass>
+      <wheelType>VWT_SPORT</wheelType>
+      <trailers />
+      <additionalTrailers />
+      <drivers>
+        <Item>
+          <driverName>s_m_y_cop_01</driverName>
+          <npcName />
+        </Item>
+      </drivers>
+      <extraIncludeDirs />
+      <factoryAudioKey />
+      <audioNameHash>police</audioNameHash>
+      <layout>LAYOUT_STD_FOUR_DOOR</layout>
+      <coverBoundOffsets />
+      <explosionInfo />
+      <scenarioLayout />
+      <cameraNameHash>DEFAULT_FOLLOW_VEHICLE_CAMERA</cameraNameHash>
+      <aimCameraName />
+      <bonnetCameraName />
+      <povCameraName />
+      <FirstPersonDriveByCamName />
+      <FirstPersonDriveByUnarmedCamName />
+      <FirstPersonProjectileCamName />
+      <PovCameraOffset x="0.0" y="0.0" z="0.0" />
+      <PovCameraVerticalAdjustmentAngle value="0.0" />
+      <overrideRagdollThreshold value="-1.0" />
+      <firstPersonDriveByData>
+        <Item>
+          <driveByViewMinAngle value="-85.0" />
+          <driveByViewMaxAngle value="85.0" />
+        </Item>
+      </firstPersonDriveByData>
+    </Item>
+
+    <Item>
+      <modelName>police2</modelName>
+      <txdName>police2</txdName>
+      <handlingId>POLICE2</handlingId>
+      <gameName>POLICE2</gameName>
+      <vehicleMakeName>BRAVADO</vehicleMakeName>
+      <frequency value="30" />
+      <type>VEHICLE_TYPE_AUTOMOBILE</type>
+      <plateType>VPT_FRONT_AND_BACK_PLATES</plateType>
+      <vehicleClass>VC_EMERGENCY</vehicleClass>
+      <wheelType>VWT_SPORT</wheelType>
+      <audioNameHash>police2</audioNameHash>
+      <layout>LAYOUT_STD_FOUR_DOOR</layout>
+    </Item>
+
+    <Item>
+      <modelName>police3</modelName>
+      <txdName>police3</txdName>
+      <handlingId>POLICE3</handlingId>
+      <gameName>POLICE3</gameName>
+      <vehicleMakeName>VAPID</vehicleMakeName>
+      <frequency value="30" />
+      <type>VEHICLE_TYPE_AUTOMOBILE</type>
+      <plateType>VPT_FRONT_AND_BACK_PLATES</plateType>
+      <vehicleClass>VC_EMERGENCY</vehicleClass>
+      <wheelType>VWT_SPORT</wheelType>
+      <audioNameHash>police3</audioNameHash>
+      <layout>LAYOUT_STD_FOUR_DOOR</layout>
+    </Item>
+
+    <Item>
+      <modelName>police4</modelName>
+      <txdName>police4</txdName>
+      <handlingId>POLICE4</handlingId>
+      <gameName>POLICE4</gameName>
+      <vehicleMakeName>VAPID</vehicleMakeName>
+      <frequency value="30" />
+      <type>VEHICLE_TYPE_AUTOMOBILE</type>
+      <plateType>VPT_FRONT_AND_BACK_PLATES</plateType>
+      <vehicleClass>VC_EMERGENCY</vehicleClass>
+      <wheelType>VWT_SPORT</wheelType>
+      <audioNameHash>police4</audioNameHash>
+      <layout>LAYOUT_STD_FOUR_DOOR</layout>
+    </Item>
+
+    <Item>
+      <modelName>sheriff</modelName>
+      <txdName>sheriff</txdName>
+      <handlingId>SHERIFF</handlingId>
+      <gameName>SHERIFF</gameName>
+      <vehicleMakeName>VAPID</vehicleMakeName>
+      <frequency value="30" />
+      <type>VEHICLE_TYPE_AUTOMOBILE</type>
+      <plateType>VPT_FRONT_AND_BACK_PLATES</plateType>
+      <vehicleClass>VC_EMERGENCY</vehicleClass>
+      <wheelType>VWT_SPORT</wheelType>
+      <audioNameHash>sheriff</audioNameHash>
+      <layout>LAYOUT_STD_FOUR_DOOR</layout>
+    </Item>
+
+    <Item>
+      <modelName>sheriff2</modelName>
+      <txdName>sheriff2</txdName>
+      <handlingId>SHERIFF2</handlingId>
+      <gameName>SHERIFF2</gameName>
+      <vehicleMakeName>DECLASSE</vehicleMakeName>
+      <frequency value="30" />
+      <type>VEHICLE_TYPE_AUTOMOBILE</type>
+      <plateType>VPT_FRONT_AND_BACK_PLATES</plateType>
+      <vehicleClass>VC_EMERGENCY</vehicleClass>
+      <wheelType>VWT_SUV</wheelType>
+      <audioNameHash>sheriff2</audioNameHash>
+      <layout>LAYOUT_STD_FOUR_DOOR</layout>
+    </Item>
+
+    <Item>
+      <modelName>fbi</modelName>
+      <txdName>fbi</txdName>
+      <handlingId>FBI</handlingId>
+      <gameName>FBI</gameName>
+      <vehicleMakeName>BRAVADO</vehicleMakeName>
+      <frequency value="30" />
+      <type>VEHICLE_TYPE_AUTOMOBILE</type>
+      <plateType>VPT_FRONT_AND_BACK_PLATES</plateType>
+      <vehicleClass>VC_EMERGENCY</vehicleClass>
+      <wheelType>VWT_SPORT</wheelType>
+      <audioNameHash>fbi</audioNameHash>
+      <layout>LAYOUT_STD_FOUR_DOOR</layout>
+    </Item>
+
+    <Item>
+      <modelName>fbi2</modelName>
+      <txdName>fbi2</txdName>
+      <handlingId>FBI2</handlingId>
+      <gameName>FBI2</gameName>
+      <vehicleMakeName>DECLASSE</vehicleMakeName>
+      <frequency value="30" />
+      <type>VEHICLE_TYPE_AUTOMOBILE</type>
+      <plateType>VPT_FRONT_AND_BACK_PLATES</plateType>
+      <vehicleClass>VC_EMERGENCY</vehicleClass>
+      <wheelType>VWT_SUV</wheelType>
+      <audioNameHash>fbi2</audioNameHash>
+      <layout>LAYOUT_STD_FOUR_DOOR</layout>
+    </Item>
+
+    <Item>
+      <modelName>riot</modelName>
+      <txdName>riot</txdName>
+      <handlingId>RIOT</handlingId>
+      <gameName>RIOT</gameName>
+      <vehicleMakeName>BRUTE</vehicleMakeName>
+      <frequency value="30" />
+      <type>VEHICLE_TYPE_AUTOMOBILE</type>
+      <plateType>VPT_FRONT_AND_BACK_PLATES</plateType>
+      <vehicleClass>VC_EMERGENCY</vehicleClass>
+      <wheelType>VWT_SUV</wheelType>
+      <audioNameHash>riot</audioNameHash>
+      <layout>LAYOUT_STD_FOUR_DOOR</layout>
+    </Item>
+
+    <Item>
+      <modelName>policet</modelName>
+      <txdName>policet</txdName>
+      <handlingId>POLICET</handlingId>
+      <gameName>POLICET</gameName>
+      <vehicleMakeName>BRUTE</vehicleMakeName>
+      <frequency value="30" />
+      <type>VEHICLE_TYPE_AUTOMOBILE</type>
+      <plateType>VPT_FRONT_AND_BACK_PLATES</plateType>
+      <vehicleClass>VC_EMERGENCY</vehicleClass>
+      <wheelType>VWT_SUV</wheelType>
+      <audioNameHash>policet</audioNameHash>
+      <layout>LAYOUT_STD_FOUR_DOOR</layout>
+    </Item>
+
+    <Item>
+      <modelName>policeb</modelName>
+      <txdName>policeb</txdName>
+      <handlingId>POLICEB</handlingId>
+      <gameName>POLICEB</gameName>
+      <vehicleMakeName>WESTERN</vehicleMakeName>
+      <frequency value="30" />
+      <type>VEHICLE_TYPE_BIKE</type>
+      <plateType>VPT_BACK_PLATE_ONLY</plateType>
+      <vehicleClass>VC_MOTORCYCLE</vehicleClass>
+      <wheelType>VWT_BIKE</wheelType>
+      <audioNameHash>policeb</audioNameHash>
+      <layout>LAYOUT_BIKE_FREEWAY</layout>
+    </Item>
+  </InitDatas>
+</CVehicleModelInfo__InitDataList>

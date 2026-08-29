@@ -13,7 +13,7 @@
 ---@field firstname string
 ---@field lastname string
 ---@field nationality string
----@field gender number
+---@field gender string
 ---@field birthdate string
 ---@field cid integer
 
@@ -154,7 +154,7 @@
 ---@field birthdate string
 ---@field nationality string
 ---@field cid integer
----@field gender integer
+---@field gender integer|string Legacy characters store 0/1; new characters store the selected gender label.
 ---@field backstory string
 ---@field phone string
 ---@field account string

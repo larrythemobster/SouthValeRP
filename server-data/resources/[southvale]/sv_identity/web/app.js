@@ -11,6 +11,7 @@ const toast = document.getElementById('toast');
 const form = document.getElementById('identity-form');
 const formError = document.getElementById('form-error');
 const nationalitySelect = document.getElementById('nationality-select');
+const genderSelect = document.getElementById('gender');
 const nationalityInput = document.getElementById('nationality-input');
 const createSubmit = document.getElementById('create-submit');
 
@@ -181,6 +182,9 @@ function configureIdentity(data) {
     document.getElementById('birthdate').max = data.dateMax || '';
     document.getElementById('birthdate').value = data.dateMax || '';
 
+    genderSelect.innerHTML = '<option value="" disabled selected>Select gender</option>' +
+        (data.genders || []).map((item) => `<option value="${escapeHtml(item)}">${escapeHtml(item)}</option>`).join('');
+
     if (data.limitNationalities) {
         nationalitySelect.innerHTML = '<option value="" disabled selected>Select nationality</option>' +
             (data.nationalities || []).map((item) => `<option value="${escapeHtml(item)}">${escapeHtml(item)}</option>`).join('');
@@ -209,10 +213,14 @@ function renderSpawns(spawns = []) {
         </button>`).join('');
 
     spawnList.querySelectorAll('.spawn-card').forEach((button) => {
+        button.addEventListener('mouseenter', () => {
+            post('previewSpawn', { id: Number(button.dataset.id) });
+        });
         button.addEventListener('click', async () => {
             if (state.busy) return;
             state.busy = true;
             button.classList.add('is-selected');
+            post('previewSpawn', { id: Number(button.dataset.id) });
             const result = await post('chooseSpawn', { id: Number(button.dataset.id) });
             if (!result.ok) {
                 state.busy = false;
@@ -248,7 +256,7 @@ form.addEventListener('submit', async (event) => {
         firstname,
         lastname,
         birthdate,
-        gender: Number(gender),
+        gender,
         nationality,
     });
 

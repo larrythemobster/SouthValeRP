@@ -2,6 +2,7 @@ local coreClientConfig = require '@qbx_core.config.client'
 local coreSharedConfig = require '@qbx_core.config.shared'
 local spawnConfig = require '@qbx_spawn.config.client'
 local nationalities = coreClientConfig.characters.limitNationalities and require '@qbx_core.data.nationalities' or {}
+local genders = require '@qbx_core.data.genders'
 
 local uiOpen = false
 local uiView = 'characters'
@@ -103,6 +104,27 @@ local function waitForNetworkSession(timeout)
     return NetworkIsSessionStarted()
 end
 
+-- Streams collision/interior geometry around a preview spawn point before the
+-- ped is frozen there. Without this, teleporting straight into an interior
+-- (e.g. an apartment) can leave the ped rendered above the floor until the
+-- portal/room finishes streaming in, which never happens because the ped is
+-- immediately frozen in place.
+local function settlePedAtPreview(ped, coords, timeout)
+    local expires = GetGameTimer() + (timeout or 2500)
+
+    NewLoadSceneStart(coords.x, coords.y, coords.z, coords.x, coords.y, coords.z, 20.0, 0)
+    while IsNewLoadSceneActive() and GetGameTimer() < expires do Wait(0) end
+    NewLoadSceneStop()
+
+    SetEntityCoords(ped, coords.x, coords.y, coords.z, false, false, false, false)
+    SetEntityHeading(ped, coords.w)
+
+    while not HasCollisionLoadedAroundEntity(ped) and GetGameTimer() < expires do
+        RequestCollisionAtCoord(coords.x, coords.y, coords.z)
+        Wait(0)
+    end
+end
+
 local function requestModel(model)
     local hash = type(model) == 'number' and model or joaat(model)
     local ok = pcall(lib.requestModel, hash, coreClientConfig.loadingModelsTimeout)
@@ -173,8 +195,7 @@ local function startPreviewScene()
     waitForFadeOut()
 
     local ped = PlayerPedId()
-    SetEntityCoords(ped, previewLocation.pedCoords.x, previewLocation.pedCoords.y, previewLocation.pedCoords.z, false, false, false, false)
-    SetEntityHeading(ped, previewLocation.pedCoords.w)
+    settlePedAtPreview(ped, previewLocation.pedCoords)
     FreezeEntityPosition(ped, true)
     SetEntityInvincible(ped, true)
     SetEntityVisible(ped, true, false)
@@ -231,7 +252,7 @@ local function normalizeCharacter(raw, slot)
         lastname = trim(charinfo.lastname) ~= '' and trim(charinfo.lastname) or 'Character',
         birthdate = trim(charinfo.birthdate),
         nationality = trim(charinfo.nationality),
-        gender = tonumber(charinfo.gender) == 1 and 'Female' or 'Male',
+        gender = charinfo.gender == 1 and 'Female' or charinfo.gender == 0 and 'Male' or (trim(charinfo.gender) ~= '' and trim(charinfo.gender) or 'Male'),
         job = trim(job.label) ~= '' and trim(job.label) or 'Unemployed',
         grade = trim(grade.name) ~= '' and trim(grade.name) or 'Civilian',
         cash = formatMoney(money.cash),
@@ -349,6 +370,16 @@ local function nationalityAllowed(value)
     return false
 end
 
+local function genderAllowed(value)
+    value = trim(value)
+    if value == '' then return false end
+
+    for i = 1, #genders do
+        if genders[i] == value then return true end
+    end
+    return false
+end
+
 local function showIdentityForm(slot)
     if slot < 1 or slot > allowedSlots or charactersBySlot[slot] then return end
 
@@ -361,6 +392,7 @@ local function showIdentityForm(slot)
         brand = SVIdentity.brand,
         slot = slot,
         nationalities = nationalities,
+        genders = genders,
         limitNationalities = coreClientConfig.characters.limitNationalities == true,
         dateMin = coreClientConfig.characters.dateMin,
         dateMax = coreClientConfig.characters.dateMax,
@@ -488,12 +520,12 @@ local function createCharacter(data)
     local lastname = trim(data.lastname)
     local birthdate = trim(data.birthdate)
     local nationality = trim(data.nationality)
-    local gender = tonumber(data.gender)
+    local gender = trim(data.gender)
 
     if not isValidName(firstname) then return false, 'Enter a valid first name.' end
     if not isValidName(lastname) then return false, 'Enter a valid last name.' end
     if not isValidBirthdate(birthdate) then return false, 'Enter a valid date of birth.' end
-    if gender ~= 0 and gender ~= 1 then return false, 'Select a valid gender.' end
+    if not genderAllowed(gender) then return false, 'Select a valid gender.' end
     if not nationalityAllowed(nationality) then return false, 'Select a valid nationality.' end
 
     local ok, newData = pcall(function()
@@ -520,9 +552,14 @@ local function setupSpawnCamera()
 
     SetEntityCoords(ped, scene.ped.x, scene.ped.y, scene.ped.z, false, false, false, false)
     SetEntityHeading(ped, scene.ped.w)
+    SetEntityVisible(ped, false, false)
     FreezeEntityPosition(ped, true)
     SetEntityInvincible(ped, true)
     DisplayRadar(false)
+
+    if previewCam and DoesCamExist(previewCam) then
+        DestroyCam(previewCam, true)
+    end
 
     previewCam = CreateCamWithParams(
         'DEFAULT_SCRIPTED_CAMERA',
@@ -537,7 +574,7 @@ local function setupSpawnCamera()
         2
     )
     SetCamActive(previewCam, true)
-    RenderScriptCams(true, false, 350, true, true)
+    RenderScriptCams(true, false, 500, true, true)
 
     DoScreenFadeIn(650)
 end
@@ -565,7 +602,7 @@ local function buildSpawnOptions(isNewCharacter)
         local spawn = spawnConfig.spawns[i]
         spawnOptions[#spawnOptions + 1] = {
             label = spawn.label or ('Spawn %s'):format(i),
-            description = 'Public arrival point',
+            description = spawn.description or 'Public arrival point',
             coords = spawn.coords,
             kind = 'public',
         }
@@ -758,8 +795,7 @@ local function startCharacterSelection()
     -- Model changes can replace the ped handle, so re-apply scene state afterwards.
     if selectedSlot then previewCharacter(charactersBySlot[selectedSlot]) else setDefaultPreviewPed() end
     local ped = PlayerPedId()
-    SetEntityCoords(ped, previewLocation.pedCoords.x, previewLocation.pedCoords.y, previewLocation.pedCoords.z, false, false, false, false)
-    SetEntityHeading(ped, previewLocation.pedCoords.w)
+    settlePedAtPreview(ped, previewLocation.pedCoords)
     FreezeEntityPosition(ped, true)
     SetEntityInvincible(ped, true)
 
@@ -782,8 +818,7 @@ RegisterNUICallback('selectCharacter', function(data, cb)
 
     if previewLocation then
         local ped = PlayerPedId()
-        SetEntityCoords(ped, previewLocation.pedCoords.x, previewLocation.pedCoords.y, previewLocation.pedCoords.z, false, false, false, false)
-        SetEntityHeading(ped, previewLocation.pedCoords.w)
+        settlePedAtPreview(ped, previewLocation.pedCoords)
         FreezeEntityPosition(ped, true)
         SetEntityInvincible(ped, true)
     end
@@ -833,6 +868,20 @@ RegisterNUICallback('deleteCharacter', function(data, cb)
     local slot = math.floor(tonumber(type(data) == 'table' and data.slot) or 0)
     local ok, err = deleteCharacter(slot)
     cb({ ok = ok, error = err })
+end)
+
+RegisterNUICallback('previewSpawn', function(data, cb)
+    local index = math.floor(tonumber(type(data) == 'table' and data.id) or 0)
+    local spawn = spawnOptions[index]
+    if spawn and spawn.coords and previewCam and DoesCamExist(previewCam) then
+        local targetX = spawn.coords.x
+        local targetY = spawn.coords.y
+        local targetZ = (spawn.coords.z or 30.0) + 80.0
+        SetCamCoord(previewCam, targetX - 30.0, targetY - 45.0, targetZ)
+        PointCamAtCoord(previewCam, targetX, targetY, spawn.coords.z or 30.0)
+        SetCamFov(previewCam, 52.0)
+    end
+    cb({ ok = true })
 end)
 
 RegisterNUICallback('chooseSpawn', function(data, cb)

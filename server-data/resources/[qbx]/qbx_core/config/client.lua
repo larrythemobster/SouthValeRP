@@ -71,13 +71,13 @@ return {
         },
 
         firstButton = {
-            text = 'Qbox Discord',
-            link = 'https://discord.gg/Z6Whda5hHA',
+            text = 'SouthVale RP Discord',
+            link = 'https://discord.gg/sZFjzvPPJG',
         },
 
         secondButton = {
-            text = 'Main Website',
-            link = 'https://www.qbox.re/',
+            text = 'Join SouthVale RP',
+            link = 'https://discord.gg/sZFjzvPPJG',
         }
     },
 

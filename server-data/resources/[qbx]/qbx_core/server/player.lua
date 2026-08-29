@@ -626,7 +626,7 @@ function CheckPlayerData(source, playerData)
     playerData.charinfo.firstname = playerData.charinfo.firstname or 'Firstname'
     playerData.charinfo.lastname = playerData.charinfo.lastname or 'Lastname'
     playerData.charinfo.birthdate = playerData.charinfo.birthdate or '00-00-0000'
-    playerData.charinfo.gender = playerData.charinfo.gender or 0
+    playerData.charinfo.gender = playerData.charinfo.gender or 'Male'
     playerData.charinfo.backstory = playerData.charinfo.backstory or 'placeholder backstory'
     playerData.charinfo.nationality = playerData.charinfo.nationality or 'USA'
     playerData.charinfo.phone = playerData.charinfo.phone or GenerateUniqueIdentifier('PhoneNumber')

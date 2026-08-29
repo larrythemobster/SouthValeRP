@@ -4,10 +4,16 @@ local storage = require 'server.storage.main'
 local starterItems = require 'config.shared'.starterItems
 local clientConfig = require 'config.client'
 local nationalityList = require 'data.nationalities'
+local genderList = require 'data.genders'
 
 local allowedNationalities = {}
 for i = 1, #nationalityList do
     allowedNationalities[nationalityList[i]] = true
+end
+
+local allowedGenders = {}
+for i = 1, #genderList do
+    allowedGenders[genderList[i]] = true
 end
 
 ---@param license2 string
@@ -100,14 +106,13 @@ local function sanitizeNewCharInfo(data)
     local lastname = text(data.lastname, MAX_TEXT)
     local nationality = text(data.nationality, MAX_TEXT)
     local birthdate = text(data.birthdate, MAX_TEXT)
-    local gender = tonumber(data.gender)
+    local gender = text(data.gender, MAX_TEXT)
 
-    if not firstname or not lastname or not nationality or not birthdate or gender == nil then
+    if not firstname or not lastname or not nationality or not birthdate or not gender then
         return nil
     end
 
-    gender = math.floor(gender)
-    if gender ~= 0 and gender ~= 1 then return nil end
+    if not allowedGenders[gender] then return nil end
     if not validBirthdate(birthdate) then return nil end
     if clientConfig.characters.limitNationalities and not allowedNationalities[nationality] then return nil end
 

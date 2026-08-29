@@ -19,10 +19,10 @@ SVIdentity = {
     -- camera behavior deterministic while spawn destinations still come from
     -- qbx_spawn itself.
     spawnScene = {
-        ped = vec4(-21.58, -583.76, 86.31, 160.0),
-        camera = vec4(-24.77, -590.35, 90.8, 160.0),
-        cameraPitch = -2.0,
-        cameraFov = 45.0,
+        ped = vec4(-438.8, 1070.8, 352.5, 160.0),
+        camera = vec4(-440.0, 1075.0, 365.0, 165.0),
+        cameraPitch = -12.0,
+        cameraFov = 50.0,
     },
 
     validation = {
