@@ -43,18 +43,18 @@
     style.textContent = `
       .sv-clothing-card {
         position: relative !important;
-        border: 1px solid rgba(255,255,255,.075) !important;
+        border: 1px solid rgba(255,255,255,.06) !important;
         border-radius: 7px !important;
-        background: linear-gradient(135deg, rgba(12,12,14,.91), rgba(19,19,22,.72)) !important;
-        box-shadow: 0 8px 20px rgba(0,0,0,.17) !important;
-        padding: 10px 10px 11px !important;
-        margin-bottom: 8px !important;
+        background: linear-gradient(135deg, rgba(12,12,14,.88), rgba(19,19,22,.67)) !important;
+        box-shadow: 0 6px 16px rgba(0,0,0,.14) !important;
+        padding: 9px 10px 8px !important;
+        margin-bottom: 7px !important;
       }
 
       .sv-clothing-card-title {
         display: inline-flex !important;
         align-items: center !important;
-        min-height: 22px !important;
+        min-height: 21px !important;
         font-weight: 700 !important;
         letter-spacing: .01em !important;
       }
@@ -62,126 +62,68 @@
       .sv-clothing-card input[type="number"] {
         font-weight: 650 !important;
         font-size: 14px !important;
-        border: 1px solid rgba(255,255,255,.055) !important;
+        border: 1px solid rgba(255,255,255,.05) !important;
       }
 
       .sv-clothing-card input[type="number"]:focus {
         outline: 1px solid rgba(229,16,62,.72) !important;
-        box-shadow: 0 0 0 2px rgba(229,16,62,.13) !important;
+        box-shadow: 0 0 0 2px rgba(229,16,62,.12) !important;
       }
 
       .sv-clothing-card button[data-sv-arrow="1"] {
         min-width: 34px !important;
         border: 1px solid rgba(255,255,255,.055) !important;
-        transition: transform .12s ease, background .12s ease, border-color .12s ease !important;
+        transition: background .10s ease, border-color .10s ease, transform .10s ease !important;
       }
 
-      .sv-clothing-card button[data-sv-arrow="1"]:hover {
+      .sv-clothing-card button[data-sv-arrow="1"]:hover,
+      .sv-clothing-card button[data-sv-arrow="1"].sv-preview-arrow {
         transform: translateY(-1px) !important;
-        border-color: rgba(229,16,62,.55) !important;
-        background: rgba(229,16,62,.23) !important;
+        border-color: rgba(229,16,62,.70) !important;
+        background: rgba(229,16,62,.24) !important;
       }
 
-      .sv-browser {
+      .sv-preview-line {
         width: 100%;
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 5px;
-        margin-top: 9px;
-        padding-top: 8px;
-        border-top: 1px solid rgba(255,255,255,.07);
-      }
-
-      .sv-browser-option {
-        min-width: 0;
-        min-height: 55px;
+        min-height: 24px;
         display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        justify-content: center;
-        gap: 3px;
-        padding: 6px 6px;
-        color: rgba(255,255,255,.92);
-        background: rgba(0,0,0,.32);
-        border: 1px solid rgba(255,255,255,.07);
-        border-radius: 5px;
-        cursor: pointer;
-        text-align: left;
+        align-items: center;
+        gap: 6px;
+        margin-top: 6px;
+        padding: 5px 7px;
+        border-top: 1px solid rgba(255,255,255,.055);
+        color: rgba(255,255,255,.56);
+        font-size: 9px;
+        line-height: 1.25;
         overflow: hidden;
-        transition: border-color .12s ease, background .12s ease, transform .12s ease;
       }
 
-      .sv-browser-option:hover {
-        border-color: rgba(229,16,62,.62);
-        background: rgba(229,16,62,.15);
-        transform: translateY(-1px);
-      }
-
-      .sv-browser-option.sv-current {
-        cursor: default;
-        border-color: rgba(229,16,62,.72);
-        background: rgba(229,16,62,.22);
-      }
-
-      .sv-browser-option.sv-current:hover {
-        transform: none;
-      }
-
-      .sv-browser-option img {
-        width: 100%;
-        aspect-ratio: 1.25 / 1;
-        object-fit: contain;
-        border-radius: 4px;
-        background: radial-gradient(circle, rgba(255,255,255,.10), rgba(0,0,0,.18));
-        margin-bottom: 2px;
-      }
-
-      .sv-browser-kicker {
-        display: block;
-        color: rgba(255,255,255,.48);
+      .sv-preview-pill {
+        flex: 0 0 auto;
+        padding: 2px 5px;
+        border-radius: 3px;
+        background: rgba(255,255,255,.07);
+        color: rgba(255,255,255,.65);
         font-size: 8px;
         font-weight: 800;
-        letter-spacing: .08em;
+        letter-spacing: .06em;
         text-transform: uppercase;
       }
 
-      .sv-browser-name {
-        display: block;
+      .sv-preview-text {
         min-width: 0;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
-        font-size: 10px;
-        line-height: 1.25;
-        font-weight: 650;
       }
 
-      .sv-browser-id {
-        display: block;
-        color: rgba(255,255,255,.55);
-        font-size: 9px;
-        line-height: 1.1;
+      .sv-preview-line.sv-previewing {
+        color: rgba(255,255,255,.95);
       }
 
-      .sv-browser-help {
-        grid-column: 1 / -1;
-        min-height: 14px;
-        display: flex;
-        align-items: center;
-        color: rgba(255,255,255,.50);
-        font-size: 9px;
-        line-height: 1.3;
-        padding: 1px 1px 0;
-      }
-
-      .sv-browser-help.sv-previewing {
-        color: rgba(255,255,255,.88);
-      }
-
-      .sv-browser-help strong {
-        color: rgb(255,87,124);
-        font-weight: 800;
-        margin-right: 3px;
+      .sv-preview-line.sv-previewing .sv-preview-pill {
+        background: rgba(229,16,62,.28);
+        color: rgb(255,115,146);
       }
     `;
     document.head.appendChild(style);
@@ -240,129 +182,91 @@
     };
   }
 
-  function setHelp(card, message, previewing) {
-    const help = card.querySelector(".sv-browser-help");
-    if (!help) return;
-    help.textContent = "";
-    if (previewing) {
-      const strong = document.createElement("strong");
-      strong.textContent = "PREVIEW";
-      help.appendChild(strong);
-    }
-    help.appendChild(document.createTextNode(message));
-    help.classList.toggle("sv-previewing", Boolean(previewing));
+  function ensureStatus(card) {
+    let status = card.querySelector(":scope > .sv-preview-line");
+    if (status) return status;
+
+    status = document.createElement("div");
+    status.className = "sv-preview-line";
+
+    const pill = document.createElement("span");
+    pill.className = "sv-preview-pill";
+    pill.textContent = "Preview";
+
+    const text = document.createElement("span");
+    text.className = "sv-preview-text";
+
+    status.append(pill, text);
+    card.appendChild(status);
+    return status;
   }
 
-  function optionButton(role, option, card, config) {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = `sv-browser-option sv-${role}`;
-    if (role === "current") button.classList.add("sv-current");
-
-    if (option.thumbnail) {
-      const image = document.createElement("img");
-      image.src = option.thumbnail;
-      image.alt = "";
-      image.loading = "lazy";
-      image.addEventListener("error", () => image.remove(), { once: true });
-      button.appendChild(image);
-    }
-
-    const kicker = document.createElement("span");
-    kicker.className = "sv-browser-kicker";
-    kicker.textContent = role === "previous" ? "Previous" : role === "next" ? "Next" : "Equipped";
-
-    const name = document.createElement("span");
-    name.className = "sv-browser-name";
-    name.textContent = option.label || `Item ${option.drawable}`;
-    name.title = option.label || "";
-
-    const id = document.createElement("span");
-    id.className = "sv-browser-id";
-    id.textContent = option.drawable < 0
-      ? "None"
-      : `Item ${option.drawable} · Variant ${Math.max(0, option.texture)}`;
-
-    button.append(kicker, name, id);
-
-    if (role !== "current") {
-      button.addEventListener("mouseenter", () => {
-        const currentState = stateByCard.get(card);
-        if (currentState) currentState.previewActive = true;
-        post("appearance_preview_clothing", {
-          kind: config.kind,
-          id: config.id,
-          drawable: option.drawable,
-          texture: option.texture
-        }).then((preview) => {
-          setHelp(card, ` ${preview.label || option.label} — click to equip`, true);
-        }).catch(() => {});
-      });
-
-      button.addEventListener("mouseleave", () => restoreCard(card, config));
-
-      button.addEventListener("click", () => {
-        const inputs = getInputs(card);
-        if (!inputs) return;
-        const control = inputs.drawable.parentElement;
-        if (!control) return;
-        const arrows = Array.from(control.querySelectorAll("button"));
-        const target = role === "previous" ? arrows[0] : arrows[arrows.length - 1];
-        if (target) target.click();
-      });
-    }
-
-    return button;
-  }
-
-  function renderBrowser(card, config, data) {
-    let browser = card.querySelector(":scope > .sv-browser");
-    if (!browser) {
-      browser = document.createElement("div");
-      browser.className = "sv-browser";
-      card.appendChild(browser);
-    }
-
-    browser.textContent = "";
-    browser.appendChild(optionButton("previous", data.previous, card, config));
-    browser.appendChild(optionButton("current", data.current, card, config));
-    browser.appendChild(optionButton("next", data.next, card, config));
-
-    const help = document.createElement("div");
-    help.className = "sv-browser-help";
-    help.textContent = "Hover a choice to preview it on your character. Click to equip.";
-    browser.appendChild(help);
-  }
-
-  function refreshCard(card, config) {
+  function categoryName(card) {
     const state = stateByCard.get(card);
-    if (!state || state.previewActive) return;
+    return state ? state.title : "Item";
+  }
 
-    const payload = payloadFor(card, config);
-    if (!payload) return;
+  function currentDescription(card) {
+    const state = stateByCard.get(card);
+    const inputs = getInputs(card);
+    if (!state || !inputs) return "Hover an arrow to preview before equipping.";
 
-    const requestId = ++state.requestId;
-    post("appearance_get_clothing_browser", payload)
-      .then((data) => {
-        if (!card.isConnected || requestId !== state.requestId) return;
-        state.browserData = data;
-        renderBrowser(card, config, data);
-      })
-      .catch(() => {});
+    const drawable = numberValue(inputs.drawable, state.config.kind === "prop" ? -1 : 0);
+    const texture = numberValue(inputs.texture, state.config.kind === "prop" ? -1 : 0);
+    const item = drawable < 0 ? "None" : `#${drawable}`;
+    const variant = texture < 0 ? "" : ` · Variant ${texture}`;
+    return `Equipped: ${state.title} ${item}${variant} · Hover ‹ or › to preview`;
+  }
+
+  function setStatus(card, message, previewing) {
+    const status = ensureStatus(card);
+    const pill = status.querySelector(".sv-preview-pill");
+    const text = status.querySelector(".sv-preview-text");
+    if (pill) pill.textContent = previewing ? "Previewing" : "Preview";
+    if (text) text.textContent = message;
+    status.classList.toggle("sv-previewing", Boolean(previewing));
   }
 
   function restoreCard(card, config) {
     const state = stateByCard.get(card);
     if (!state) return;
 
+    const restoreToken = ++state.restoreToken;
     window.setTimeout(() => {
+      if (!card.isConnected || restoreToken !== state.restoreToken) return;
       const payload = payloadFor(card, config);
       if (!payload) return;
+
       post("appearance_restore_clothing", payload).catch(() => {});
       state.previewActive = false;
-      setHelp(card, "Hover a choice to preview it on your character. Click to equip.", false);
-      window.setTimeout(() => refreshCard(card, config), 50);
+      setStatus(card, currentDescription(card), false);
     }, 0);
+  }
+
+  function previewStep(card, config, axis, direction, button) {
+    const state = stateByCard.get(card);
+    const payload = payloadFor(card, config);
+    if (!state || !payload) return;
+
+    state.previewActive = true;
+    state.restoreToken += 1;
+    button.classList.add("sv-preview-arrow");
+
+    post("appearance_preview_clothing_step", {
+      ...payload,
+      axis,
+      direction
+    }).then((preview) => {
+      if (!card.isConnected || !state.previewActive) return;
+
+      const item = preview.drawable < 0 ? "None" : `#${preview.drawable}`;
+      const variant = preview.texture < 0 ? "" : ` · Variant ${preview.texture}`;
+      setStatus(
+        card,
+        `${categoryName(card)} ${item}${variant} · Click arrow to equip`,
+        true
+      );
+    }).catch(() => {});
   }
 
   function bindArrowPreview(card, config, input, axis) {
@@ -376,41 +280,40 @@
       if (button.dataset.svArrow === "1") return;
       button.dataset.svArrow = "1";
       const direction = index === 0 ? -1 : 1;
-      button.title = `${direction < 0 ? "Preview previous" : "Preview next"} ${axis === "drawable" ? "item" : "variant"}`;
+      button.title = `${direction < 0 ? "Preview previous" : "Preview next"} ${axis === "drawable" ? "item" : "variant"} — click to equip`;
 
       button.addEventListener("mouseenter", () => {
-        const state = stateByCard.get(card);
-        const payload = payloadFor(card, config);
-        if (!state || !payload) return;
-        state.previewActive = true;
-
-        post("appearance_preview_clothing_step", {
-          ...payload,
-          axis,
-          direction
-        }).then((preview) => {
-          const suffix = axis === "texture"
-            ? ` · variant ${Math.max(0, preview.texture)}`
-            : "";
-          setHelp(card, ` ${preview.label || "Item"}${suffix} — click to equip`, true);
-        }).catch(() => {});
+        previewStep(card, config, axis, direction, button);
       });
 
-      button.addEventListener("mouseleave", () => restoreCard(card, config));
-      button.addEventListener("click", () => window.setTimeout(() => {
+      button.addEventListener("mouseleave", () => {
+        button.classList.remove("sv-preview-arrow");
+        restoreCard(card, config);
+      });
+
+      button.addEventListener("click", () => {
         const state = stateByCard.get(card);
-        if (state) state.previewActive = false;
-        refreshCard(card, config);
-      }, 80));
+        if (state) {
+          state.previewActive = false;
+          state.restoreToken += 1;
+        }
+        button.classList.remove("sv-preview-arrow");
+        window.setTimeout(() => setStatus(card, currentDescription(card), false), 90);
+      });
     });
   }
 
-  function enhanceCard(card, titleElement, config) {
+  function enhanceCard(card, titleElement, title, config) {
     if (stateByCard.has(card)) return;
 
     card.classList.add("sv-clothing-card");
     titleElement.classList.add("sv-clothing-card-title");
-    stateByCard.set(card, { requestId: 0, previewActive: false, browserData: null });
+    stateByCard.set(card, {
+      title,
+      config,
+      previewActive: false,
+      restoreToken: 0
+    });
 
     const inputs = getInputs(card);
     if (!inputs) return;
@@ -418,12 +321,17 @@
     bindArrowPreview(card, config, inputs.drawable, "drawable");
     bindArrowPreview(card, config, inputs.texture, "texture");
 
-    inputs.drawable.addEventListener("change", () => window.setTimeout(() => refreshCard(card, config), 80));
-    inputs.texture.addEventListener("change", () => window.setTimeout(() => refreshCard(card, config), 80));
-    inputs.drawable.addEventListener("input", () => window.setTimeout(() => refreshCard(card, config), 80));
-    inputs.texture.addEventListener("input", () => window.setTimeout(() => refreshCard(card, config), 80));
+    const updateStatus = () => window.setTimeout(() => {
+      const state = stateByCard.get(card);
+      if (state && !state.previewActive) setStatus(card, currentDescription(card), false);
+    }, 90);
 
-    refreshCard(card, config);
+    inputs.drawable.addEventListener("change", updateStatus);
+    inputs.texture.addEventListener("change", updateStatus);
+    inputs.drawable.addEventListener("input", updateStatus);
+    inputs.texture.addEventListener("input", updateStatus);
+
+    setStatus(card, currentDescription(card), false);
   }
 
   function scan() {
@@ -434,7 +342,7 @@
     for (const [title, config] of CATEGORY_MAP) {
       for (const titleElement of findTitleElements(title)) {
         const card = findCard(titleElement);
-        if (card) enhanceCard(card, titleElement, config);
+        if (card) enhanceCard(card, titleElement, title, config);
       }
     }
   }
