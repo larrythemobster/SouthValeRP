@@ -397,6 +397,52 @@ RegisterNUICallback("appearance_get_clothing_browser", function(data, cb)
     })
 end)
 
+
+RegisterNUICallback("appearance_get_clothing_page", function(data, cb)
+    local ped = cache.ped
+    local kind = data.kind == "prop" and "prop" or "component"
+    local slotId = tonumber(data.id) or 0
+    local pageSize = math.floor(tonumber(data.count) or 12)
+    pageSize = southvaleClamp(pageSize, 1, 24)
+
+    local drawableMin = kind == "prop" and -1 or 0
+    local drawableMax
+    if kind == "prop" then
+        drawableMax = GetNumberOfPedPropDrawableVariations(ped, slotId) - 1
+    else
+        drawableMax = GetNumberOfPedDrawableVariations(ped, slotId) - 1
+    end
+    drawableMax = math.max(drawableMin, drawableMax)
+
+    local startDrawable = math.floor(tonumber(data.start) or drawableMin)
+    startDrawable = southvaleClamp(startDrawable, drawableMin, drawableMax)
+
+    local selectedDrawable = tonumber(data.selectedDrawable)
+    local selectedTexture = tonumber(data.selectedTexture)
+    local items = {}
+    local lastDrawable = math.min(drawableMax, startDrawable + pageSize - 1)
+
+    for drawable = startDrawable, lastDrawable do
+        local texture = 0
+        if kind == "prop" then
+            texture = 0
+        end
+        if selectedDrawable ~= nil and drawable == selectedDrawable and selectedTexture ~= nil then
+            texture = selectedTexture
+        end
+
+        items[#items + 1] = southvaleDescribeClothing(ped, kind, slotId, drawable, texture)
+    end
+
+    cb({
+        items = items,
+        start = startDrawable,
+        ["end"] = lastDrawable,
+        drawableMin = drawableMin,
+        drawableMax = drawableMax
+    })
+end)
+
 RegisterNUICallback("appearance_preview_clothing_step", function(data, cb)
     local ped = cache.ped
     local kind = data.kind == "prop" and "prop" or "component"
