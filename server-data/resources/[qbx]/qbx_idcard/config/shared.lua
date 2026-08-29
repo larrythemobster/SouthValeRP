@@ -3,8 +3,8 @@ return {
     idCardSettings = {
         closeKey = 'Backspace',
         autoClose = {
-            status = false, -- or true
-            time = 3000
+            status = true, -- was false: the card never had another way to close for players who don't know the Backspace close key
+            time = 8000
         }
     },
 
