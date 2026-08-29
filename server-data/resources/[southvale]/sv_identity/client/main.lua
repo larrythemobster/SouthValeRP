@@ -123,6 +123,15 @@ local function settlePedAtPreview(ped, coords, timeout)
         RequestCollisionAtCoord(coords.x, coords.y, coords.z)
         Wait(0)
     end
+
+    -- The static pedCoords.z in qbx_core's location list can drift out of sync
+    -- with the actual floor height (interiors especially), leaving the preview
+    -- ped visibly floating. Once collision has streamed in, probe straight down
+    -- from just above the configured point and settle on the real ground/floor.
+    local found, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, coords.z + 1.0, false)
+    if found and math.abs(groundZ - coords.z) < 2.0 then
+        SetEntityCoords(ped, coords.x, coords.y, groundZ, false, false, false, false)
+    end
 end
 
 local function requestModel(model)
