@@ -111,8 +111,8 @@ Locales["en"] = {
         },
         components = {
             title = "Clothes",
-            drawable = "Drawable",
-            texture = "Texture",
+            drawable = "Item",
+            texture = "Variant",
             mask = "Mask",
             upperBody = "Hands",
             lowerBody = "Legs",
@@ -127,8 +127,8 @@ Locales["en"] = {
         },
         props = {
             title = "Props",
-            drawable = "Drawable",
-            texture = "Texture",
+            drawable = "Item",
+            texture = "Variant",
             hats = "Hats and helmets",
             glasses = "Glasses",
             ear = "Ear",

@@ -90,6 +90,7 @@ shared_scripts {
 
 files {
   "web/dist/index.html",
+  "web/dist/enhanced-selection.js",
   "web/dist/assets/*.js"
 }
 
