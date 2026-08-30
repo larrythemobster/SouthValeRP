@@ -3,13 +3,14 @@ game 'gta5'
 
 name 'southvale_mdt'
 author 'SouthVale RP'
-description 'Mobile Data Terminal for on-duty police: citizen/vehicle lookup and incident logging'
-version '1.0.0'
+description 'SouthVale law-enforcement records and mobile data terminal'
+version '2.0.0'
 
 ox_lib 'locale'
 
 shared_scripts {
     '@ox_lib/init.lua',
+    'shared/config.lua',
 }
 
 client_scripts {
@@ -25,6 +26,8 @@ ui_page 'html/index.html'
 
 files {
     'locales/*.json',
+    'shared/config.lua',
+    'sql/*.sql',
     'html/index.html',
     'html/style.css',
     'html/app.js',

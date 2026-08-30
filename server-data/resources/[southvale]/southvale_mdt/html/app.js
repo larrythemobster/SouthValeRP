@@ -1,134 +1,22 @@
-const resource = (typeof GetParentResourceName === 'function') ? GetParentResourceName() : 'southvale_mdt';
-
-async function callNui(name, data = {}) {
-    const resp = await fetch(`https://${resource}/${name}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-        body: JSON.stringify(data),
-    });
-    return resp.json().catch(() => null);
-}
-
-const app = document.getElementById('app');
-
-function switchTab(tab) {
-    document.querySelectorAll('nav button').forEach((btn) => btn.classList.toggle('active', btn.dataset.tab === tab));
-    document.querySelectorAll('.tab').forEach((section) => section.classList.toggle('active', section.id === `tab-${tab}`));
-}
-
-document.querySelectorAll('nav button').forEach((btn) => {
-    btn.addEventListener('click', () => switchTab(btn.dataset.tab));
-});
-
-document.getElementById('closeBtn').addEventListener('click', () => {
-    callNui('close');
-});
-
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') callNui('close');
-});
-
-function renderCitizens(rows) {
-    const body = document.getElementById('citizenResults');
-    body.innerHTML = '';
-    if (!rows || rows.length === 0) {
-        body.innerHTML = '<tr><td colspan="4" class="empty">No results</td></tr>';
-        return;
-    }
-    for (const row of rows) {
-        const tr = document.createElement('tr');
-        const fullName = [row.firstname, row.lastname].filter(Boolean).join(' ') || row.name;
-        tr.innerHTML = `
-            <td>${fullName}</td>
-            <td>${row.citizenid}</td>
-            <td>${row.phone || '—'}</td>
-            <td><span class="badge ${row.hasRecord ? 'record' : 'clean'}">${row.hasRecord ? 'Has Record' : 'Clean'}</span></td>
-        `;
-        body.appendChild(tr);
-    }
-}
-
-function renderVehicles(rows) {
-    const body = document.getElementById('vehicleResults');
-    body.innerHTML = '';
-    if (!rows || rows.length === 0) {
-        body.innerHTML = '<tr><td colspan="4" class="empty">No results</td></tr>';
-        return;
-    }
-    for (const row of rows) {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${row.fakeplate || row.plate}</td>
-            <td>${row.model}</td>
-            <td>${row.ownerName || 'Unknown'}</td>
-            <td><span class="badge ${row.impounded ? 'impounded' : 'ok'}">${row.impounded ? 'Impounded' : 'Active'}</span></td>
-        `;
-        body.appendChild(tr);
-    }
-}
-
-function renderIncidents(rows) {
-    const list = document.getElementById('incidentList');
-    list.innerHTML = '';
-    if (!rows || rows.length === 0) {
-        list.innerHTML = '<div class="empty">No incidents logged</div>';
-        return;
-    }
-    for (const row of rows) {
-        const card = document.createElement('div');
-        card.className = 'incident-card';
-        const citizens = (row.citizens || []).map((c) => c.citizenid || c).join(', ');
-        card.innerHTML = `
-            <button class="delete" data-id="${row.id}">Delete</button>
-            <h3>${row.title}</h3>
-            <div class="meta">${row.officer_name} • ${new Date(row.created_at).toLocaleString()}${citizens ? ' • ' + citizens : ''}</div>
-            <p>${row.details}</p>
-        `;
-        card.querySelector('.delete').addEventListener('click', async () => {
-            await callNui('deleteIncident', { id: row.id });
-            loadIncidents();
-        });
-        list.appendChild(card);
-    }
-}
-
-async function loadIncidents() {
-    renderIncidents(await callNui('getIncidents'));
-}
-
-document.getElementById('citizenSearchBtn').addEventListener('click', async () => {
-    const query = document.getElementById('citizenQuery').value.trim();
-    renderCitizens(await callNui('searchCitizens', { query }));
-});
-
-document.getElementById('vehicleSearchBtn').addEventListener('click', async () => {
-    const query = document.getElementById('vehicleQuery').value.trim();
-    renderVehicles(await callNui('searchVehicles', { query }));
-});
-
-document.getElementById('incidentCreateBtn').addEventListener('click', async () => {
-    const title = document.getElementById('incidentTitle').value.trim();
-    const details = document.getElementById('incidentDetails').value.trim();
-    const citizensRaw = document.getElementById('incidentCitizens').value.trim();
-    if (!title || !details) return;
-
-    const citizens = citizensRaw ? citizensRaw.split(',').map((c) => ({ citizenid: c.trim() })).filter((c) => c.citizenid) : [];
-    await callNui('createIncident', { title, details, citizens });
-
-    document.getElementById('incidentTitle').value = '';
-    document.getElementById('incidentDetails').value = '';
-    document.getElementById('incidentCitizens').value = '';
-    loadIncidents();
-});
-
-window.addEventListener('message', (event) => {
-    const { action } = event.data;
-    if (action === 'open') {
-        app.classList.remove('hidden');
-        loadIncidents();
-    } else if (action === 'close') {
-        app.classList.add('hidden');
-    } else if (action === 'incidentsChanged') {
-        loadIncidents();
-    }
-});
+const resource=typeof GetParentResourceName==='function'?GetParentResourceName():'southvale_mdt';let state={};
+const $=s=>document.querySelector(s);const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function api(name,data={}){const r=await fetch(`https://${resource}/${name}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});return r.json().catch(()=>null)}
+function toast(message,error=false){const el=$('#toast');el.textContent=message;el.className=error?'error':'';el.style.display='block';setTimeout(()=>el.style.display='none',3500)}
+function switchView(view){document.querySelectorAll('.view').forEach(e=>e.classList.toggle('active',e.id===`view-${view}`));document.querySelectorAll('nav button').forEach(e=>e.classList.toggle('active',e.dataset.view===view));if(view==='incidents')loadIncidents()}
+function row(title,subtitle,tag=''){return `<div class="row"><div><h3>${esc(title)}</h3><p>${esc(subtitle||'')}</p></div>${tag?`<span class="tag">${esc(tag)}</span>`:''}</div>`}
+function renderBootstrap(data){state=data||{};const o=state.officer||{};$('#officer-card').innerHTML=`<b>${esc(o.name)}</b><small>${esc(o.callsign)} · ${esc(o.rank)} · ${esc(o.department)}</small>`;$('#alerts').innerHTML=[...(state.bolos||[]).slice(0,2).map(b=>`<div class="alert">Active BOLO: ${esc(b.title)}</div>`),...(state.warrants||[]).slice(0,2).map(w=>`<div class="alert">Active warrant: ${esc(w.citizenid)}</div>`)].join('');$('#active-officers').innerHTML=(state.activeOfficers||[]).map(x=>row(x.name,`${x.callsign} · ${x.department}`,x.rank)).join('')||'<span class="muted">No officers on duty</span>';$('#recent-incidents').innerHTML=(state.recentIncidents||[]).map(x=>row(x.report_number,x.title)).join('')||'<span class="muted">No reports</span>';$('#prisoners').innerHTML=(state.prisoners||[]).map(x=>row(x.name,`${x.minutes} minutes remaining`)).join('')||'<span class="muted">No current prisoners</span>';for(const form of document.querySelectorAll('.process'))form.querySelector('select').innerHTML=(state.charges||[]).map(c=>`<option value="${esc(c.code)}">${esc(c.code)} · ${esc(c.name)} · $${c.fine} / ${c.jail}m</option>`).join('');renderWarrants();renderBolos();}
+async function refresh(){const data=await api('bootstrap');if(data)renderBootstrap(data)}
+function selected(form){return [...form.querySelector('select[name="charges"]').selectedOptions].map(o=>o.value)}
+function totals(form){let fine=0,jail=0;for(const code of selected(form)){const c=(state.charges||[]).find(x=>x.code===code);if(c){fine+=c.fine;jail+=c.jail}}form.querySelector('.total span').textContent=fine.toLocaleString();const j=form.querySelector('.jail');if(j)j.textContent=jail}
+function formData(form){return Object.fromEntries(new FormData(form).entries())}
+async function searchCitizens(){const rows=await api('searchCitizens',{query:$('#citizen-query').value.trim()})||[];$('#citizen-results').innerHTML=rows.map(x=>`<button class="row citizen" data-id="${esc(x.citizenid)}"><div><h3>${esc([x.firstname,x.lastname].filter(Boolean).join(' ')||x.name)}</h3><p>${esc(x.citizenid)} · ${esc(x.phone||'No phone')}</p></div>${x.activeWarrants?`<span class="tag warn">${x.activeWarrants} warrant(s)</span>`:'<span class="tag good">Clear</span>'}</button>`).join('')||'<span class="muted">No matching citizens</span>';document.querySelectorAll('.citizen').forEach(e=>e.onclick=()=>showCitizen(e.dataset.id))}
+async function showCitizen(id){const x=await api('getCitizen',{citizenid:id});if(!x)return;const list=(title,items,fmt)=>`<h3>${title}</h3><div class="list">${items.length?items.map(fmt).join(''):'<span class="muted">None</span>'}</div>`;$('#citizen-profile').innerHTML=`<article class="panel"><h2>${esc([x.firstname,x.lastname].filter(Boolean).join(' ')||x.name)}</h2><p>${esc(x.citizenid)} · DOB ${esc(x.birthdate||'Unknown')} · ${esc(x.gender||'Unknown')} · ${esc(x.phone||'No phone')}</p><p>Licenses: ${esc(Object.keys(x.licenses||{}).filter(k=>x.licenses[k]).join(', ')||'None recorded')}</p><form id="note-form" class="toolbar"><input name="body" placeholder="Add an officer note" maxlength="2000"><button>Add note</button></form></article><article class="panel">${list('Warrants',x.warrants,w=>`<div class="list-item">${esc(w.warrant_number)} · ${esc(w.status)} · ${esc(w.reason)}</div>`)}${list('Arrests',x.arrests,a=>`<div class="list-item">${esc(a.arrest_number)} · ${a.sentence_minutes}m · $${a.fine}</div>`)}${list('Citations',x.citations,c=>`<div class="list-item">${esc(c.citation_number)} · $${c.fine} · ${esc(c.status)}</div>`)}${list('Notes',x.notes,n=>`<div class="list-item">${esc(n.body)}<br><span class="muted">${esc(n.author_name)} · ${esc(n.created_at)}</span></div>`)}</article>`;$('#note-form').onsubmit=async e=>{e.preventDefault();const ok=await api('addNote',{citizenid:id,body:new FormData(e.target).get('body')});if(ok){toast('Note saved');showCitizen(id)}else toast('Note was not saved',true)}}
+async function searchVehicles(){const rows=await api('searchVehicles',{query:$('#vehicle-query').value.trim()})||[];$('#vehicle-results').innerHTML=rows.map(x=>`<article class="row"><div><h3>${esc(x.fakeplate||x.plate)} · ${esc(x.model)}</h3><p>${esc(x.owner_name||'Unknown owner')} · ${esc(x.class)} · ${x.impounded?'Impounded':'Registered'} ${(x.bolos||[]).length?'· ACTIVE BOLO':''}</p></div><button class="flag" data-plate="${esc(x.plate)}">Flag</button></article>`).join('')||'<span class="muted">No matching vehicles</span>';document.querySelectorAll('.flag').forEach(e=>e.onclick=async()=>{const reason=prompt('Flag reason');if(reason){const ok=await api('flagVehicle',{plate:e.dataset.plate,reason,notes:''});toast(ok?'Vehicle flagged':'Flag was not saved',!ok)}})}
+async function loadIncidents(){const rows=await api('getIncidents')||[];$('#incident-list').innerHTML=rows.map(x=>row(`${x.report_number||'#'+x.id} · ${x.title}`,`${x.officer_name} · ${x.created_at}`)).join('')||'<span class="muted">No reports</span>'}
+function renderWarrants(){$('#warrant-list').innerHTML=(state.warrants||[]).map(x=>`<div class="row"><div><h3>${esc(x.warrant_number)} · ${esc(x.citizenid)}</h3><p>${esc(x.reason)}</p></div><button class="serve" data-id="${x.id}">Serve</button></div>`).join('')||'<span class="muted">No active warrants</span>';document.querySelectorAll('.serve').forEach(e=>e.onclick=async()=>{if(await api('updateWarrant',{id:+e.dataset.id,status:'served'})){toast('Warrant served');refresh()}})}
+function renderBolos(){$('#bolo-list').innerHTML=(state.bolos||[]).map(x=>`<div class="row"><div><h3>${esc(x.bolo_number)} · ${esc(x.title)}</h3><p>${esc(x.reason)}</p></div><button class="clear-bolo" data-id="${x.id}">Clear</button></div>`).join('')||'<span class="muted">No active BOLOs</span>';document.querySelectorAll('.clear-bolo').forEach(e=>e.onclick=async()=>{if(await api('updateBolo',{id:+e.dataset.id,status:'inactive'})){toast('BOLO cleared');refresh()}})}
+$('#nav').onclick=e=>{if(e.target.dataset.view)switchView(e.target.dataset.view)};$('#close').onclick=()=>api('close');document.addEventListener('keydown',e=>{if(e.key==='Escape')api('close')});$('#citizen-search').onclick=searchCitizens;$('#vehicle-search').onclick=searchVehicles;$('#citizen-query').onkeydown=e=>{if(e.key==='Enter')searchCitizens()};$('#vehicle-query').onkeydown=e=>{if(e.key==='Enter')searchVehicles()};
+$('#incident-form').onsubmit=async e=>{e.preventDefault();const d=formData(e.target);d.citizens=d.citizens?d.citizens.split(',').map(c=>({citizenid:c.trim()})).filter(c=>c.citizenid):[];const r=await api('saveIncident',d);if(r?.ok){toast('Report saved');e.target.reset();loadIncidents();refresh()}else toast(r?.error||'Report was not saved',true)};
+$('#warrant-form').onsubmit=async e=>{e.preventDefault();const r=await api('createWarrant',formData(e.target));if(r?.ok){toast('Warrant issued');e.target.reset();refresh()}else toast(r?.error||'Warrant was not issued',true)};$('#bolo-form').onsubmit=async e=>{e.preventDefault();const r=await api('createBolo',formData(e.target));if(r?.ok){toast('BOLO created');e.target.reset();refresh()}else toast(r?.error||'BOLO was not created',true)};
+for(const form of document.querySelectorAll('.process')){form.querySelector('select').onchange=()=>totals(form);form.onsubmit=async e=>{e.preventDefault();const d=formData(form);d.charges=selected(form);const r=await api(form.id==='citation-form'?'createCitation':'createArrest',d);if(r?.ok){toast(form.id==='citation-form'?(r.paid?'Citation paid from bank':'Citation recorded as unpaid'):(r.jailed?'Arrest booked and subject jailed':'Arrest booked; subject is offline'));form.reset();totals(form);refresh()}else toast(r?.error||'Processing failed',true)}}
+window.addEventListener('message',e=>{if(e.data.action==='open'){ $('#app').classList.remove('hidden');renderBootstrap(e.data.data)}if(e.data.action==='close')$('#app').classList.add('hidden');if(e.data.action==='refresh')refresh()});
