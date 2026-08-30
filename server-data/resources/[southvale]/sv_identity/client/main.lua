@@ -725,10 +725,10 @@ local function loadCharacter(slot)
         return false, 'Character login failed.'
     end
 
-    if GetResourceState('qbx_spawn') == 'started' and showSpawnUi() then
+    if GetResourceState('qbx_spawn') == 'started' then
+        TriggerEvent('qb-spawn:client:setupSpawns')
         return true
     end
-
     local coords = playerData.position or coreSharedConfig.defaultSpawn
     cleanupPresentation(false)
     SetEntityCoords(PlayerPedId(), coords.x, coords.y, coords.z, false, false, false, false)
