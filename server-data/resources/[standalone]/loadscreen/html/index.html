@@ -1,27 +1,24 @@
 <!doctype html>
-<html>
+<html lang="en">
     <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <script src="./js/index.js" type="module"></script>
+        <script src="./js/southvale-ui.js" type="module"></script>
         <link id="style" rel="stylesheet" />
         <link href="./dev.css" rel="stylesheet" />
 
-        <title>Loadscreen Preview</title>
-        <meta property="og:title" content="Loadscreen Preview" />
-        <meta property="og:type" content="website" />
-        <meta
-            property="og:description"
-            content="A preview of D4's loadscreen"
-        />
-        <meta name="theme-color" content="#4040FF" />
+        <title>SouthVale RP</title>
+        <meta name="theme-color" content="#0b0e11" />
     </head>
 
     <body>
         <div id="error-wrapper" style="display: none">
             <header>
-                <img src="./assets/icons/report.svg" draggable="false" />
-                <h3>Error log</h3>
+                <span class="error-symbol">!</span>
+                <h3>Loading screen error</h3>
             </header>
-            <p>Please copy & report the errors below.</p>
+            <p>Copy the log below when reporting the issue.</p>
             <textarea
                 id="error-log"
                 class="hover"
@@ -40,110 +37,219 @@
         <audio id="background-audio" autoplay></audio>
         <iframe
             id="background-embed"
+            title="SouthVale background media"
             frameborder="0"
             style="pointer-events: none"
         ></iframe>
 
         <div id="overlay"></div>
+        <div class="ambient ambient-a"></div>
+        <div class="ambient ambient-b"></div>
+        <div class="city-grid" aria-hidden="true"></div>
+        <div class="grain" aria-hidden="true"></div>
 
-        <div id="loadscreen-wrapper">
-            <header>
-                <img id="logo" draggable="false" style="display: none" />
-                <h1 id="server-message"></h1>
-            </header>
-            <footer>
-                <div id="secondary-bar-wrapper" style="display: none">
-                    <p id="loading-action"></p>
-                    <progress id="secondary-bar"></progress>
+        <main id="loadscreen-wrapper">
+            <nav class="topbar">
+                <a class="brand" href="https://southvalerp.com/" data-external-link>
+                    <div class="brand-logo-wrap">
+                        <img id="logo" draggable="false" style="display: none" />
+                        <div id="logo-fallback" class="logo-fallback" aria-hidden="true">
+                            <span>S</span><span>V</span>
+                        </div>
+                    </div>
+                    <div class="brand-copy">
+                        <strong>SOUTHVALE</strong>
+                        <span>ROLEPLAY</span>
+                    </div>
+                </a>
+
+                <div class="topbar-right">
+                    <span class="status-pill"><i></i> CITY ONLINE</span>
+                    <span class="platform-pill">FIVEM • NORTH AMERICA</span>
                 </div>
-                <progress id="primary-bar" max="1"></progress>
+            </nav>
+
+            <section class="hero-shell">
+                <div class="hero-copy">
+                    <p class="eyebrow">SERIOUS ROLEPLAY • PLAYER-DRIVEN CITY</p>
+                    <h1>YOUR STORY<br /><span>STARTS HERE.</span></h1>
+                    <p class="hero-description">
+                        Careers. Crime. Public service. Business. Consequences.
+                        Build a character people remember in SouthVale.
+                    </p>
+
+                    <div class="action-row">
+                        <a
+                            class="action-btn primary"
+                            href="https://discord.gg/VPvRzfgz2"
+                            data-external-link
+                        >
+                            <span class="action-icon">D</span>
+                            <span>
+                                <small>JOIN THE COMMUNITY</small>
+                                <strong>Discord</strong>
+                            </span>
+                            <b>↗</b>
+                        </a>
+                        <a
+                            class="action-btn"
+                            href="https://southvalerp.com/"
+                            data-external-link
+                        >
+                            <span class="action-icon">W</span>
+                            <span>
+                                <small>EXPLORE SOUTHVALE</small>
+                                <strong>Website</strong>
+                            </span>
+                            <b>↗</b>
+                        </a>
+                    </div>
+
+                    <div class="server-tags" aria-label="Server features">
+                        <span>CHARACTER FIRST</span>
+                        <span>LIVING ECONOMY</span>
+                        <span>CUSTOM DEVELOPMENT</span>
+                    </div>
+                </div>
+
+                <aside class="intel-card">
+                    <div class="intel-head">
+                        <span>WELCOME TO SOUTHVALE</span>
+                        <span class="intel-index">SV // 01</span>
+                    </div>
+                    <div class="intel-rule"></div>
+                    <p id="server-message" class="welcome-message"></p>
+
+                    <div class="tip-block">
+                        <small>CITY NOTE</small>
+                        <p id="rotating-tip">
+                            Keep scenes character-driven. The best stories come from choices, not wins.
+                        </p>
+                    </div>
+
+                    <div class="intel-stats">
+                        <div>
+                            <small>STYLE</small>
+                            <strong>Serious RP</strong>
+                        </div>
+                        <div>
+                            <small>REGION</small>
+                            <strong>NA</strong>
+                        </div>
+                        <div>
+                            <small>VOICE</small>
+                            <strong>Required</strong>
+                        </div>
+                    </div>
+                </aside>
+            </section>
+
+            <footer class="load-footer">
+                <div class="load-copy">
+                    <div class="load-state-row">
+                        <span id="loading-status">CONNECTING TO SOUTHVALE</span>
+                        <strong id="loading-percentage">0%</strong>
+                    </div>
+                    <div id="secondary-bar-wrapper" style="display: none">
+                        <p id="loading-action"></p>
+                        <progress id="secondary-bar"></progress>
+                    </div>
+                    <progress id="primary-bar" max="1"></progress>
+                    <div class="load-meta">
+                        <span>discord.gg/VPvRzfgz2</span>
+                        <span class="load-meta-dot">•</span>
+                        <span>southvalerp.com</span>
+                    </div>
+                </div>
+
+                <div id="audio-controls" class="audio-card" style="display: none">
+                    <button id="audio-mute" aria-label="Mute loading music">
+                        <span id="audio-mute-glyph">♪</span>
+                        <img id="audio-mute-icon" alt="" draggable="false" style="display: none" />
+                    </button>
+                    <div class="audio-copy">
+                        <small>LOADING MUSIC</small>
+                        <strong>SouthVale Radio</strong>
+                    </div>
+                    <input
+                        id="audio-volume"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        type="range"
+                        aria-label="Loading music volume"
+                    />
+                </div>
             </footer>
-        </div>
-    </body>
-
-    <div id="finishing-wrapper" style="opacity: 0">
-        <h1 id="finishing-message"></h1>
-        <p id="log-line"></p>
-    </div>
-
-    <div id="audio-controls" class="hover" style="display: none">
-        <input
-            id="audio-volume"
-            class="hover"
-            min="0"
-            max="1"
-            step="0.01"
-            type="range"
-        />
-        <button id="audio-mute" class="hover">
-            <img
-                id="audio-mute-icon"
-                src="./assets/icons/volume_up.svg"
-                draggable="false"
-            />
-        </button>
-    </div>
-
-    <button id="dev-open" class="hover" style="display: none">Dev Menu</button>
-    <div id="dev-menu" class="hover" style="display: none">
-        <header>
-            <h2>Dev Menu</h2>
-            <button id="dev-close" class="hover">Close</button>
-        </header>
-
-        <button id="dev-back" class="hover" style="display: none">Back</button>
-
-        <main id="dev-options">
-            <div id="dev-variables">
-                <h3>Variables</h3>
-                <img src="./assets/icons/arrow_forward.svg" />
-            </div>
-
-            <div id="dev-config">
-                <h3>Config</h3>
-                <img src="./assets/icons/arrow_forward.svg" />
-            </div>
-
-            <div id="dev-events">
-                <h3>Events</h3>
-                <img src="./assets/icons/arrow_forward.svg" />
-            </div>
-
-            <div id="dev-custom-events">
-                <h3>Custom Events</h3>
-                <img src="./assets/icons/arrow_forward.svg" />
-            </div>
         </main>
 
-        <div id="dev-cfg-wrapper">
-            <h4>Generated Cfg</h4>
-            <textarea
-                id="dev-generated-cfg"
-                class="hover"
-                readonly
-                wrap="off"
-            ></textarea>
+        <div id="finishing-wrapper" style="opacity: 0">
+            <div class="finish-mark">SV</div>
+            <div>
+                <p class="finish-kicker">SOUTHVALE ROLEPLAY</p>
+                <h1 id="finishing-message"></h1>
+                <p id="log-line"></p>
+            </div>
         </div>
-    </div>
 
-    <template id="dev-value-template">
-        <div class="dev-value">
-            <h4></h4>
-            <input class="hover" />
-        </div>
-    </template>
+        <button id="dev-open" class="hover" style="display: none">Dev Menu</button>
+        <div id="dev-menu" class="hover" style="display: none">
+            <header>
+                <h2>Dev Menu</h2>
+                <button id="dev-close" class="hover">Close</button>
+            </header>
 
-    <template id="dev-event-template">
-        <div class="dev-event">
-            <h4></h4>
-            <button id="dev-on-log-line" class="hover">Emit</button>
-        </div>
-    </template>
+            <button id="dev-back" class="hover" style="display: none">Back</button>
 
-    <template id="dev-event-param-template">
-        <div>
-            <h5></h5>
-            <input class="hover" />
+            <main id="dev-options">
+                <div id="dev-variables">
+                    <h3>Variables</h3>
+                    <span>›</span>
+                </div>
+                <div id="dev-config">
+                    <h3>Config</h3>
+                    <span>›</span>
+                </div>
+                <div id="dev-events">
+                    <h3>Events</h3>
+                    <span>›</span>
+                </div>
+                <div id="dev-custom-events">
+                    <h3>Custom Events</h3>
+                    <span>›</span>
+                </div>
+            </main>
+
+            <div id="dev-cfg-wrapper">
+                <h4>Generated Cfg</h4>
+                <textarea
+                    id="dev-generated-cfg"
+                    class="hover"
+                    readonly
+                    wrap="off"
+                ></textarea>
+            </div>
         </div>
-    </template>
+
+        <template id="dev-value-template">
+            <div class="dev-value">
+                <h4></h4>
+                <input class="hover" />
+            </div>
+        </template>
+
+        <template id="dev-event-template">
+            <div class="dev-event">
+                <h4></h4>
+                <button id="dev-on-log-line" class="hover">Emit</button>
+            </div>
+        </template>
+
+        <template id="dev-event-param-template">
+            <div>
+                <h5></h5>
+                <input class="hover" />
+            </div>
+        </template>
+    </body>
 </html>

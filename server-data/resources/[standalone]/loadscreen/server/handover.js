@@ -41,6 +41,13 @@ function getFirstAssetWithNameSync(name, options) {
                     f.isFile() &&
                     new RegExp(`^${name}\.[0-9A-Za-z]+$`).test(f.name),
             )
+            .sort((a, b) => {
+                // SouthVale ships an SVG mark. Prefer it over any legacy
+                // upstream logo asset that may still exist in the resource.
+                if (a.name === `${name}.svg`) return -1;
+                if (b.name === `${name}.svg`) return 1;
+                return a.name.localeCompare(b.name);
+            })
             .map((f) => `${NUI_ASSETS}/${f.name}`)[0];
     } catch (e) {
         console.warn(/** @type {NodeJS.ErrnoException} */ (e).message);

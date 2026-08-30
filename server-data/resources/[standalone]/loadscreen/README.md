@@ -48,3 +48,14 @@ See [`loadscreen.cfg`](./loadscreen.cfg) for examples & explanations.
 
 [preview]: https://d4isdavid.github.io/loadscreen/
 [convars]: https://docs.fivem.net/docs/scripting-reference/convars/
+
+## SouthVale customization
+
+This repository uses the custom `southvale` style in `html/styles/southvale.css`.
+The SouthVale-specific presentation and interactions live in `html/js/southvale-ui.js`.
+Community links are configured in `html/index.html`:
+
+- Discord: `https://discord.gg/VPvRzfgz2`
+- Website: `https://southvalerp.com/`
+
+The screen works without a background image by using a lightweight animated CSS backdrop. If the full resource includes `html/assets/logo.*`, it is used automatically; otherwise the built-in SV monogram is shown.
