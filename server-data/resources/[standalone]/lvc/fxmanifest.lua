@@ -17,7 +17,6 @@ files {
     'UI/sounds/**/*.ogg',
     'UI/textures/**/*.png',
     'UI/textures/**/*.gif',
-    'PLUGINS/**/*.json'
 }
 
 shared_scripts {
@@ -58,11 +57,8 @@ client_scripts {
     'UTIL/cl_*.lua',
     'UI/cl_*.lua',
     'PLUGINS/cl_plugins.lua',
-    'PLUGINS/**/SETTINGS.lua',
-    'PLUGINS/**/cl_*.lua',
 }
 
 server_scripts {
     'UTIL/sv_lvc.lua',
-    'PLUGINS/**/sv_*.lua'
 }
