@@ -213,6 +213,9 @@ lib.callback.register('southvale_mdt:server:createWarrant', function(source, pay
     local warrantType = payload.type == 'search' and 'search' or 'arrest'
     if not citizenid or not reason or not MySQL.scalar.await('SELECT citizenid FROM players WHERE citizenid = ?', { citizenid }) then return { ok = false, error = 'A valid subject and reason are required.' } end
     local expiration = trim(payload.expiresAt, 25)
+    if expiration and MySQL.scalar.await('SELECT ? > UTC_TIMESTAMP()', { expiration }) ~= 1 then
+        return { ok = false, error = 'Expiration must be in the future.' }
+    end
     local id = MySQL.insert.await('INSERT INTO southvale_mdt_warrants (warrant_number, citizenid, type, reason, notes, incident_id, issued_by_citizenid, issued_by_name, approved_by_citizenid, expires_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
         { numberFor('WAR'), citizenid, warrantType, reason, trim(payload.notes, 5000), tonumber(payload.incidentId), user.citizenid, user.name, user.citizenid, expiration })
     TriggerClientEvent('southvale_mdt:client:refresh', -1)
@@ -235,8 +238,12 @@ lib.callback.register('southvale_mdt:server:createBolo', function(source, payloa
     local title, reason, description = trim(payload.title, 150), trim(payload.reason, 500), trim(payload.description, 5000)
     local citizenid, plate = trim(payload.citizenid, 50), trim(payload.plate, 15)
     if not title or not reason or not description or (subjectType == 'person' and not citizenid) or (subjectType == 'vehicle' and not plate) then return { ok = false, error = 'Complete the required BOLO fields.' } end
+    local expiration = trim(payload.expiresAt, 25)
+    if expiration and MySQL.scalar.await('SELECT ? > UTC_TIMESTAMP()', { expiration }) ~= 1 then
+        return { ok = false, error = 'Expiration must be in the future.' }
+    end
     local id = MySQL.insert.await('INSERT INTO southvale_mdt_bolos (bolo_number, subject_type, citizenid, plate, title, description, reason, incident_id, issued_by_citizenid, issued_by_name, expires_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-        { numberFor('BOLO'), subjectType, citizenid, plate and plate:upper(), title, description, reason, tonumber(payload.incidentId), user.citizenid, user.name, trim(payload.expiresAt, 25) })
+        { numberFor('BOLO'), subjectType, citizenid, plate and plate:upper(), title, description, reason, tonumber(payload.incidentId), user.citizenid, user.name, expiration })
     TriggerClientEvent('southvale_mdt:client:refresh', -1)
     return { ok = true, id = id }
 end)
