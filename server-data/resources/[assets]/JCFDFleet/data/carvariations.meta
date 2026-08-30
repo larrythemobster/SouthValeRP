@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ALL DLC BY BC DESIGNS-->
+<CVehicleModelInfoVariation>
+  <variationData>
+	<Item>
+      <modelName>JCFD</modelName>
+      <colors>
+        <Item>
+          <indices content="char_array">
+            106
+            106
+            0
+            64
+            64
+            64
+	 	    64
+          </indices>
+        </Item>
+      </colors>
+      <kits>
+        <Item>1741_arrow_modkit</Item>
+      </kits>
+      <windowsWithExposedEdges/>
+      <plateProbabilities>
+        <Probabilities>
+          <Item>
+            <Name>Police guv plate</Name>
+            <Value value="100"/>
+          </Item>
+        </Probabilities>
+      </plateProbabilities>
+      <lightSettings value="0"/>
+      <sirenSettings value="5648517"/>
+    </Item>
+  </variationData>
+</CVehicleModelInfoVariation>

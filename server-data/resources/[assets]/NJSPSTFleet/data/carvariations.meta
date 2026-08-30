@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CVehicleModelInfoVariation>
+  <variationData>
+    <Item>
+      <modelName>njsp20fpiu_st</modelName>
+     <colors>
+        <Item>
+          <indices content="char_array">
+            134 
+            140 
+            0 
+            0 
+          </indices>
+          <liveries>
+            <Item value="false" />
+          </liveries>
+        </Item>
+      </colors>
+      <kits>
+        <Item>920_njsp20_modkit</Item>
+      </kits>
+      <windowsWithExposedEdges />
+      <plateProbabilities>
+        <Probabilities>
+          <Item>
+            <Name>Police guv plate</Name>
+            <Value value="100" />
+          </Item>
+        </Probabilities>
+      </plateProbabilities>
+      <lightSettings value="248" />
+      <sirenSettings value="2020105" />
+    </Item>
+	<Item>
+      <modelName>njsp20fpiu_st2</modelName>
+     <colors>
+        <Item>
+          <indices content="char_array">
+            134 
+            140 
+            0 
+            0 
+          </indices>
+          <liveries>
+            <Item value="false" />
+          </liveries>
+        </Item>
+      </colors>
+      <kits>
+        <Item>920_njsp20_modkit</Item>
+      </kits>
+      <windowsWithExposedEdges />
+      <plateProbabilities>
+        <Probabilities>
+          <Item>
+            <Name>Police guv plate</Name>
+            <Value value="100" />
+          </Item>
+        </Probabilities>
+      </plateProbabilities>
+      <lightSettings value="248" />
+      <sirenSettings value="2020108" />
+    </Item>
+	<Item>
+      <modelName>njsp20fpiu_st3</modelName>
+     <colors>
+        <Item>
+          <indices content="char_array">
+            134 
+            140 
+            0 
+            0 
+          </indices>
+          <liveries>
+            <Item value="false" />
+          </liveries>
+        </Item>
+      </colors>
+      <kits>
+        <Item>920_njsp20_modkit</Item>
+      </kits>
+      <windowsWithExposedEdges />
+      <plateProbabilities>
+        <Probabilities>
+          <Item>
+            <Name>Police guv plate</Name>
+            <Value value="100" />
+          </Item>
+        </Probabilities>
+      </plateProbabilities>
+      <lightSettings value="248" />
+      <sirenSettings value="2020105" />
+    </Item>
+	<Item>
+      <modelName>njsp20fpiu_gh</modelName>
+     <colors>
+        <Item>
+          <indices content="char_array">
+            134 
+            140 
+            0 
+            0 
+          </indices>
+          <liveries>
+            <Item value="false" />
+          </liveries>
+        </Item>
+      </colors>
+      <kits>
+        <Item>920_njsp20_modkit</Item>
+      </kits>
+      <windowsWithExposedEdges />
+      <plateProbabilities>
+        <Probabilities>
+          <Item>
+            <Name>Police guv plate</Name>
+            <Value value="100" />
+          </Item>
+        </Probabilities>
+      </plateProbabilities>
+      <lightSettings value="248" />
+      <sirenSettings value="2020108" />
+    </Item>
+  </variationData>
+</CVehicleModelInfoVariation>

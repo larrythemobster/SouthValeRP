@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CVehicleModelInfoVariation>
+  <variationData>
+    <Item>
+      <modelName>BearcatRB</modelName>
+      <colors>
+        <Item>
+          <indices content="char_array">
+            12
+            12
+            0
+            1
+            0
+          </indices>
+        </Item>
+      </colors>
+      <windowsWithExposedEdges/>
+      <plateProbabilities>
+        <Probabilities>
+          <Item>
+            <Name>Police guv plate</Name>
+            <Value value="100"/>
+          </Item>
+        </Probabilities>
+      </plateProbabilities>
+      <lightSettings value="2"/>
+      <sirenSettings value="811878171"/>
+    </Item>
+  </variationData>
+</CVehicleModelInfoVariation>
