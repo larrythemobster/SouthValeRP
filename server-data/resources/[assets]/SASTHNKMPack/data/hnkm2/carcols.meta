@@ -1,0 +1,1290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CVehicleModelInfoVarGlobal>    
+  <Kits>
+	
+  </Kits>
+  <Lights>
+	<Item>
+      <id value="561"/>
+      <indicator>
+        <intensity value="1.00000000"/>
+        <falloffMax value="8.00000000"/>
+        <falloffExponent value="6.00000000"/>
+        <innerConeAngle value="0.00000000"/>
+        <outerConeAngle value="40.00000000"/>
+        <emmissiveBoost value="true"/>
+        <color value="0xFFFE7500"/>
+        <textureName/>
+        <mirrorTexture value="true"/>
+      </indicator>
+      <rearIndicatorCorona>
+        <size value="1.00000000"/>
+        <size_far value="1.87500000"/>
+        <intensity value="1.00000000"/>
+        <intensity_far value="3.00000000"/>
+        <color value="0xFFFE7500"/>
+        <numCoronas value="1"/>
+        <distBetweenCoronas value="0"/>
+        <distBetweenCoronas_far value="0"/>
+        <xRotation value="0.00000000"/>
+        <yRotation value="0.00000000"/>
+        <zRotation value="0.00000000"/>
+        <zBias value="0.25000000"/>
+        <pullCoronaIn value="false"/>
+      </rearIndicatorCorona>
+      <frontIndicatorCorona>
+        <size value="1.00000000"/>
+        <size_far value="1.87500000"/>
+        <intensity value="1.00000000"/>
+        <intensity_far value="3.00000000"/>
+        <color value="0xFFF56D00"/>
+        <numCoronas value="1"/>
+        <distBetweenCoronas value="0"/>
+        <distBetweenCoronas_far value="0"/>
+        <xRotation value="0.00000000"/>
+        <yRotation value="0.00000000"/>
+        <zRotation value="0.00000000"/>
+        <zBias value="0.25000000"/>
+        <pullCoronaIn value="false"/>
+      </frontIndicatorCorona>
+      <tailLight>
+        <intensity value="0.17500000"/>
+        <falloffMax value="4.00000000"/>
+        <falloffExponent value="16.00000000"/>
+        <innerConeAngle value="15.00000000"/>
+        <outerConeAngle value="85.00000000"/>
+        <emmissiveBoost value="false"/>
+        <color value="0xFFE61A00"/>
+        <textureName/>
+        <mirrorTexture value="true"/>
+      </tailLight>
+      <tailLightCorona>
+        <size value="0.00000000"/>
+        <size_far value="0.00000000"/>
+        <intensity value="0.00000000"/>
+        <intensity_far value="0.00000000"/>
+        <color value="0xFFEF2200"/>
+        <numCoronas value="0"/>
+        <distBetweenCoronas value="0"/>
+        <distBetweenCoronas_far value="0"/>
+        <xRotation value="0.00000000"/>
+        <yRotation value="0.00000000"/>
+        <zRotation value="0.00000000"/>
+        <zBias value="0.00000000"/>
+        <pullCoronaIn value="false"/>
+      </tailLightCorona>
+      <tailLightMiddleCorona>
+        <size value="0.00000000"/>
+        <size_far value="0.00000000"/>
+        <intensity value="0.00000000"/>
+        <intensity_far value="0.00000000"/>
+        <color value="0xFFEF2200"/>
+        <numCoronas value="0"/>
+        <distBetweenCoronas value="0"/>
+        <distBetweenCoronas_far value="0"/>
+        <xRotation value="0.00000000"/>
+        <yRotation value="0.00000000"/>
+        <zRotation value="0.00000000"/>
+        <zBias value="0.25000000"/>
+        <pullCoronaIn value="false"/>
+      </tailLightMiddleCorona>
+       <headLight>
+        <intensity value="5.00000000"/>
+        <falloffMax value="10.00000000"/>
+        <falloffExponent value="10.00000000"/>
+        <innerConeAngle value="10.00000000"/>
+        <outerConeAngle value="55.00000000"/>
+        <emmissiveBoost value="true"/>
+        <color value="0xFFC9D8DF"/>
+        <textureName>VehicleLight_car_standardmodern</textureName>
+        <mirrorTexture value="false"/>
+      </headLight>
+      <headLightCorona>
+        <size value="0.00000000"/>
+        <size_far value="0.00000000"/>
+        <intensity value="0.00000000"/>
+        <intensity_far value="0.00000000"/>
+        <color value="0xFFC9D8DF"/>
+        <numCoronas value="0"/>
+        <distBetweenCoronas value="128"/>
+        <distBetweenCoronas_far value="255"/>
+        <xRotation value="0.00000000"/>
+        <yRotation value="0.00000000"/>
+        <zRotation value="0.00000000"/>
+        <zBias value="0.25000000"/>
+        <pullCoronaIn value="false"/>
+      </headLightCorona>
+      <reversingLight>
+        <intensity value="0.47500000"/>
+        <falloffMax value="5.00000000"/>
+        <falloffExponent value="16.00000000"/>
+        <innerConeAngle value="15.00000000"/>
+        <outerConeAngle value="85.00000000"/>
+        <emmissiveBoost value="true"/>
+        <color value="0xFFFFEFD4"/>
+        <textureName/>
+        <mirrorTexture value="true"/>
+      </reversingLight>
+      <reversingLightCorona>
+        <size value="0.67500000"/>
+        <size_far value="4.00000000"/>
+        <intensity value="2.00000000"/>
+        <intensity_far value="3.00000000"/>
+        <color value="0xFFFFEFD4"/>
+        <numCoronas value="1"/>
+        <distBetweenCoronas value="0"/>
+        <distBetweenCoronas_far value="0"/>
+        <xRotation value="0.00000000"/>
+        <yRotation value="0.00000000"/>
+        <zRotation value="0.00000000"/>
+        <zBias value="0.25000000"/>
+        <pullCoronaIn value="false"/>
+      </reversingLightCorona>
+      <name>hnkm2</name>
+    </Item>
+  </Lights>
+
+  <Sirens>
+    <Item>
+      <id value="8810"/>
+      <name>hnkm2</name>
+      <timeMultiplier value="1.00000000"/>
+      <lightFalloffMax value="75" />
+      <lightFalloffExponent value="75" />
+      <lightInnerConeAngle value="10" />
+      <lightOuterConeAngle value="40" />
+      <lightOffset value="0.00000000"/>
+      <textureName>VehicleLight_sirenlight</textureName>
+      <sequencerBpm value="720"/>
+      <leftHeadLight>
+        <sequencer value="0"/>
+      </leftHeadLight>
+      <rightHeadLight>
+        <sequencer value="0"/>
+      </rightHeadLight>
+      <leftTailLight>
+        <sequencer value="0"/>
+      </leftTailLight>
+      <rightTailLight>
+        <sequencer value="0"/>
+      </rightTailLight>
+      <leftHeadLightMultiples value="1"/>
+      <rightHeadLightMultiples value="1"/>
+      <leftTailLightMultiples value="1"/>
+      <rightTailLightMultiples value="1"/>
+      <useRealLights value="true"/>
+      <sirens>
+        <!-- Siren 1 red front -->
+        <Item> 
+          <rotation>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="3280817396"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="3280817396"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="0.000001"/>
+            <size value="0.000"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFFFF0000"/>
+          <intensity value="1.250"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+        <!-- Siren 2 blue front -->
+        <Item> 
+          <rotation>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="3068728642"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="3068728642"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="0.000001"/>
+            <size value="0.000"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFF0000FF"/>
+          <intensity value="1.250"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+        <!-- Siren 3 red back -->
+        <Item> 
+          <rotation>
+            <delta value="3.14159265"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="882681495"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="3.14159265"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="882681495"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="0.000001"/>
+            <size value="0.000"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFFFF0000"/>
+          <intensity value="1.250"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+        <!-- Siren 4 blue back -->
+        <Item> 
+          <rotation>
+            <delta value="3.14159265"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="783127898"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="3.14159265"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="783127898"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="0.000001"/>
+            <size value="0.000"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFF0000FF"/>
+          <intensity value="1.250"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+        <!-- Siren 5 red left -->
+        <Item> 
+          <rotation>
+            <delta value="1.57079633"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="2824362628"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="1.57079633"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="2824362628"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="0.000001"/>
+            <size value="0.000"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFFFF0000"/>
+          <intensity value="1.250"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+        <!-- Siren 6 blue right -->
+        <Item> 
+          <rotation>
+            <delta value="-1.57079633"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="3988170603"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="-1.57079633"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="3988170603"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="0.000001"/>
+            <size value="0.000"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFF0000FF"/>
+          <intensity value="1.250"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+        <!-- Siren 7 blue front -->
+        <Item> 
+          <rotation>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="2881637205"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="2881637205"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="1"/>
+            <size value="0.500"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFF0000FF"/>
+          <intensity value="2.000"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+        <!-- Siren 8 blue front -->
+        <Item> 
+          <rotation>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="1413330090"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="1413330090"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="1"/>
+            <size value="0.500"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFF0000FF"/>
+          <intensity value="2.000"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+        <!-- Siren 9 blue front -->
+        <Item> 
+          <rotation>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="2881637205"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="2881637205"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="1"/>
+            <size value="0.500"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFF0000FF"/>
+          <intensity value="2.000"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+        <!-- Siren 10 blue front -->
+        <Item> 
+          <rotation>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="1413330090"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="1413330090"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="1"/>
+            <size value="0.500"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFF0000FF"/>
+          <intensity value="2.000"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+        <!-- Siren 11 white front -->
+        <Item> 
+          <rotation>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="2819230338"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="2819230338"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="1"/>
+            <size value="0.500"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFFFFFFFF"/>
+          <intensity value="2.000"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+        <!-- Siren 12 red front -->
+        <Item> 
+          <rotation>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="88166485"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="88166485"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="1"/>
+            <size value="0.500"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFFFF0000"/>
+          <intensity value="2.000"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+        <!-- Siren 13 red back -->
+        <Item> 
+          <rotation>
+            <delta value="3.14159265"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="2821327490"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="3.14159265"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="2821327490"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="1"/>
+            <size value="0.500"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFFFF0000"/>
+          <intensity value="2.000"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+        <!-- Siren 14 blue back -->
+        <Item> 
+          <rotation>
+            <delta value="3.14159265"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="88166485"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="3.14159265"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="88166485"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="1"/>
+            <size value="0.500"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFF0000FF"/>
+          <intensity value="2.000"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+        <!-- Siren 15 red back -->
+        <Item> 
+          <rotation>
+            <delta value="3.14159265"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="340870421"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="3.14159265"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="340870421"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="1"/>
+            <size value="0.500"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFFFF0000"/>
+          <intensity value="2.000"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+        <!-- Siren 16 blue back -->
+        <Item> 
+          <rotation>
+            <delta value="3.14159265"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="2726963362"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="3.14159265"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="2726963362"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="1"/>
+            <size value="0.500"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFF0000FF"/>
+          <intensity value="2.000"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+        <!-- Siren 17 red back -->
+        <Item> 
+          <rotation>
+            <delta value="3.14159265"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="3885922791"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="3.14159265"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="3885922791"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="1"/>
+            <size value="0.500"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFFFF0000"/>
+          <intensity value="2.000"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+        <!-- Siren 18 blue back -->
+        <Item> 
+          <rotation>
+            <delta value="3.14159265"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="1022611260"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="3.14159265"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="1022611260"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="1"/>
+            <size value="0.500"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFF0000FF"/>
+          <intensity value="2.000"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+        <!-- Siren 19 red front -->
+        <Item> 
+          <rotation>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="2818736468"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="2818736468"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="1"/>
+            <size value="0.500"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFFFF0000"/>
+          <intensity value="2.000"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+        <!-- Siren 20 blue front -->
+        <Item> 
+          <rotation>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="88162984"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="88162984"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="1"/>
+            <size value="0.500"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFF0000FF"/>
+          <intensity value="2.000"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+        <!-- Siren 21 red front -->
+        <Item> 
+          <rotation>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="2631682"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="2631682"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="1"/>
+            <size value="0.500"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFFFF0000"/>
+          <intensity value="2.000"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+        <!-- Siren 22 blue front -->
+        <Item> 
+          <rotation>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="1315841"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="1315841"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="1"/>
+            <size value="0.500"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFF0000FF"/>
+          <intensity value="2.000"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+                <!-- Siren 23 blue front -->
+        <Item> 
+          <rotation>
+            <delta value="1.57079633"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="2881637205"/>
+            <multiples value="3"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="1.57079633"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="2881637205"/>
+            <multiples value="3"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="1"/>
+            <size value="0.500"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFFFF0000"/>
+          <intensity value="2.000"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+                <!-- Siren 24 blue front -->
+        <Item> 
+          <rotation>
+            <delta value="-1.57079633"/>
+            <start value="1413330090"/>
+            <speed value="1.000"/>
+            <sequencer value="1315841"/>
+            <multiples value="3"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="-1.57079633"/>
+            <start value="1413330090"/>
+            <speed value="1.000"/>
+            <sequencer value="1315841"/>
+            <multiples value="3"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="1"/>
+            <size value="0.500"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFF0000FF"/>
+          <intensity value="2.000"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+                <!-- Siren 25 blue front -->
+        <Item> 
+          <rotation>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="3885922791"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="3885922791"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="0.00000001"/>
+            <size value="0.500"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFFFFFFFF"/>
+          <intensity value="0.010"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+                <!-- Siren 26 blue front -->
+        <Item> 
+          <rotation>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="1022611260"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="1022611260"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="0.00000001"/>
+            <size value="0.500"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFFFFFFFF"/>
+          <intensity value="0.100"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+                <!-- Siren 27 blue back -->
+        <Item> 
+          <rotation>
+            <delta value="3.14159265"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="1022611260"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="3.14159265"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="1022611260"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="1"/>
+            <size value="0.500"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFFFF0000"/>
+          <intensity value="2.000"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+                <!-- Siren 28 blue back -->
+        <Item> 
+          <rotation>
+            <delta value="3.14159265"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="3885922791"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="3.14159265"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="3885922791"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="1"/>
+            <size value="0.500"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFF0000FF"/>
+          <intensity value="2.000"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+                        <!-- Siren 29 blue front -->
+        <Item> 
+          <rotation>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="1022611260"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="1022611260"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="0.00000001"/>
+            <size value="0.500"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFFFFFFFF"/>
+          <intensity value="0.100"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+                        <!-- Siren 30 blue front -->
+        <Item> 
+          <rotation>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="3885922791"/>
+            <multiples value="1"/>
+            <direction value="false"/>
+            <syncToBpm value="true"/>
+          </rotation>
+          <flashiness>
+            <delta value="0.000000000"/>
+            <start value="0.00000000"/>
+            <speed value="1.000"/>
+            <sequencer value="3885922791"/>
+            <multiples value="1"/>
+            <direction value="true"/>
+            <syncToBpm value="true"/>
+          </flashiness>
+          <corona>
+            <intensity value="0.00000001"/>
+            <size value="0.500"/>
+            <pull value="0.02000000"/>
+            <faceCamera value="false"/>
+          </corona>
+          <color value="0xFFFFFFFF"/>
+          <intensity value="0.100"/>
+          <lightGroup value="0"/>
+          <rotate value="false"/>
+          <scale value="true"/>
+          <scaleFactor value="100"/>
+          <flash value="true"/>
+          <light value="true"/>
+          <spotLight value="true"/>
+          <castShadows value="true"/>
+        </Item>
+      </sirens>
+    </Item>
+  </Sirens>
+</CVehicleModelInfoVarGlobal>
