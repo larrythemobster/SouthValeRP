@@ -16,6 +16,8 @@ for i = 1, #genderList do
     allowedGenders[genderList[i]] = true
 end
 
+local creationLocks = {}
+
 ---@param license2 string
 ---@param license? string
 local function getAllowedAmountOfCharacters(license2, license)
@@ -47,7 +49,13 @@ lib.callback.register('qbx_core:server:getCharacters', function(source)
     return storage.fetchAllPlayerEntities(license2, license), getAllowedAmountOfCharacters(license2, license)
 end)
 
-lib.callback.register('qbx_core:server:getPreviewPedData', function(_, citizenId)
+lib.callback.register('qbx_core:server:getPreviewPedData', function(source, citizenId)
+    if type(citizenId) ~= 'string' then return end
+
+    local character = storage.fetchPlayerEntity(citizenId)
+    local license, license2 = GetPlayerIdentifierByType(source, 'license'), GetPlayerIdentifierByType(source, 'license2')
+    if not character or (character.license ~= license and character.license ~= license2) then return end
+
     local ped = storage.fetchPlayerSkin(citizenId)
     if not ped then return end
 
@@ -85,6 +93,11 @@ local function sanitizeNewCharInfo(data)
         return value
     end
 
+    local function validName(value)
+        if not value or #value < 2 then return false end
+        return value:match("^[A-Za-z]+[A-Za-z '%-]*[A-Za-z]$") ~= nil
+    end
+
     local function validBirthdate(value)
         local year, month, day = value:match('^(%d%d%d%d)%-(%d%d)%-(%d%d)$')
         year, month, day = tonumber(year), tonumber(month), tonumber(day)
@@ -108,7 +121,7 @@ local function sanitizeNewCharInfo(data)
     local birthdate = text(data.birthdate, MAX_TEXT)
     local gender = text(data.gender, MAX_TEXT)
 
-    if not firstname or not lastname or not nationality or not birthdate or not gender then
+    if not validName(firstname) or not validName(lastname) or not nationality or not birthdate or not gender then
         return nil
     end
 
@@ -136,38 +149,38 @@ end
 ---@param data unknown
 ---@return table? newData
 lib.callback.register('qbx_core:server:createCharacter', function(source, data)
-    if type(data) ~= 'table' then return end
+    if type(data) ~= 'table' or creationLocks[source] then return end
+    creationLocks[source] = true
 
     local license2, license = GetPlayerIdentifierByType(source, 'license2'), GetPlayerIdentifierByType(source, 'license')
     local existingCharacters = storage.fetchAllPlayerEntities(license2, license)
     if #existingCharacters >= getAllowedAmountOfCharacters(license2, license) then
+        creationLocks[source] = nil
         return
     end
 
     local charinfo = sanitizeNewCharInfo(data)
-    if not charinfo then return end
+    if not charinfo then
+        creationLocks[source] = nil
+        return
+    end
 
-    -- The client sends a cid (its local slot index), but that value is never
-    -- trustworthy: sanitizeNewCharInfo() intentionally drops it, so it must be
-    -- computed server-side from the account's existing characters or every new
-    -- character silently falls back to cid 1 (see CheckPlayerData in player.lua).
     charinfo.cid = getNextCid(existingCharacters)
-
-    local newData = {}
-    newData.charinfo = charinfo
-
+    local newData = { charinfo = charinfo }
     local success = Login(source, nil, newData)
-    if not success then return end
+    if not success then
+        creationLocks[source] = nil
+        return
+    end
 
     giveStarterItems(source)
 
+    local player = GetPlayer(source)
+    if player and GetResourceState('southvale_onboarding') == 'started' then
+        exports.southvale_onboarding:RegisterCharacter(player.PlayerData.citizenid)
+    end
+
+    creationLocks[source] = nil
     lib.print.info(('%s has created a character'):format(GetPlayerName(source)))
     return newData
-end)
-
---- Deprecated. This event is kept for backward compatibility only and is no longer used internally.
-RegisterNetEvent('qbx_core:server:deleteCharacter', function(citizenId)
-    local src = source
-    DeleteCharacter(src --[[@as number]], citizenId)
-    Notify(src, locale('success.character_deleted'), 'success')
 end)

@@ -34,13 +34,13 @@ return {
     employment = {
         enabled = true, -- Set to false to disable the employment menu
         jobs = {
-            unemployed = 'Unemployed',
-            trucker = 'Trucker',
+            bus = 'Bus Driver',
+            garbage = 'Garbage Collector',
             taxi = 'Taxi',
             tow = 'Tow Truck',
+            trucker = 'Trucker',
             reporter = 'News Reporter',
-            garbage = 'Garbage Collector',
-            bus = 'Bus Driver',
+            unemployed = 'Unemployed',
         },
     },
 }

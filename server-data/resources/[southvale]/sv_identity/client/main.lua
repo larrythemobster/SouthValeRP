@@ -487,7 +487,6 @@ local function spawnAtDefaultForFirstCharacter()
     TriggerEvent('qb-weathersync:client:EnableSync')
 
     DoScreenFadeIn(250)
-    TriggerEvent('qb-clothes:client:CreateFirstCharacter')
 end
 
 local function handoffNewCharacter()

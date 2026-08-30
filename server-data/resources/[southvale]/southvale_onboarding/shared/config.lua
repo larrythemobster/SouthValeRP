@@ -1,0 +1,47 @@
+SouthValeOnboarding = {
+    menuCommand = 'guide',
+    arrivalDelayMs = 2500,
+    objectiveRadius = 35.0,
+    objectives = {
+        {
+            id = 'cityhall',
+            title = 'Visit City Services',
+            description = 'Choose an entry-level job or review your licenses.',
+            icon = 'fa-solid fa-city',
+            coords = vec3(-262.79, -964.18, 30.22),
+            blip = { sprite = 487, colour = 5 },
+        },
+        {
+            id = 'clothing',
+            title = 'Find a clothing store',
+            description = 'Adjust your look whenever you are ready.',
+            icon = 'fa-solid fa-shirt',
+            coords = vec3(425.91, -801.03, 29.49),
+            blip = { sprite = 366, colour = 47 },
+        },
+        {
+            id = 'bank',
+            title = 'Use a bank or ATM',
+            description = 'Check your account and keep cash safe.',
+            icon = 'fa-solid fa-building-columns',
+            coords = vec3(150.27, -1040.2, 29.37),
+            blip = { sprite = 108, colour = 2 },
+        },
+        {
+            id = 'bus',
+            title = 'Start a bus route',
+            description = 'The bus depot is a straightforward first legal job.',
+            icon = 'fa-solid fa-bus',
+            coords = vec3(462.22, -641.15, 28.45),
+            blip = { sprite = 513, colour = 5 },
+        },
+        {
+            id = 'dealer',
+            title = 'Visit the dealership',
+            description = 'See transport options before making a purchase.',
+            icon = 'fa-solid fa-car',
+            coords = vec3(-45.67, -1098.34, 26.42),
+            blip = { sprite = 326, colour = 3 },
+        },
+    },
+}
