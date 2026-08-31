@@ -95,5 +95,23 @@ return {
             stash = vec3(265.96, -999.37, -99.01),
             logout = vec3(262.91, -1002.92, -99.01)
         },
+        ['MirrorParkHouse'] = {
+            exit = vec4(1324.71, -676.66, 66.32, 280.0),
+            clothing = vec3(1338.18, -551.73, 72.58),
+            stash = vec3(1357.86, -624.61, 73.39),
+            logout = vec3(1379.42, -611.85, 73.16)
+        },
+        ['DiamondCasinoPenthouse'] = {
+            exit = vec4(964.03, 58.74, 112.55, 59.85),
+            clothing = vec3(961.05, 75.35, 112.55),
+            stash = vec3(976.22, 65.81, 112.55),
+            logout = vec3(964.88, 70.83, 112.55)
+        },
+        ['DiamondCasinoVIPLounge'] = {
+            exit = vec4(1110.20, 216.60, -49.45, 0.0),
+            clothing = vec3(1106.0, 251.2, -47.8),
+            stash = vec3(1097.3, 260.3, -47.0),
+            logout = vec3(1112.1, 208.0, -45.1)
+        },
     }
 }
