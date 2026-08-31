@@ -30,6 +30,12 @@ Config.AcePermission = 'command.eup'
 -- Enable Quick Actions in the main menu (Clear Hat, Clear Glasses, Clear Mask, Clear Vest, Clear Bag)
 Config.EnableQuickActions = true
 
+-- Enable the "Customize Pieces" menu -- lets players mix & match individual EUP
+-- components/props (mask, torso, legs, vest, badge, hat, etc). Every option offered is
+-- sourced only from the EUP outfit catalog (data/outfits.json), so it can never apply a
+-- regular/civilian clothing item from illenium-appearance's catalog.
+Config.EnableCustomizer = true
+
 -- Save appearance to illenium-appearance if present on the server
 Config.SaveToAppearance = true
 

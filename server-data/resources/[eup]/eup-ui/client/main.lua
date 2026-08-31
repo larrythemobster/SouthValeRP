@@ -4,6 +4,79 @@ local CategorizedOutfits = {
     ['Female'] = {}
 }
 
+-- Per-gender pool of every distinct (drawable, texture) combo seen across the EUP outfit
+-- catalog, keyed by component/prop slot id. This is what powers the piece-by-piece
+-- customizer below -- it only ever offers drawables that ship in the EUP stream packs
+-- (data/outfits.json), so it can never pull in a regular/civilian clothing item.
+local ComponentVariantPool = { ['Male'] = {}, ['Female'] = {} }
+local PropVariantPool = { ['Male'] = {}, ['Female'] = {} }
+
+local ComponentSlots = {
+    { id = 1, label = 'Mask', icon = 'masks-theater' },
+    { id = 3, label = 'Torso / Sleeves', icon = 'shirt' },
+    { id = 4, label = 'Legs / Pants', icon = 'socks' },
+    { id = 5, label = 'Bag / Parachute', icon = 'bag-shopping' },
+    { id = 6, label = 'Shoes', icon = 'shoe-prints' },
+    { id = 7, label = 'Accessory (Tie / Scarf)', icon = 'ring' },
+    { id = 8, label = 'Undershirt', icon = 'shirt' },
+    { id = 9, label = 'Body Armor / Vest', icon = 'vest' },
+    { id = 10, label = 'Badge / Decals', icon = 'id-badge' },
+    { id = 11, label = 'Jacket / Torso 2', icon = 'vest-patches' },
+}
+
+local PropSlots = {
+    { id = 0, label = 'Hat / Helmet', icon = 'hat-cowboy' },
+    { id = 1, label = 'Glasses', icon = 'glasses' },
+    { id = 2, label = 'Ear Accessory', icon = 'ear-listen' },
+    { id = 3, label = 'Radio / Collar Mic', icon = 'walkie-talkie' },
+    { id = 6, label = 'Watch', icon = 'clock' },
+    { id = 7, label = 'Bracelet', icon = 'link' },
+}
+
+local function addVariant(pool, gender, slotId, drawable, texture, sourceLabel)
+    if drawable < 0 then return end
+    pool[gender][slotId] = pool[gender][slotId] or {}
+    local list = pool[gender][slotId]
+    for _, v in ipairs(list) do
+        if v.drawable == drawable and v.texture == texture then return end
+    end
+    list[#list + 1] = { drawable = drawable, texture = texture, source = sourceLabel }
+end
+
+local function buildVariantPools()
+    ComponentVariantPool = { ['Male'] = {}, ['Female'] = {} }
+    PropVariantPool = { ['Male'] = {}, ['Female'] = {} }
+
+    for _, outfit in ipairs(Outfits) do
+        local gender = outfit.Gender or 'Male'
+        if not ComponentVariantPool[gender] then ComponentVariantPool[gender] = {} end
+        if not PropVariantPool[gender] then PropVariantPool[gender] = {} end
+
+        for _, comp in ipairs(outfit.Components or {}) do
+            -- stored 1-based (0 = none), same convention as applyPedOutfit
+            local drawable = comp[2] - 1
+            local texture = math.max(comp[3] - 1, 0)
+            addVariant(ComponentVariantPool, gender, comp[1], drawable, texture, outfit.Name)
+        end
+
+        for _, prop in ipairs(outfit.Props or {}) do
+            local drawable = prop[2] - 1 -- -1 == no prop
+            local texture = math.max(prop[3] - 1, 0)
+            if drawable >= 0 then
+                addVariant(PropVariantPool, gender, prop[1], drawable, texture, outfit.Name)
+            end
+        end
+    end
+
+    for _, pool in pairs({ ComponentVariantPool, PropVariantPool }) do
+        for _, slots in pairs(pool) do
+            for _, list in pairs(slots) do
+                table.sort(list, function(a, b) return a.drawable < b.drawable end)
+            end
+        end
+    end
+end
+
 local function loadOutfitData()
     local fileContent = LoadResourceFile(GetCurrentResourceName(), "data/outfits.json")
     if not fileContent then
@@ -37,6 +110,8 @@ local function loadOutfitData()
         table.insert(CategorizedOutfits[gender][dept], outfit)
     end
 
+    buildVariantPools()
+
     print(string.format("^2[eup-ui] Successfully loaded %d EUP outfits across %d male and %d female departments.^0",
         #Outfits,
         CountDepartments('Male'),
@@ -52,6 +127,19 @@ function CountDepartments(gender)
         end
     end
     return count
+end
+
+local function syncAppearance()
+    if GetResourceState('illenium-appearance') == 'started' then
+        pcall(function()
+            local illenium = exports['illenium-appearance']
+            local ped = PlayerPedId()
+            local appearance = illenium:getPedAppearance(ped)
+            if appearance and Config.SaveToAppearance then
+                TriggerServerEvent('illenium-appearance:server:saveAppearance', appearance)
+            end
+        end)
+    end
 end
 
 local function applyPedOutfit(outfit)
@@ -105,16 +193,7 @@ local function applyPedOutfit(outfit)
         end
     end
 
-    -- Illenium-appearance synchronization & persistence
-    if GetResourceState('illenium-appearance') == 'started' then
-        pcall(function()
-            local illenium = exports['illenium-appearance']
-            local appearance = illenium:getPedAppearance(ped)
-            if appearance and Config.SaveToAppearance then
-                TriggerServerEvent('illenium-appearance:server:saveAppearance', appearance)
-            end
-        end)
-    end
+    syncAppearance()
 
     PlaySoundFrontend(-1, "NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET", 1)
 
@@ -156,6 +235,98 @@ local function openDepartmentMenu(gender, deptName)
     })
 
     lib.showContext(menuId)
+end
+
+local function openVariantMenu(gender, slotType, slotId, slotLabel, backMenuId)
+    local ped = PlayerPedId()
+    local pool = (slotType == 'prop') and PropVariantPool or ComponentVariantPool
+    local variants = (pool[gender] and pool[gender][slotId]) or {}
+
+    local options = {
+        {
+            title = 'Remove / None',
+            description = 'Clear this slot',
+            icon = 'ban',
+            onSelect = function()
+                if slotType == 'prop' then
+                    ClearPedProp(ped, slotId)
+                else
+                    SetPedComponentVariation(ped, slotId, 0, 0, 0)
+                end
+                syncAppearance()
+                lib.notify({ title = 'EUP Customizer', description = slotLabel .. ' cleared.', type = 'inform', icon = 'shirt' })
+            end
+        }
+    }
+
+    for _, variant in ipairs(variants) do
+        table.insert(options, {
+            title = string.format('%s #%d', slotLabel, variant.drawable),
+            description = 'From: ' .. (variant.source or 'EUP catalog'),
+            icon = 'circle-check',
+            onSelect = function()
+                if slotType == 'prop' then
+                    SetPedPropIndex(ped, slotId, variant.drawable, variant.texture, true)
+                else
+                    SetPedComponentVariation(ped, slotId, variant.drawable, variant.texture, 0)
+                end
+                syncAppearance()
+                PlaySoundFrontend(-1, "NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET", 1)
+                lib.notify({ title = 'EUP Customizer', description = string.format('%s set to #%d.', slotLabel, variant.drawable), type = 'success', icon = 'shirt' })
+            end
+        })
+    end
+
+    local menuId = 'eup_variant_' .. slotType .. '_' .. slotId
+    lib.registerContext({
+        id = menuId,
+        title = slotLabel,
+        menu = backMenuId,
+        options = options
+    })
+    lib.showContext(menuId)
+end
+
+local function openCustomizeMenu(gender)
+    local options = {}
+
+    for _, slot in ipairs(ComponentSlots) do
+        local variants = ComponentVariantPool[gender] and ComponentVariantPool[gender][slot.id]
+        if variants and #variants > 0 then
+            table.insert(options, {
+                title = slot.label,
+                description = string.format('%d EUP piece%s available', #variants, #variants == 1 and '' or 's'),
+                icon = slot.icon,
+                arrow = true,
+                onSelect = function()
+                    openVariantMenu(gender, 'component', slot.id, slot.label, 'eup_customize_menu')
+                end
+            })
+        end
+    end
+
+    for _, slot in ipairs(PropSlots) do
+        local variants = PropVariantPool[gender] and PropVariantPool[gender][slot.id]
+        if variants and #variants > 0 then
+            table.insert(options, {
+                title = slot.label,
+                description = string.format('%d EUP piece%s available', #variants, #variants == 1 and '' or 's'),
+                icon = slot.icon,
+                arrow = true,
+                onSelect = function()
+                    openVariantMenu(gender, 'prop', slot.id, slot.label, 'eup_customize_menu')
+                end
+            })
+        end
+    end
+
+    lib.registerContext({
+        id = 'eup_customize_menu',
+        title = 'Customize Uniform Pieces',
+        menu = 'eup_main_menu',
+        options = options
+    })
+    lib.showContext('eup_customize_menu')
 end
 
 local function openQuickActionsMenu()
@@ -344,6 +515,18 @@ local function openEUPMenu()
         })
     end
 
+    if Config.EnableCustomizer then
+        table.insert(mainOptions, {
+            title = 'Customize Pieces',
+            description = 'Mix & match individual EUP items (mask, torso, vest, badge, hat, and more)',
+            icon = 'sliders',
+            arrow = true,
+            onSelect = function()
+                openCustomizeMenu(gender)
+            end
+        })
+    end
+
     for _, dept in ipairs(deptNames) do
         local count = #deptMap[dept]
         local icon = Config.DepartmentIcons[dept] or 'shirt'
@@ -372,6 +555,12 @@ exports('OpenEUPMenu', openEUPMenu)
 exports('SetOutfit', applyPedOutfit)
 exports('GetOutfits', function() return Outfits end)
 exports('GetCategorizedOutfits', function() return CategorizedOutfits end)
+exports('OpenCustomizeMenu', function()
+    local ped = PlayerPedId()
+    local model = GetEntityModel(ped)
+    local gender = (model == `mp_f_freemode_01`) and 'Female' or 'Male'
+    openCustomizeMenu(gender)
+end)
 
 -- Command
 RegisterCommand(Config.Command or 'eup', function()
