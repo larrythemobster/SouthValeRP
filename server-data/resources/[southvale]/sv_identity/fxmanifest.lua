@@ -30,4 +30,5 @@ dependencies {
     'qbx_spawn',
     'qbx_properties',
     'illenium-appearance',
+    'sv_first_appearance',
 }

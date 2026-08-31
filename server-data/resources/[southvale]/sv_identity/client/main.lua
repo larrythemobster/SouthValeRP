@@ -410,9 +410,13 @@ end
 
 local showSpawnUi
 
-local function runFirstAppearance()
+local function runFirstAppearance(gender)
     if GetResourceState('illenium-appearance') ~= 'started' then
-        return false, 'Appearance customization is unavailable.'
+        return false, 'Appearance persistence is unavailable.'
+    end
+
+    if GetResourceState('sv_first_appearance') ~= 'started' then
+        return false, 'SouthVale appearance customization is unavailable.'
     end
 
     closeUi()
@@ -426,39 +430,28 @@ local function runFirstAppearance()
 
     if IsScreenFadedOut() then DoScreenFadeIn(250) end
 
-    while true do
-        TriggerEvent('qb-clothes:client:CreateFirstCharacter')
+    local opened, saved = pcall(function()
+        return exports.sv_first_appearance:openFirstAppearance(gender)
+    end)
 
-        local startsBy = GetGameTimer() + 10000
-        while not IsNuiFocused() and GetGameTimer() < startsBy do Wait(50) end
-        if not IsNuiFocused() then
-            return false, 'Appearance customization did not open.'
-        end
-
-        while IsNuiFocused() and GetResourceState('illenium-appearance') == 'started' do
-            Wait(100)
-        end
-
-        if GetResourceState('illenium-appearance') ~= 'started' then
-            return false, 'Appearance customization stopped unexpectedly.'
-        end
-
-        Wait(350)
-        local ok, appearance = pcall(function()
-            return lib.callback.await('illenium-appearance:server:getAppearance', false)
-        end)
-
-        if ok and appearance then
-            DisplayRadar(false)
-            return true
-        end
-
-        lib.notify({
-            type = 'error',
-            description = 'Save your appearance before entering SouthVale.',
-        })
-        Wait(500)
+    if not opened or not saved then
+        return false, 'SouthVale appearance customization did not complete.'
     end
+
+    -- The custom first-character editor saves through Illenium's existing
+    -- persistence event. Confirm the database record exists before handing
+    -- the character to apartments/spawn, preserving the old safety gate.
+    Wait(350)
+    local ok, appearance = pcall(function()
+        return lib.callback.await('illenium-appearance:server:getAppearance', false)
+    end)
+
+    if not ok or not appearance then
+        return false, 'Your appearance could not be saved.'
+    end
+
+    DisplayRadar(false)
+    return true
 end
 
 local function spawnAtDefaultForFirstCharacter()
@@ -489,8 +482,8 @@ local function spawnAtDefaultForFirstCharacter()
     DoScreenFadeIn(250)
 end
 
-local function handoffNewCharacter()
-    local appearanceOk, appearanceError = runFirstAppearance()
+local function handoffNewCharacter(gender)
+    local appearanceOk, appearanceError = runFirstAppearance(gender)
     if not appearanceOk then
         lib.notify({ type = 'error', description = appearanceError or 'Appearance customization failed.' })
         -- Keep Qbox's established no-apartment fallback available rather than
@@ -550,7 +543,7 @@ local function createCharacter(data)
         return false, 'Character creation was refused by the server.'
     end
 
-    handoffNewCharacter()
+    handoffNewCharacter(gender)
     return true
 end
 

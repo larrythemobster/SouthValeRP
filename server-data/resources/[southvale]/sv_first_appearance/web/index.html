@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SouthVale First Appearance</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main id="app" class="app is-hidden">
+        <header class="topbar">
+            <div class="brand-lockup">
+                <span class="brand-mark">SV</span>
+                <div>
+                    <strong id="brand-name">SOUTHVALE</strong>
+                    <span id="brand-suffix">ROLEPLAY</span>
+                </div>
+            </div>
+            <div class="top-meta">
+                <span class="meta-kicker">NEW CHARACTER</span>
+                <span id="gender-label" class="gender-chip">—</span>
+            </div>
+        </header>
+
+        <aside class="category-rail" aria-label="Appearance categories">
+            <div class="rail-heading">
+                <span>FIRST</span>
+                <strong>IMPRESSION</strong>
+                <p>Build the person SouthVale will meet.</p>
+            </div>
+            <nav id="category-nav" class="category-nav"></nav>
+            <button id="reset-button" class="reset-button" type="button">Reset appearance</button>
+        </aside>
+
+        <section class="preview-hud" aria-label="Character preview controls">
+            <div class="preview-label">
+                <span>LIVE PREVIEW</span>
+                <strong id="preview-title">Full body</strong>
+            </div>
+            <div class="camera-controls">
+                <button data-camera="left" type="button" aria-label="Rotate left">↶</button>
+                <button data-camera="right" type="button" aria-label="Rotate right">↷</button>
+                <button data-camera="front" type="button">Front</button>
+                <span class="camera-divider"></span>
+                <button data-camera="zoomIn" type="button" aria-label="Zoom in">＋</button>
+                <button data-camera="zoomOut" type="button" aria-label="Zoom out">−</button>
+            </div>
+        </section>
+
+        <aside class="editor-panel">
+            <div class="editor-header">
+                <div>
+                    <span id="section-index" class="section-index">01 / 06</span>
+                    <h1 id="section-title">Heritage</h1>
+                    <p id="section-copy">Shape the foundation of your character.</p>
+                </div>
+                <div id="save-state" class="save-state">LIVE</div>
+            </div>
+
+            <div id="editor-content" class="editor-content"></div>
+
+            <footer class="editor-footer">
+                <div>
+                    <span>Appearance is saved to this character.</span>
+                    <small>Clothing stores remain available after arrival.</small>
+                </div>
+                <button id="save-button" class="save-button" type="button">
+                    <span>ENTER SOUTHVALE</span>
+                    <strong>Save appearance →</strong>
+                </button>
+            </footer>
+        </aside>
+
+        <div id="toast" class="toast is-hidden" role="status"></div>
+        <div id="saving-overlay" class="saving-overlay is-hidden" aria-live="polite">
+            <div class="saving-card">
+                <span class="saving-spinner"></span>
+                <strong>Saving your appearance</strong>
+                <small>Preparing your arrival in SouthVale…</small>
+            </div>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
