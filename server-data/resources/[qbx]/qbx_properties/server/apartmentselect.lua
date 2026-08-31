@@ -1,8 +1,16 @@
 local config = require 'config.server'
 local sharedConfig = require 'config.shared'
 local logger = require '@qbx_core.modules.logger'
+local startingApartment = require '@qbx_core.config.client'.characters.startingApartment
 
 RegisterNetEvent('qbx_properties:server:apartmentSelect', function(apartmentIndex)
+    -- SouthVale housing policy: starter properties are disabled. Keep this
+    -- check server-side so a modified client cannot claim a free apartment
+    -- by manually firing the legacy selection event.
+    if not startingApartment then
+        exports.qbx_core:Notify(source, 'Starter housing is disabled. Properties must be purchased or rented.', 'error')
+        return
+    end
     local playerSource = source --[[@as number]]
     local player = exports.qbx_core:GetPlayer(playerSource)
     if not sharedConfig.apartmentOptions[apartmentIndex] then return end
@@ -63,8 +71,6 @@ RegisterNetEvent('qbx_properties:server:apartmentSelect', function(apartmentInde
     Wait(200)
     TriggerClientEvent('qb-clothes:client:CreateFirstCharacter', playerSource)
 end)
-
-local startingApartment = require '@qbx_core.config.client'.characters.startingApartment
 
 if not startingApartment then return end
 

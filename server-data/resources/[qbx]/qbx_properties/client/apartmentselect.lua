@@ -1,4 +1,5 @@
 local sharedConfig = require 'config.shared'
+local startingApartment = require '@qbx_core.config.client'.characters.startingApartment
 local BoardCoords = vec4(-44.19, -585.99, 87.71, 250.0)
 local BoardModel = `tr_prop_tr_planning_board_01a`
 local RenderTarget = 'modgarage_01'
@@ -238,6 +239,10 @@ local function InputHandler()
 end
 
 RegisterNetEvent('apartments:client:setupSpawnUI', function()
+    -- Do not expose the legacy free-apartment picker when SouthVale starter
+    -- housing is disabled. The server event is guarded independently too.
+    if not startingApartment then return end
+
     if #sharedConfig.apartmentOptions == 1 then
         inputConfirm(1)
         return

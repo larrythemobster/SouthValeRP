@@ -1,5 +1,6 @@
 local sharedConfig = require 'config.shared'
 local clientConfig = require 'config.client'
+local startingApartment = require '@qbx_core.config.client'.characters.startingApartment
 local interiorShell
 DecorationObjects = {}
 local properties = {}
@@ -417,11 +418,15 @@ function PreparePropertyMenu(propertyCoords)
 end
 
 CreateThread(function()
-    for i = 1, #sharedConfig.apartmentOptions do
-        local data = sharedConfig.apartmentOptions[i]
+    -- apartmentOptions are starter-apartment destinations, not sale listings.
+    -- Only show their standalone blips when starter apartments are enabled.
+    if startingApartment then
+        for i = 1, #sharedConfig.apartmentOptions do
+            local data = sharedConfig.apartmentOptions[i]
 
-        if not blips[data.enter] then
-            blips[data.enter] = createBlip(data.enter, data.label)
+            if not blips[data.enter] then
+                blips[data.enter] = createBlip(data.enter, data.label)
+            end
         end
     end
 
