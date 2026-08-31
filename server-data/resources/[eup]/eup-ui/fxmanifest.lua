@@ -3,7 +3,7 @@ game 'gta5'
 
 author 'SouthVale RP'
 description 'Emergency Uniforms Pack (EUP) User Interface & Outfits Manager'
-version '2.1.0'
+version '2.2.0'
 
 shared_scripts {
     '@ox_lib/init.lua',

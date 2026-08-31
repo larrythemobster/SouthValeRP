@@ -29,7 +29,7 @@ Write-Host "Target archive  : $OutputFile"
 $textExtensions = @(
     ".lua", ".js", ".mjs", ".cjs", ".ts", ".tsx", ".jsx",
     ".json", ".cfg", ".sql", ".md", ".html", ".htm", ".css", ".scss",
-    ".yml", ".yaml", ".ps1", ".sh", ".txt", ".xml", ".ini", ".editorconfig",
+    ".yml", ".yaml", ".ps1", ".sh", ".txt", ".xml", ".meta", ".ini", ".editorconfig",
     ".gitignore", ".gitattributes"
 )
 

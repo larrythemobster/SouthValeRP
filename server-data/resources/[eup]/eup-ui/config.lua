@@ -31,10 +31,21 @@ Config.AcePermission = 'command.eup'
 Config.EnableQuickActions = true
 
 -- Enable the "Customize Pieces" menu -- lets players mix & match individual EUP
--- components/props (mask, torso, legs, vest, badge, hat, etc). Every option offered is
--- sourced only from the EUP outfit catalog (data/outfits.json), so it can never apply a
--- regular/civilian clothing item from illenium-appearance's catalog.
+-- components/props (mask, torso, legs, vest, badge, hat, etc). Options come from
+-- data/outfits.json and are runtime-validated against the currently loaded freemode ped.
 Config.EnableCustomizer = true
+
+-- Refuse presets/pieces whose drawable or texture does not exist on the current client.
+-- This prevents stale EUP catalogs from applying out-of-range drawables/textures or fallback clothing.
+Config.ValidateOutfits = true
+
+-- Runtime diagnostic command. Run /eupaudit once as a male and once as a female freemode
+-- character after changing EUP packs or game builds. Full details are printed to F8.
+Config.AuditCommand = 'eupaudit'
+Config.AuditMaxDetails = 50
+
+-- Print the current outfit using FiveM's build-stable collection/local identifiers.
+Config.InspectCommand = 'eupinspect'
 
 -- Save appearance to illenium-appearance if present on the server
 Config.SaveToAppearance = true

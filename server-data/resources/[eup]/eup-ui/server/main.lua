@@ -18,11 +18,13 @@ lib.callback.register('eup-ui:server:checkPermission', function(source)
 
     if Config.JobRestricted then
         local qbx = getQboxCore()
-        if qbx then
-            local player = qbx:GetPlayer(src)
-            if not player or not player.PlayerData or not player.PlayerData.job or not Config.AllowedJobs[player.PlayerData.job.name] then
-                return false, 'Your job is not authorized to use the EUP menu.'
-            end
+        if not qbx then
+            return false, 'EUP job authorization is unavailable right now.'
+        end
+
+        local player = qbx:GetPlayer(src)
+        if not player or not player.PlayerData or not player.PlayerData.job or not Config.AllowedJobs[player.PlayerData.job.name] then
+            return false, 'Your job is not authorized to use the EUP menu.'
         end
     end
 

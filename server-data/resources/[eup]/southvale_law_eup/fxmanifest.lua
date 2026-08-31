@@ -6,5 +6,5 @@ author 'SouthVale RP'
 description 'SouthVale law-enforcement EUP assets'
 version '1.0.0'
 
-files { 'stream/*.ydd', 'stream/*.ytd' }
+-- Files placed under stream/ are streamed automatically by FiveM.
 

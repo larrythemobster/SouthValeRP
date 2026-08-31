@@ -19,7 +19,7 @@ cd "$REPO_ROOT"
 zip -r -q "$OUTPUT_FILE" . \
     -i "*.lua" "*.js" "*.mjs" "*.cjs" "*.ts" "*.tsx" "*.jsx" \
        "*.json" "*.cfg" "*.sql" "*.md" "*.html" "*.htm" "*.css" "*.scss" \
-       "*.yml" "*.yaml" "*.ps1" "*.sh" "*.txt" "*.xml" "*.ini" "*.editorconfig" \
+       "*.yml" "*.yaml" "*.ps1" "*.sh" "*.txt" "*.xml" "*.meta" "*.ini" "*.editorconfig" \
        "*.gitignore" "*.gitattributes" "LICENSE" \
     -x ".git/*" "cache/*" "txData/*" "db/*" "node_modules/*" "backups/*" ".vscode/*" \
        "*.log" "*.png" "*.jpg" "*.jpeg" "*.webp" "*.dds" "*.ytd" "*.ydr" "*.yft" "*.ybn" \
