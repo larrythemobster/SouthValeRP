@@ -2,7 +2,7 @@ return {
     statusIntervalSeconds = 5, -- how often to check hunger/thirst status to remove health if 0.
     loadingModelsTimeout = 30000, -- Waiting time for ox_lib to load the models before throws an error, for low specs pc
 
-    pauseMapText = 'Powered by Qbox', -- Text shown above the map when ESC is pressed. If left empty 'FiveM' will appear
+    pauseMapText = 'SouthVale RP', -- Text shown above the map when ESC is pressed. If left empty 'FiveM' will appear
 
     characters = {
         useExternalCharacters = true, -- Whether you have an external character management resource. (If true, disables the character management inside the core)
@@ -54,20 +54,20 @@ return {
     discord = {
         enabled = true, -- This will enable or disable the built in discord rich presence.
 
-        richPresence = 'Players {currentPlayers}/{maxPlayers}', -- Rich presence text. Placeholders: {id}, {charName}, {playerName}, {currentPlayers}, {maxPlayers}, {streetName}
+        richPresence = 'SouthVale RP — {currentPlayers}/{maxPlayers} online', -- Rich presence text. Placeholders: {id}, {charName}, {playerName}, {currentPlayers}, {maxPlayers}, {streetName}
 
         updateInterval = 15000, -- How often (ms) to refresh rich presence. Minimum 5000; Discord throttles faster updates.
 
-        appId = '1024981890798731345', -- This is the Application ID (Replace this with you own)
+        appId = '1024981890798731345', -- TODO(owner action, cannot be set by an automated change): register a SouthVale Discord Application at https://discord.com/developers/applications, upload SouthVale art assets under keys 'duck'/'logo_name' (or new keys), then replace this ID. This is currently Qbox's own Application ID, so the Discord overlay still shows Qbox's registered name/art regardless of the text below.
 
         largeIcon = { -- To set this up, visit https://forum.cfx.re/t/how-to-updated-discord-rich-presence-custom-image/157686
             icon = 'duck', -- Here you will have to put the image name for the 'large' icon.
-            text = 'Qbox Ducky', -- Here you can add hover text for the 'large' icon.
+            text = 'SouthVale RP', -- Here you can add hover text for the 'large' icon.
         },
 
         smallIcon = {
             icon = 'logo_name', -- Here you will have to put the image name for the 'small' icon.
-            text = 'This is a small icon with text', -- Here you can add hover text for the 'small' icon.
+            text = 'southvalerp.com', -- Here you can add hover text for the 'small' icon.
         },
 
         firstButton = {
