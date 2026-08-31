@@ -34,6 +34,7 @@ backups/
 .DS_Store
 Thumbs.db
 desktop.ini
+*.lnk
 .idea/
 *.swp
 *~
@@ -51,9 +52,11 @@ yarn-error.log*
 *.rar
 *.7z
 
-# Streamed Binary Asset Meshes & Textures
-*.ydd
-*.ytd
-*.yft
-*.ymt
-*.rpf
+# Streamed EUP Binary Meshes & Textures
+server-data/resources/\[eup\]/eup-stream/stream/*
+!server-data/resources/\[eup\]/eup-stream/stream/.gitkeep
+
+# Addon cars & packs stream binary folders
+server-data/resources/\[addon-cars\]/*/stream/
+server-data/resources/\[assets\]/SASTBlackShadowPack/stream/
+server-data/resources/\[assets\]/SASTHNKMPack/stream/
