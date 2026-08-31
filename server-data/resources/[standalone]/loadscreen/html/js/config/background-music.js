@@ -30,6 +30,7 @@ export function configBackgroundMusic(handoverData) {
     if (music.length === 1) {
         backgroundAudio.src = /** @type {string} */ (music[0]);
         backgroundAudio.loop = true;
+        backgroundAudio.play().catch(() => {});
         return;
     }
 
@@ -43,6 +44,7 @@ export function configBackgroundMusic(handoverData) {
             ? randomInt(0, music.length, currentSong)
             : incrementWrap(currentSong, 0, music.length - 1);
         backgroundAudio.src = /** @type {string} */ (music[currentSong]);
+        backgroundAudio.play().catch(() => {});
     };
 
     backgroundAudio.addEventListener('ended', next);
