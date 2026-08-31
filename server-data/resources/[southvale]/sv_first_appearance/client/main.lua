@@ -77,13 +77,18 @@ local EYE_COLORS = {
     'Goat', 'Smiley', 'Possessed', 'Demon', 'Infected', 'Alien', 'Undead', 'Zombie'
 }
 
+-- Keep every preview camera on the same known-clear orbit as the full-body
+-- shot. The first-appearance stage can be surrounded by racks, mannequins,
+-- pillars or walls; physically moving the scripted camera close to the ped
+-- can put it inside that geometry. Close-ups are therefore created with a
+-- narrower FOV and a different aim height instead of a short camera distance.
 local CAMERA_PRESETS = {
     full = { distance = 2.35, camZ = 0.82, targetZ = 0.83, fov = 36.0 },
-    head = { distance = 0.92, camZ = 1.66, targetZ = 1.65, fov = 31.0 },
-    torso = { distance = 1.35, camZ = 1.18, targetZ = 1.16, fov = 34.0 },
-    legs = { distance = 1.55, camZ = 0.66, targetZ = 0.62, fov = 35.0 },
-    feet = { distance = 1.15, camZ = 0.18, targetZ = 0.16, fov = 33.0 },
-    hands = { distance = 1.12, camZ = 0.95, targetZ = 0.95, fov = 31.0 },
+    head = { distance = 2.35, camZ = 1.36, targetZ = 1.58, fov = 19.0 },
+    torso = { distance = 2.35, camZ = 1.05, targetZ = 1.08, fov = 25.0 },
+    legs = { distance = 2.35, camZ = 0.58, targetZ = 0.58, fov = 27.0 },
+    feet = { distance = 2.35, camZ = 0.30, targetZ = 0.18, fov = 25.0 },
+    hands = { distance = 2.35, camZ = 0.98, targetZ = 0.98, fov = 23.0 },
 }
 
 local DEFAULT_COMPONENTS = {
@@ -340,7 +345,10 @@ local function updateCamera()
     forcePedVisible(ped)
 
     local preset = CAMERA_PRESETS[cameraPreset] or CAMERA_PRESETS.full
-    local distance = math.max(0.55, preset.distance + zoomOffset)
+    -- Never let manual zoom pull the camera into nearby map/display geometry.
+    -- The full preview distance is the stage's validated clear camera orbit.
+    local minimumDistance = CAMERA_PRESETS.full.distance - 0.15
+    local distance = math.max(minimumDistance, preset.distance + zoomOffset)
     local pedPos = GetEntityCoords(ped)
     local cameraPos = vector3(
         pedPos.x + (baseForward.x * distance),
