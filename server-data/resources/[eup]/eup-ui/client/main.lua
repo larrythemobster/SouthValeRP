@@ -241,6 +241,7 @@ local function openVariantMenu(gender, slotType, slotId, slotLabel, backMenuId)
     local ped = PlayerPedId()
     local pool = (slotType == 'prop') and PropVariantPool or ComponentVariantPool
     local variants = (pool[gender] and pool[gender][slotId]) or {}
+    local menuId = 'eup_variant_' .. slotType .. '_' .. slotId
 
     local options = {
         {
@@ -255,6 +256,7 @@ local function openVariantMenu(gender, slotType, slotId, slotLabel, backMenuId)
                 end
                 syncAppearance()
                 lib.notify({ title = 'EUP Customizer', description = slotLabel .. ' cleared.', type = 'inform', icon = 'shirt' })
+                lib.showContext(menuId)
             end
         }
     }
@@ -273,11 +275,11 @@ local function openVariantMenu(gender, slotType, slotId, slotLabel, backMenuId)
                 syncAppearance()
                 PlaySoundFrontend(-1, "NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET", 1)
                 lib.notify({ title = 'EUP Customizer', description = string.format('%s set to #%d.', slotLabel, variant.drawable), type = 'success', icon = 'shirt' })
+                lib.showContext(menuId)
             end
         })
     end
 
-    local menuId = 'eup_variant_' .. slotType .. '_' .. slotId
     lib.registerContext({
         id = menuId,
         title = slotLabel,
@@ -342,6 +344,7 @@ local function openQuickActionsMenu()
                 onSelect = function()
                     ClearPedProp(ped, 0)
                     lib.notify({ title = 'EUP', description = 'Removed headwear.', type = 'inform' })
+                    lib.showContext('eup_quick_actions')
                 end
             },
             {
@@ -350,6 +353,7 @@ local function openQuickActionsMenu()
                 onSelect = function()
                     ClearPedProp(ped, 1)
                     lib.notify({ title = 'EUP', description = 'Removed glasses.', type = 'inform' })
+                    lib.showContext('eup_quick_actions')
                 end
             },
             {
@@ -358,6 +362,7 @@ local function openQuickActionsMenu()
                 onSelect = function()
                     SetPedComponentVariation(ped, 1, 0, 0, 0)
                     lib.notify({ title = 'EUP', description = 'Removed mask.', type = 'inform' })
+                    lib.showContext('eup_quick_actions')
                 end
             },
             {
@@ -366,6 +371,7 @@ local function openQuickActionsMenu()
                 onSelect = function()
                     SetPedComponentVariation(ped, 9, 0, 0, 0)
                     lib.notify({ title = 'EUP', description = 'Removed body armor / vest.', type = 'inform' })
+                    lib.showContext('eup_quick_actions')
                 end
             },
             {
@@ -374,6 +380,7 @@ local function openQuickActionsMenu()
                 onSelect = function()
                     SetPedComponentVariation(ped, 5, 0, 0, 0)
                     lib.notify({ title = 'EUP', description = 'Removed bag / backpack.', type = 'inform' })
+                    lib.showContext('eup_quick_actions')
                 end
             },
             {
@@ -382,6 +389,7 @@ local function openQuickActionsMenu()
                 onSelect = function()
                     ClearPedProp(ped, 2)
                     lib.notify({ title = 'EUP', description = 'Removed ear accessories.', type = 'inform' })
+                    lib.showContext('eup_quick_actions')
                 end
             },
             {
@@ -390,6 +398,7 @@ local function openQuickActionsMenu()
                 onSelect = function()
                     ClearPedProp(ped, 6)
                     lib.notify({ title = 'EUP', description = 'Removed watch.', type = 'inform' })
+                    lib.showContext('eup_quick_actions')
                 end
             }
         }
