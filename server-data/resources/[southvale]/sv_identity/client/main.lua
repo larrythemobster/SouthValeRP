@@ -444,7 +444,16 @@ local function runFirstAppearance(gender)
 
     local appearanceStage = { gender = gender }
     if previewLocation then
-        appearanceStage.pedCoords = previewLocation.pedCoords
+        -- Preserve the selector's exact camera point, but use the ped's actual
+        -- settled position rather than the configured Z. Some interiors adjust
+        -- the ped to the streamed floor before character creation starts.
+        local currentCoords = GetEntityCoords(ped)
+        appearanceStage.pedCoords = vector4(
+            currentCoords.x,
+            currentCoords.y,
+            currentCoords.z,
+            GetEntityHeading(ped)
+        )
         appearanceStage.camCoords = previewLocation.camCoords
     end
 

@@ -7,6 +7,7 @@ local baseHeading = 0.0
 local baseForward = vector3(0.0, 1.0, 0.0)
 local stagePedCoords
 local stageCamCoords
+local cameraAnchorCoords
 local cameraPreset = 'full'
 local zoomOffset = 0.0
 local selectedGender = 'Male'
@@ -77,19 +78,22 @@ local EYE_COLORS = {
     'Goat', 'Smiley', 'Possessed', 'Demon', 'Infected', 'Alien', 'Undead', 'Zombie'
 }
 
--- Keep every preview camera on the same known-clear orbit as the full-body
--- shot. The first-appearance stage can be surrounded by racks, mannequins,
--- pillars or walls; physically moving the scripted camera close to the ped
--- can put it inside that geometry. Close-ups are therefore created with a
--- narrower FOV and a different aim height instead of a short camera distance.
+-- The character selector's camera coordinate is already a known-clear camera
+-- position for the selected preview stage. Keep the scripted camera at that
+-- exact XYZ for every editor tab. Moving the camera vertically or toward the
+-- ped can place it inside walls, mannequins, racks, ceilings or other interior
+-- geometry. Tab changes only alter where the camera aims and its FOV.
 local CAMERA_PRESETS = {
-    full = { distance = 2.35, camZ = 0.82, targetZ = 0.83, fov = 36.0 },
-    head = { distance = 2.35, camZ = 1.36, targetZ = 1.58, fov = 19.0 },
-    torso = { distance = 2.35, camZ = 1.05, targetZ = 1.08, fov = 25.0 },
-    legs = { distance = 2.35, camZ = 0.58, targetZ = 0.58, fov = 27.0 },
-    feet = { distance = 2.35, camZ = 0.30, targetZ = 0.18, fov = 25.0 },
-    hands = { distance = 2.35, camZ = 0.98, targetZ = 0.98, fov = 23.0 },
+    full = { targetZ = 0.83, fov = 36.0 },
+    head = { targetZ = 1.58, fov = 21.0 },
+    torso = { targetZ = 1.08, fov = 26.0 },
+    legs = { targetZ = 0.58, fov = 29.0 },
+    feet = { targetZ = 0.18, fov = 27.0 },
+    hands = { targetZ = 0.98, fov = 25.0 },
 }
+
+local FALLBACK_CAMERA_DISTANCE = 2.35
+local FALLBACK_CAMERA_Z = 0.82
 
 local DEFAULT_COMPONENTS = {
     { component_id = 1, drawable = 0, texture = 0 },
@@ -173,6 +177,25 @@ local function updateBaseCameraDirection(ped)
     else
         baseForward = GetEntityForwardVector(ped)
     end
+end
+
+local function captureCameraAnchor(ped)
+    if stageCamCoords then
+        local x = tonumber(stageCamCoords.x)
+        local y = tonumber(stageCamCoords.y)
+        local z = tonumber(stageCamCoords.z)
+        if x and y and z then
+            cameraAnchorCoords = vector3(x, y, z)
+            return
+        end
+    end
+
+    local pedPos = GetEntityCoords(ped)
+    cameraAnchorCoords = vector3(
+        pedPos.x + (baseForward.x * FALLBACK_CAMERA_DISTANCE),
+        pedPos.y + (baseForward.y * FALLBACK_CAMERA_DISTANCE),
+        pedPos.z + FALLBACK_CAMERA_Z
+    )
 end
 
 local function normalizeGender(gender)
@@ -345,17 +368,13 @@ local function updateCamera()
     forcePedVisible(ped)
 
     local preset = CAMERA_PRESETS[cameraPreset] or CAMERA_PRESETS.full
-    -- Never let manual zoom pull the camera into nearby map/display geometry.
-    -- The full preview distance is the stage's validated clear camera orbit.
-    local minimumDistance = CAMERA_PRESETS.full.distance - 0.15
-    local distance = math.max(minimumDistance, preset.distance + zoomOffset)
+    if not cameraAnchorCoords then
+        captureCameraAnchor(ped)
+    end
+
     local pedPos = GetEntityCoords(ped)
-    local cameraPos = vector3(
-        pedPos.x + (baseForward.x * distance),
-        pedPos.y + (baseForward.y * distance),
-        pedPos.z + preset.camZ
-    )
     local targetPos = vector3(pedPos.x, pedPos.y, pedPos.z + preset.targetZ)
+    local fov = clamp(preset.fov + zoomOffset, 14.0, 50.0)
 
     if not camera or not DoesCamExist(camera) then
         camera = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
@@ -363,9 +382,11 @@ local function updateCamera()
         RenderScriptCams(true, true, 250, true, true)
     end
 
-    SetCamCoord(camera, cameraPos.x, cameraPos.y, cameraPos.z)
+    -- Deliberately never move this XYZ after opening the editor. The selector
+    -- already proved this point has a clear view of the preview ped.
+    SetCamCoord(camera, cameraAnchorCoords.x, cameraAnchorCoords.y, cameraAnchorCoords.z)
     PointCamAtCoord(camera, targetPos.x, targetPos.y, targetPos.z)
-    SetCamFov(camera, preset.fov)
+    SetCamFov(camera, fov)
 end
 
 local function setCameraPreset(name)
@@ -397,6 +418,7 @@ local function cleanup(resolveValue)
     TriggerServerEvent('illenium-appearance:server:ResetRoutingBucket')
     stagePedCoords = nil
     stageCamCoords = nil
+    cameraAnchorCoords = nil
 
     if completion then
         completion:resolve(resolveValue == true)
@@ -443,6 +465,7 @@ local function openFirstAppearance(options)
     forcePedVisible(ped)
     baseHeading = GetEntityHeading(ped)
     updateBaseCameraDirection(ped)
+    captureCameraAnchor(ped)
     cameraPreset = 'full'
     zoomOffset = 0.0
 
@@ -617,10 +640,11 @@ RegisterNUICallback('cameraControl', function(data, cb)
     elseif action == 'front' then
         SetEntityHeading(ped, baseHeading)
     elseif action == 'zoomIn' then
-        zoomOffset = math.max(-0.35, zoomOffset - 0.12)
+        -- Zoom with FOV only. Never move the camera into nearby geometry.
+        zoomOffset = math.max(-8.0, zoomOffset - 2.0)
         updateCamera()
     elseif action == 'zoomOut' then
-        zoomOffset = math.min(0.55, zoomOffset + 0.12)
+        zoomOffset = math.min(12.0, zoomOffset + 2.0)
         updateCamera()
     end
     cb({ ok = true })
@@ -633,6 +657,7 @@ RegisterNUICallback('resetAppearance', function(_, cb)
     forcePedVisible(ped)
     baseHeading = GetEntityHeading(ped)
     updateBaseCameraDirection(ped)
+    captureCameraAnchor(ped)
     FreezeEntityPosition(ped, true)
     SetEntityInvincible(ped, true)
     cameraPreset = 'full'
