@@ -207,7 +207,9 @@ local function startPreviewScene()
     settlePedAtPreview(ped, previewLocation.pedCoords)
     FreezeEntityPosition(ped, true)
     SetEntityInvincible(ped, true)
+    ResetEntityAlpha(ped)
     SetEntityVisible(ped, true, false)
+    SetEntityCollision(ped, true, true)
     DisplayRadar(false)
 
     NetworkStartSoloTutorialSession()
@@ -422,16 +424,32 @@ local function runFirstAppearance(gender)
     closeUi()
     destroyCamera()
 
+    -- The selector runs inside a solo tutorial session. End it before handing
+    -- off to the appearance resource so the new freemode ped is rendered and
+    -- streamed normally inside Illenium's private routing bucket.
+    if NetworkIsInTutorialSession() then
+        NetworkEndTutorialSession()
+        Wait(50)
+    end
+
     local ped = PlayerPedId()
     FreezeEntityPosition(ped, false)
+    ResetEntityAlpha(ped)
     SetEntityVisible(ped, true, false)
+    SetEntityCollision(ped, true, true)
     SetEntityInvincible(ped, true)
     DisplayRadar(false)
 
     if IsScreenFadedOut() then DoScreenFadeIn(250) end
 
+    local appearanceStage = { gender = gender }
+    if previewLocation then
+        appearanceStage.pedCoords = previewLocation.pedCoords
+        appearanceStage.camCoords = previewLocation.camCoords
+    end
+
     local opened, saved = pcall(function()
-        return exports.sv_first_appearance:openFirstAppearance(gender)
+        return exports.sv_first_appearance:openFirstAppearance(appearanceStage)
     end)
 
     if not opened or not saved then

@@ -5,6 +5,8 @@ local completion
 local camera
 local baseHeading = 0.0
 local baseForward = vector3(0.0, 1.0, 0.0)
+local stagePedCoords
+local stageCamCoords
 local cameraPreset = 'full'
 local zoomOffset = 0.0
 local selectedGender = 'Male'
@@ -121,6 +123,51 @@ end
 
 local function currentPed()
     return PlayerPedId()
+end
+
+local function forcePedVisible(ped)
+    if not ped or not DoesEntityExist(ped) then return end
+    ResetEntityAlpha(ped)
+    SetEntityVisible(ped, true, false)
+    SetEntityCollision(ped, true, true)
+end
+
+local function placePedAtStage(ped)
+    if not stagePedCoords or not ped or not DoesEntityExist(ped) then return end
+
+    local x = tonumber(stagePedCoords.x)
+    local y = tonumber(stagePedCoords.y)
+    local z = tonumber(stagePedCoords.z)
+    if not x or not y or not z then return end
+
+    RequestCollisionAtCoord(x, y, z)
+    SetEntityCoordsNoOffset(ped, x, y, z, false, false, false)
+    if stagePedCoords.w ~= nil then
+        SetEntityHeading(ped, tonumber(stagePedCoords.w) or GetEntityHeading(ped))
+    end
+    forcePedVisible(ped)
+end
+
+local function updateBaseCameraDirection(ped)
+    if not stageCamCoords or not ped or not DoesEntityExist(ped) then
+        baseForward = GetEntityForwardVector(ped)
+        return
+    end
+
+    local pedPos = GetEntityCoords(ped)
+    local dx = (tonumber(stageCamCoords.x) or pedPos.x) - pedPos.x
+    local dy = (tonumber(stageCamCoords.y) or pedPos.y) - pedPos.y
+    local length = math.sqrt((dx * dx) + (dy * dy))
+
+    if length > 0.05 then
+        -- Qbox's paired multichar camera position is already known to have a
+        -- clear line of sight to this ped. Reuse that direction instead of
+        -- blindly putting the appearance camera in front of the ped, which can
+        -- place a wall or pillar between the camera and character.
+        baseForward = vector3(dx / length, dy / length, 0.0)
+    else
+        baseForward = GetEntityForwardVector(ped)
+    end
 end
 
 local function normalizeGender(gender)
@@ -290,6 +337,7 @@ local function updateCamera()
     if not active then return end
     local ped = currentPed()
     if not DoesEntityExist(ped) then return end
+    forcePedVisible(ped)
 
     local preset = CAMERA_PRESETS[cameraPreset] or CAMERA_PRESETS.full
     local distance = math.max(0.55, preset.distance + zoomOffset)
@@ -339,6 +387,8 @@ local function cleanup(resolveValue)
 
     DisplayRadar(false)
     TriggerServerEvent('illenium-appearance:server:ResetRoutingBucket')
+    stagePedCoords = nil
+    stageCamCoords = nil
 
     if completion then
         completion:resolve(resolveValue == true)
@@ -354,6 +404,8 @@ local function initialisePed()
     Wait(150)
 
     local ped = currentPed()
+    placePedAtStage(ped)
+    forcePedVisible(ped)
     SetPedDefaultComponentVariation(ped)
     Illenium:setPedComponents(ped, DEFAULT_COMPONENTS)
     Illenium:setPedProps(ped, DEFAULT_PROPS)
@@ -363,18 +415,26 @@ local function initialisePed()
     return ped
 end
 
-local function openFirstAppearance(gender)
+local function openFirstAppearance(options)
     if active then return false end
     if GetResourceState('illenium-appearance') ~= 'started' then return false end
 
+    if type(options) ~= 'table' then
+        options = { gender = options }
+    end
+
     active = true
-    selectedGender = getPlayerGender(gender)
+    selectedGender = getPlayerGender(options.gender)
+    stagePedCoords = options.pedCoords or options.ped
+    stageCamCoords = options.camCoords or options.camera
     completion = promise.new()
     TriggerServerEvent('illenium-appearance:server:ChangeRoutingBucket')
 
     local ped = initialisePed()
+    placePedAtStage(ped)
+    forcePedVisible(ped)
     baseHeading = GetEntityHeading(ped)
-    baseForward = GetEntityForwardVector(ped)
+    updateBaseCameraDirection(ped)
     cameraPreset = 'full'
     zoomOffset = 0.0
 
@@ -561,8 +621,10 @@ end)
 RegisterNUICallback('resetAppearance', function(_, cb)
     if not active then cb({ ok = false }); return end
     local ped = initialisePed()
+    placePedAtStage(ped)
+    forcePedVisible(ped)
     baseHeading = GetEntityHeading(ped)
-    baseForward = GetEntityForwardVector(ped)
+    updateBaseCameraDirection(ped)
     FreezeEntityPosition(ped, true)
     SetEntityInvincible(ped, true)
     cameraPreset = 'full'
@@ -588,6 +650,21 @@ end)
 
 RegisterNUICallback('ready', function(_, cb)
     cb({ ok = true })
+end)
+
+-- Model swaps and the preceding character-selector scene can both replace or
+-- hide the local ped. Keep the editor ped renderable for the duration of the
+-- customization session without touching its chosen components.
+CreateThread(function()
+    while true do
+        if active then
+            local ped = currentPed()
+            forcePedVisible(ped)
+            Wait(200)
+        else
+            Wait(500)
+        end
+    end
 end)
 
 AddEventHandler('onResourceStop', function(resource)
